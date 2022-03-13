@@ -1,0 +1,40 @@
+package com.negra.location.service;
+
+import com.negra.location.entity.Client;
+import com.negra.location.entity.Location;
+import com.negra.location.entity.Reservation;
+import com.negra.location.entity.Voiture;
+import com.negra.location.repository.ReservationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+
+@Service
+@Transactional
+public class ReservationService {
+
+    @Autowired
+    private ReservationRepository reservationRepository;
+
+    @Autowired
+    private LocationService locationService;
+
+    public void createReservation(Reservation reservation, Client client, Voiture voiture){
+        client.addReservation(reservation);
+        voiture.addReservation(reservation);
+        reservationRepository.save(reservation);
+    }
+
+    public void deleteReservation(Reservation reservation){
+        reservation.getClient().removeReservation(reservation);
+        reservation.getVoiture().removeReservation(reservation);
+
+        Location location = reservation.getLocation();
+        if(location != null)
+            locationService.deleteLocation(location);
+
+        reservationRepository.delete(reservation);
+    }
+
+}

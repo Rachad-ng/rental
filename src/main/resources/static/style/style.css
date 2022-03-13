@@ -1,0 +1,23 @@
+.clearfix {
+    background-color: rgb(23,32,45);
+    position: unset;
+}
+
+.main-header {
+    margin-bottom: 3rem;
+}
+
+.cta-one {
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+.container-form {
+    padding: 1rem;
+    box-shadow: 0.5rem 0.5rem 0.5rem 0.5rem rgb(23, 32, 45, 0.3);
+}
+
+.btn-submit{
+    background-color: rgb(10, 165, 205);
+    color: white;
+}
