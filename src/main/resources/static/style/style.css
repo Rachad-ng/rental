@@ -1,12 +1,12 @@
-.clearfix {
+header.clearfix {
     background-color: rgb(23,32,45);
     position: unset;
 }
-
+/*
 .main-header {
     margin-bottom: 3rem;
 }
-
+*/
 .cta-one {
     padding: 2rem 0;
     margin-top: 3rem;

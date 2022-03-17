@@ -1,7 +1,7 @@
 package com.negra.location.service;
 
-import com.negra.location.entity.Frais;
-import com.negra.location.entity.Voiture;
+import com.negra.location.model.Frais;
+import com.negra.location.model.Voiture;
 import com.negra.location.repository.FraisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

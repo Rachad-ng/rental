@@ -1,4 +1,4 @@
-package com.negra.location.entity;
+package com.negra.location.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -54,6 +54,9 @@ public abstract class Utilisateur implements Serializable {
     @Basic
     @Column(nullable = false)
     private LocalDateTime dateInscription;
+
+    @Column(nullable = false)
+    private Boolean active;
 
     // Getters and Setters
     public Long getId() {
@@ -120,10 +123,19 @@ public abstract class Utilisateur implements Serializable {
         this.dateInscription = dateInscription;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
 
     // Constructeur (Inistialisation de la date d'inscription)
 
     public Utilisateur(){
+        this.setActive(true);
         this.setDateInscription( LocalDateTime.now() );
     }
 }

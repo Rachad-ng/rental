@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    I'm agent
-</body>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Agent Home</title>
+    </head>
+    <body>
+
+        <section layout:fragment="content">
+            I'm agent
+        </section>
+
+    </body>
 </html>

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Home One || Entox || Entox HTML Template For Car Business</title>
+        <title></title>
         <!-- favicons Icons -->
         <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicons/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicons/favicon-32x32.png" />
@@ -57,7 +60,7 @@
             <header class="main-header clearfix">
                 <div class="main-header__top">
                     <div class="main-header__top-left">
-                        <p class="main-header__top-left-text">Bienvenue sur notre marché de la location, <a th:href="@{/signin}">S'inscrire maintenant</a></p>
+                        <p class="main-header__top-left-text">Bienvenue sur notre marché de location, <a th:href="@{/signin}">S'inscrire maintenant</a></p>
                     </div>
                     <div class="main-header__top-right">
                         <div class="main-header__top-right-social-box">
@@ -80,52 +83,61 @@
                     <div class="main-menu-wrapper clearfix">
                         <div class="main-menu-wrapper__left clearfix">
                             <div class="main-menu-wrapper__logo">
-                                <a href="index.html"><img src="/assets/images/resources/logo-1.png" alt=""></a>
+                                <a th:href="@{/}"><img src="/assets/images/resources/logo-1.png" alt=""></a>
                             </div>
                             <div class="main-menu-wrapper__main-menu">
                                 <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
                                 <ul class="main-menu__list">
                                     <li class="dropdown current">
-                                        <a href="index.html">Home</a>
+                                        <a th:href="@{/}">Home</a>
+                                    </li>
+                                    <li class="dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <a href="#">Administration</a>
                                         <ul>
-                                            <li>
-                                                <a href="index.html">Home One</a>
+                                            <li><a th:href="@{/admin/data}">Données</a></li>
+                                            <li><a th:href="@{/admin/users}">Utilisateurs</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" sec:authorize="isAnonymous() || hasRole('ROLE_CLIENT')">
+                                        <a href="#">Rent a Car</a>
+                                        <ul>
+                                            <li><a th:href="@{/listings}">Listings</a></li>
+                                            <li><a th:href="@{/listingsDetails}">Listings Details</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" sec:authorize="hasRole('ROLE_AGENT')">
+                                        <a href="#">Agence</a>
+                                        <ul>
+                                            <li class="">
+                                                <a th:href="@{/agent/reservations}">Reservations</a>
                                             </li>
-                                            <li><a href="index2.html">Home Two</a></li>
-                                            <li><a href="index3.html">Home Three</a></li>
+                                            <li class="">
+                                                <a th:href="@{/agent/agence}">Mon agence</a>
+                                            </li>
                                             <li class="dropdown">
-                                                <a href="#">Header Styles</a>
+                                                <a href="#">Voitures</a>
                                                 <ul>
-                                                    <li><a href="index.html">Header One</a></li>
-                                                    <li><a href="index.html">Header Two</a></li>
-                                                    <li><a href="index.html">Header Three</a></li>
+                                                    <li><a th:href="@{/agent/newCar}">Nouvelle voiture</a></li>
+                                                    <li><a th:href="@{/agent/cars}">Mes voitures</a></li>
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
                                     <li class="dropdown">
-                                        <a href="#">Rent a Car</a>
-                                        <ul>
-                                            <li><a href="listings.html">Listings</a></li>
-                                            <li><a href="listings-details.html">Listings Details</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
                                         <a href="#">Pages</a>
                                         <ul>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="how-it-works.html">How It Works</a></li>
-                                            <li><a href="404.html">404</a></li>
+                                            <li><a th:href="@{/about}">About</a></li>
+                                            <li><a th:href="@{/howItWorks}">How It Works</a></li>
                                         </ul>
                                     </li>
                                     <li class="dropdown">
                                         <a href="#">News</a>
                                         <ul>
-                                            <li><a href="news.html">News</a></li>
-                                            <li><a href="news-details.html">News Details</a></li>
+                                            <li><a th:href="@{/news}">News</a></li>
+                                            <li><a th:href="@{/newsDetails}">News Details</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a th:href="@{/contact}">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -135,7 +147,8 @@
                                 <a href="#" class="main-menu-wrapper__cart icon-shopping-cart mini-cart__toggler"></a>
                             </div>
                             <div class="main-menu-wrapper__btn-box">
-                                <a href="#" class="thm-btn main-menu-wrapper__btn">Submit Ad</a>
+                                <a th:href="@{/login}" sec:authorize="isAnonymous()" class="thm-btn main-menu-wrapper__btn">Login</a>
+                                <a th:href="@{/logout}" sec:authorize="isAuthenticated()" class="thm-btn main-menu-wrapper__btn">Logout</a>
                             </div>
                         </div>
                     </div>
@@ -187,7 +200,7 @@
                             <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
                                 <div class="footer-widget__column footer-widget__about">
                                     <div class="footer-widget__about-logo">
-                                        <a href="index.html"><img src="/assets/images/resources/footer-logo.png" alt=""></a>
+                                        <a th:href="@{/}"><img src="/assets/images/resources/footer-logo.png" alt=""></a>
                                     </div>
                                     <p class="footer-widget__about-text">Lorem ipsum dolor sit ame consect etur pisicing
                                         elit sed do eiusmod tempor incididunt ut labore.</p>
@@ -198,17 +211,17 @@
                                 <div class="footer-widget__column footer-widget__explore clearfix">
                                     <h3 class="footer-widget__title">Explore</h3>
                                     <ul class="footer-widget__explore-list footer-widget__explore-list-width list-unstyled">
-                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a th:href="@{/about}">About Us</a></li>
                                         <li><a href="#">My Account</a></li>
-                                        <li><a href="how-it-works.html">How it Works</a></li>
+                                        <li><a th:href="@{/howItWorks}">How it Works</a></li>
                                         <li><a href="#">Pricing Packages</a></li>
                                         <li><a href="#">Safety Tips</a></li>
                                     </ul>
                                     <ul class="footer-widget__explore-list footer-widget__explore-list-two list-unstyled">
                                         <li><a href="#">Our Agents</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a th:href="@{/contact}">Contact</a></li>
                                         <li><a href="#l">FAQs</a></li>
-                                        <li><a href="news.html">Blog</a></li>
+                                        <li><a th:href="@{/news}">Blog</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -237,7 +250,7 @@
                                                 <span class="icon-email"></span>
                                             </div>
                                             <div class="text">
-                                                <p><a href="mailto:needhelp@company.com">needhelp@company.com</a></p>
+                                                <p><a href="mailto:coloc@gmail.com">coloc@gmail.com</a></p>
                                             </div>
                                         </li>
                                         <li>
@@ -245,7 +258,7 @@
                                                 <span class="icon-telephone"></span>
                                             </div>
                                             <div class="text">
-                                                <p><a href="tel:00-666-888-0000">00 666 888 0000</a></p>
+                                                <p><a href="tel:+212 661 11 22 33">+212 661 11 22 33</a></p>
                                             </div>
                                         </li>
                                     </ul>
@@ -276,7 +289,7 @@
                                         <a href="#" class="clr-fb"><i class="fab fa-facebook"></i></a>
                                         <a href="#" class="clr-ins"><i class="fab fa-instagram"></i></a>
                                     </div>
-                                    <p class="site-footer-bottom__copy-right">© Copyright 2021 by <a
+                                    <p class="site-footer-bottom__copy-right">© Copyright 2022 by <a
                                             href="#">Layerdrops.com</a></p>
                                 </div>
                             </div>

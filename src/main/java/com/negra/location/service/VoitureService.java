@@ -1,6 +1,6 @@
 package com.negra.location.service;
 
-import com.negra.location.entity.*;
+import com.negra.location.model.*;
 import com.negra.location.repository.VoitureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

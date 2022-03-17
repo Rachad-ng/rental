@@ -1,9 +1,12 @@
 package com.negra.location.service;
 
-import com.negra.location.entity.Client;
-import com.negra.location.entity.Reservation;
+import com.negra.location.dto.ClientRegistrationDto;
+import com.negra.location.exception.AlreadyExistsException;
+import com.negra.location.model.Client;
+import com.negra.location.model.Reservation;
 import com.negra.location.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,11 +18,17 @@ public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
-
+    @Autowired
+    private UtilisateurService utilisateurService;
     @Autowired
     private ReservationService reservationService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public void createClient(Client client){
+    public void createClient(ClientRegistrationDto clientRegistrationDto) throws AlreadyExistsException {
+        utilisateurService.isUserExists(clientRegistrationDto.getEmail());
+        Client client = new Client();
+        mapperClientRegitrationDtoToClient(clientRegistrationDto, client);
         clientRepository.save(client);
     }
 
@@ -30,6 +39,15 @@ public class ClientService {
             reservationService.deleteReservation(reservation);
 
         clientRepository.delete(client);
+    }
+
+    private void mapperClientRegitrationDtoToClient(ClientRegistrationDto clientRegistrationDto, Client client){
+        client.setNom(clientRegistrationDto.getNom());
+        client.setPrenom(clientRegistrationDto.getPrenom());
+        client.setEmail(clientRegistrationDto.getEmail());
+        client.setPassword(passwordEncoder.encode(clientRegistrationDto.getPassword()));
+        client.setTel(clientRegistrationDto.getTel());
+        client.setRole(clientRegistrationDto.getRole());
     }
 
 }

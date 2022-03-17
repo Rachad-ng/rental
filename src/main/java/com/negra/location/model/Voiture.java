@@ -1,6 +1,5 @@
-package com.negra.location.entity;
+package com.negra.location.model;
 
-import com.negra.location.utility.ErrorMessage;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;

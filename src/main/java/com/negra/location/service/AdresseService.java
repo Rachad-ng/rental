@@ -1,7 +1,7 @@
 package com.negra.location.service;
 
-import com.negra.location.entity.Adresse;
-import com.negra.location.entity.Agent;
+import com.negra.location.model.Adresse;
+import com.negra.location.model.Agent;
 import com.negra.location.repository.AdresseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

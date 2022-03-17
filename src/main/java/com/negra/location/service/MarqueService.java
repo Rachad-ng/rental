@@ -1,9 +1,8 @@
 package com.negra.location.service;
 
-import com.negra.location.entity.Marque;
-import com.negra.location.entity.Model;
+import com.negra.location.model.Marque;
+import com.negra.location.model.Model;
 import com.negra.location.repository.MarqueRepository;
-import com.negra.location.repository.ModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

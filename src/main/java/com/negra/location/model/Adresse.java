@@ -1,4 +1,4 @@
-package com.negra.location.entity;
+package com.negra.location.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 import static com.negra.location.utility.ErrorMessage.*;
+import static com.negra.location.utility.Pattern.*;
 
 @Entity
 @Table(name = "adresse")
@@ -26,22 +27,22 @@ public class Adresse implements Serializable {
     private Integer numero;
 
     @NotNull(message = ERROR_SENDS_DATA)
-    @Pattern(regexp = "^[a-zA-Z0-9- ]{3,30}$", message = ERROR_ADRESSE_RUE_INVALID)
+    @Pattern(regexp = PATTERN_RUE, message = ERROR_ADRESSE_RUE_INVALID)
     @Column(nullable = false)
     private String rue;
 
     @NotNull(message = ERROR_SENDS_DATA)
-    @Pattern(regexp = "^[a-zA-Z0-9- ]{3,30}$", message = ERROR_ADRESSE_QUARTIER_INVALID)
+    @Pattern(regexp = PATTERN_QUARTIER, message = ERROR_ADRESSE_QUARTIER_INVALID)
     @Column(nullable = false)
     private String quartier;
 
     @NotNull(message = ERROR_SENDS_DATA)
-    @Pattern(regexp = "^[a-zA-Z- ]{3,30}$", message = ERROR_ADRESSE_VILLE_INVALID)
+    @Pattern(regexp = PATTERN_VILLE, message = ERROR_ADRESSE_VILLE_INVALID)
     @Column(nullable = false)
     private String ville;
 
     @NotNull(message = ERROR_SENDS_DATA)
-    @Pattern(regexp = "^[a-zA-Z- ]{3,30}$", message = ERROR_ADRESSE_PAYS_INVALID)
+    @Pattern(regexp = PATTERN_PAYS, message = ERROR_ADRESSE_PAYS_INVALID)
     @Column(nullable = false)
     private String pays;
 

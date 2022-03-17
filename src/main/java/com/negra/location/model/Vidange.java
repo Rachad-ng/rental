@@ -1,9 +1,8 @@
-package com.negra.location.entity;
+package com.negra.location.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import static com.negra.location.utility.ErrorMessage.*;

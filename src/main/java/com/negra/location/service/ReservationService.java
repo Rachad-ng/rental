@@ -1,9 +1,9 @@
 package com.negra.location.service;
 
-import com.negra.location.entity.Client;
-import com.negra.location.entity.Location;
-import com.negra.location.entity.Reservation;
-import com.negra.location.entity.Voiture;
+import com.negra.location.model.Client;
+import com.negra.location.model.Location;
+import com.negra.location.model.Reservation;
+import com.negra.location.model.Voiture;
 import com.negra.location.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

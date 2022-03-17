@@ -1,6 +1,6 @@
 package com.negra.location.utility;
 
-import com.negra.location.entity.*;
+import com.negra.location.model.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,20 +13,21 @@ public class ObjectInitialisation {
         user.setPrenom("Rachad");
         user.setTel("0707101019");
         user.setPassword("helloWorld");
+        user.setActive(true);
     }
 
     // Admin initialisation
     public static void adminInitialisation(Administrateur admin){
         userInitialisation(admin);
         admin.setEmail("rachad.ng@gmail.com");
-        admin.setRole("Admin");
+        admin.setRole("ROLE_ADMIN");
     }
 
     // Agent Initialisation
     public static void agentInitialisation(Agent agent){
         userInitialisation(agent);
         agent.setEmail("rachad.neg@gmail.com");
-        agent.setRole("Agent");
+        agent.setRole("ROLE_AGENT");
         agent.setRsAgence("BestCar");
         agent.setReputation(ReputationUtility.BRONZE);
     }
@@ -35,7 +36,7 @@ public class ObjectInitialisation {
     public static void clientInitialisation(Client client){
         userInitialisation(client);
         client.setEmail("rachad-ng@gmail.com");
-        client.setRole("Admin");
+        client.setRole("ROLE_CLIENT");
         client.setFidelite(0);
     }
 

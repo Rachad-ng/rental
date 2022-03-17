@@ -18,12 +18,12 @@ $(function(){
 
     // Adapter le formulaire selon le type du compte souhaité (Agent ou client)
     role.change(function (){
-        if (this.value === 'agent') {
+        if (this.value === 'ROLE_AGENT') {
             agentData.show();
             signinForm.attr("action", "/signinAgent");
             agentFormItems.prop("disabled", false);
         }
-        else if (this.value === 'client') {
+        else if (this.value === 'ROLE_CLIENT') {
             agentData.hide();
             signinForm.attr("action", "/signinClient");
             agentFormItems.prop("disabled", true);

@@ -1,4 +1,4 @@
-package com.negra.location.entity;
+package com.negra.location.model;
 
 import org.hibernate.validator.constraints.Range;
 

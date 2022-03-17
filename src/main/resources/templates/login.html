@@ -1,12 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
     <head>
         <title>Login</title>
     </head>
     <body>
 
         <section layout:fragment="content">
-            Ici lle login
+
+            <div class="row mt-5">
+                <div class="container container-form col-10 col-md-6">
+                    <h2 class="text-center m-4">Login</h2>
+                    <div class="alert alert-danger" th:if="${param.error}" >L'authentification est échoué.!!</div>
+                    <form th:action="@{/login}" method="post" class="m-5">   <!-- th:object="${userLoginDto}" -->
+                        <div>
+                <!--        <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>      -->
+                            <input type="email" class="form-control" placeholder="Email" name="username" pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required ><br>
+                        </div>
+                        <div>
+                <!--            <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>  -->
+                            <input type="password" class="form-control" placeholder="Mot de passe" name="password" pattern=".{3,}" required ><br>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-submit">Se connecter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </section>
 
     </body>

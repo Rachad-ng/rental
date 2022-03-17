@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-    <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+    <html lang="en"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="layout">
+
         <head>
-            <title>Title</title>
+            <title>Admin Home</title>
         </head>
         <body>
-            <h1>Hello World</h1>
+
+            <section layout:fragment="content">
+                I'm admin
+            </section>
+
         </body>
     </html>

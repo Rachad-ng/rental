@@ -1,7 +1,6 @@
-package com.negra.location.entity;
+package com.negra.location.model;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 public class Vignette extends Frais {

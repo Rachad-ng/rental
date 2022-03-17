@@ -33,6 +33,9 @@ public class ErrorMessage {
 
     public static final String ERROR_UTILISATEUR_CONFIRMATION_PASSWORD = "La confirmation est échoué.!!";
 
+    public static final String ERROR_UTILISATEUR_ALREADY_EXISTS = "L'adresse email existe auparavant.!!";
+    public static final String ERROR_UTILISATEUR_NOT_FOUND = "Aucun compte lié à cet email.!!";
+
     // Client Errors
     public static final String ERROR_CLIENT_FIDELITY = "Le nombre des points de fidelite est invalide.!!";
 

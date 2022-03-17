@@ -1,4 +1,4 @@
-package com.negra.location.entity;
+package com.negra.location.model;
 
 import org.hibernate.Hibernate;
 
@@ -11,8 +11,8 @@ import java.util.Objects;
 import static com.negra.location.utility.ErrorMessage.*;
 
 @Entity
-@Table(name = "entretien")
-public class Entretien implements Serializable {
+@Table(name = "frais")
+public abstract class Frais implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -23,19 +23,19 @@ public class Entretien implements Serializable {
     private Voiture voiture;
 
     @NotNull(message = ERROR_SENDS_DATA)
-    @Past(message = ERROR_ENTRETIEN_DATE_INVALID)
+    @Past(message = ERROR_FRAIS_DATE_EFFET_INVALID)
     @Basic
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDateTime dateEffet;
 
     @NotNull(message = ERROR_SENDS_DATA)
-    @NotBlank(message = ERROR_ENTRETIENT_DESCRIPTION_REQUIRED)
-    @Pattern(regexp = "^[a-zA-Z0-9 ]{3,100}$", message = ERROR_ENTRETIENT_DESCRIPTION_INVALID)
+    @Future(message = ERROR_FRAIS_DATE_ECHEANCE_INVALID)
+    @Basic
     @Column(nullable = false)
-    private String description;
+    private LocalDateTime dateEcheance;
 
     @NotNull(message = ERROR_SENDS_DATA)
-    @Min(value = 0, message = ERROR_ENTRETIENT_MONTANT_INVALID)
+    @Min(value = 0, message = ERROR_FRAIS_MONTANT_INVALID)
     @Column(nullable = false)
     private int montant;
 
@@ -48,28 +48,20 @@ public class Entretien implements Serializable {
         this.id = id;
     }
 
-    public Voiture getVoiture() {
-        return voiture;
+    public LocalDateTime getDateEffet() {
+        return dateEffet;
     }
 
-    public void setVoiture(Voiture voiture) {
-        this.voiture = voiture;
+    public void setDateEffet(LocalDateTime dateEffet) {
+        this.dateEffet = dateEffet;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getDateEcheance() {
+        return dateEcheance;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDateEcheance(LocalDateTime dateEcheance) {
+        this.dateEcheance = dateEcheance;
     }
 
     public int getMontant() {
@@ -80,13 +72,21 @@ public class Entretien implements Serializable {
         this.montant = montant;
     }
 
+    public Voiture getVoiture() {
+        return voiture;
+    }
+
+    public void setVoiture(Voiture voiture) {
+        this.voiture = voiture;
+    }
+
     // Redefinition des methods equals et hashcode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Entretien entretien = (Entretien) o;
-        return id != null && Objects.equals(id, entretien.id);
+        Frais frais = (Frais) o;
+        return id != null && Objects.equals(id, frais.id);
     }
 
     @Override
