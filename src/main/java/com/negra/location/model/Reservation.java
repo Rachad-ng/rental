@@ -1,15 +1,16 @@
 package com.negra.location.model;
 
-import org.hibernate.Hibernate;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import static com.negra.location.utility.ErrorMessage.*;
+import static com.negra.location.utility.Pattern.PATTERN_RESERVATION_STATE;
 
+@Data
 @Entity
 @Table(name = "reservation")
 public class Reservation implements Serializable {
@@ -19,119 +20,42 @@ public class Reservation implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "voiture_id", nullable = false)
-    private Voiture voiture;
+    @JoinColumn(name = "car_id", nullable = false)
+    private Car car;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
     @OneToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
+    @JoinColumn(name = "rental_id")
+    private Rental rental;
 
-    @NotNull(message = ERROR_SENDS_DATA)
+    @NotNull(message = ERROR_SEND_DATA)
     @Past(message = ERROR_RESERVATION_START_DATE_INVALID)
     @Basic
     @Column(nullable = false)
-    private LocalDateTime dateDebut;
+    private LocalDateTime startDate;
 
-    @NotNull(message = ERROR_SENDS_DATA)
+    @NotNull(message = ERROR_SEND_DATA)
     @Future(message = ERROR_RESERVATION_END_DATE_INVALID)
     @Basic
     @Column(nullable = false)
-    private LocalDateTime dateFin;
+    private LocalDateTime backDate;
 
     @NotNull(message = ERROR_RESERVATION_STATE_REQUIRED)
-    @Pattern(regexp = "^[a-zA-Z ]{5,10}$", message = ERROR_RESERVATION_STATE_INVALID)
+    @Pattern(regexp = PATTERN_RESERVATION_STATE, message = ERROR_RESERVATION_STATE_INVALID)
     @Column(nullable = false)
-    private String etat;
-
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Voiture getVoiture() {
-        return voiture;
-    }
-
-    public void setVoiture(Voiture voiture) {
-        this.voiture = voiture;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public LocalDateTime getDateDebut() {
-        return dateDebut;
-    }
-
-    public void setDateDebut(LocalDateTime dateDebut) {
-        this.dateDebut = dateDebut;
-    }
-
-    public LocalDateTime getDateFin() {
-        return dateFin;
-    }
-
-    public void setDateFin(LocalDateTime dateFin) {
-        this.dateFin = dateFin;
-    }
-
-    public String getEtat() {
-        return etat;
-    }
-
-    public void setEtat(String etat) {
-        this.etat = etat;
-    }
-
-    // Redefinition des methods equals et hashcode
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Reservation that = (Reservation) o;
-        return id != null && Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
+    private String state;
 
     // Gestion des relations bi-directionnels
 
-    public void addClient(Client client){
-        client.getReservations().add(this);
-        this.setClient(client);
+    public void addRental(Rental rental){
+        rental.setReservation(this);
+        this.setRental(rental);
     }
 
-    public void addLocation(Location location){
-        location.setReservation(this);
-        this.setLocation(location);
-    }
-
-    public void removeLocation(Location location){
-        this.setLocation(null);
+    public void removeRental(){
+        this.setRental(null);
     }
 }

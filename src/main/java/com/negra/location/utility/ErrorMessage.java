@@ -2,39 +2,47 @@ package com.negra.location.utility;
 
 public class ErrorMessage {
 
-    public static final String ERROR_SENDS_DATA = "Erreur d'envoie des données.!!";
+    public static final String ERROR_SEND_DATA = "Erreur d'envoie des données.!!";
 
     // Marque Errors
-    public static final String ERROR_MARQUE_LIBELLE = "La marque est invalide.!!";
+    public static final String ERROR_MARK_LIBELLE = "La marque est invalide.!!";
+    public static final String ERROR_MARK_NOT_FOUND = "La marque n'existe pas.!!";
 
     // Model Errors
     public static final String ERROR_MODEL_LIBELLE = "Le modele est invalide.!!";
 
     // Voiture Errors
-    public static final String ERROR_VOITURE_CARBURANT = "Le carburant est invalide.!!";
-    public static final String ERROR_VOITURE_NOMBRE_PLACES = "Le nombre de places est invalide.!!";
-    public static final String ERROR_VOITURE_NOMBRE_PORTES = "Le nombre de portes est invalide.!!";
-    public static final String ERROR_VOITURE_COULEUR = "La couleur est invalide.!!";
-    public static final String ERROR_VOITURE_MATRICULE = "Le matricule est invalide.!!";
-    public static final String ERROR_VOITURE_DATE_MISE_CIRCULATION = "La date de mise en circulation est invalide.!!";
-    public static final String ERROR_VOITURE_KILOMETRAGE = "Le kilometrage est invalide.!!";
-    public static final String ERROR_VOITURE_PRIX = "Le prix est invalide.!!";
+    public static final String ERROR_CAR_PLACES_NUMBER = "Le nombre de places est invalide.!!";
+    public static final String ERROR_CAR_DOORS_NUMBER = "Le nombre de portes est invalide.!!";
+    public static final String ERROR_CAR_COLOR = "La couleur est invalide.!!";
+    public static final String ERROR_CAR_DATE_MISE_CIRCULATION = "La date de mise en circulation est invalide.!!";
+    public static final String ERROR_CAR_KILOMETRAGE = "Le kilometrage est invalide.!!";
+    public static final String ERROR_CAR_PRICE = "Le prix est invalide.!!";
+    public static final String ERROR_CAR_MODEL = "Le model est invalide";
+    public static final String ERROR_CAR_ENGINE = "Le carburant est invalide.!!";
+    public static final String ERROR_CAR_CREATION_MAPPING = "La création du voiture est échoué.!! Ressayez...";
+    public static final String ERROR_CAR_MATRICULE = "Le matricule est invalide.!!";
+    public static final String ERROR_CAR_MATRICLE_ALREADY_EXISTS = "Il existe déjà ce matricule.!! Si vous étes sur, veuillez nous contacter..";
+
+    // Carburant errors
+    public static final String ERROR_CARBURANT_NOT_FOUND = "Le carburant est invalide.!!";
 
     // Utilisateur Errors
-    public static final String ERROR_UTILISATEUR_EMAIL_EMPTY = "Vous devez saisir l'adresse email.!!";
-    public static final String ERROR_UTILISATEUR_EMAIL_INVALID = "L'adresse email est invalide.!!";
-    public static final String ERROR_UTILISATEUR_PASSWORD_INVALID = "Le mot de passe est invalid.!!";
-    public static final String ERROR_UTILISATEUR_ROLE_INVALID = "Le role est inalid.!!";
-    public static final String ERROR_UTILISATEUR_TELE_INVALID = "Le numero de telephone est invalid.!!";
-    public static final String ERROR_UTILISATEUR_NOM_INVALID = "Le nom est invalid.!!";
-    public static final String ERROR_UTILISATEUR_PRENOM_INVALID = "Le prenom est inalid.!!";
-    public static final String ERROR_UTILISATEUR_DATE_INSCRIPTION_REQUIRED = "La date d'inscription n'est pas attribué.!!";
-    public static final String ERROR_UTILISATEUR_DATE_INSCRIPTION_INVALID = "La date d'inscription est invalide.!!";
+    public static final String ERROR_USER_EMAIL_EMPTY = "Vous devez saisir l'adresse email.!!";
+    public static final String ERROR_USER_EMAIL_INVALID = "L'adresse email est invalide.!!";
+    public static final String ERROR_USER_PASSWORD_INVALID = "Le mot de passe est invalid.!!";
+    public static final String ERROR_USER_ROLE_INVALID = "Le role est inalid.!!";
+    public static final String ERROR_USER_TELE_INVALID = "Le numero de telephone est invalid.!!";
+    public static final String ERROR_USER_NOM_INVALID = "Le nom est invalid.!!";
+    public static final String ERROR_USER_PRENOM_INVALID = "Le prenom est inalid.!!";
+    public static final String ERROR_USER_REGISTRATION_DATE_REQUIRED = "La date d'inscription n'est pas attribué.!!";
+    public static final String ERROR_USER_REGISTRATION_DATE_INVALID = "La date d'inscription est invalide.!!";
 
-    public static final String ERROR_UTILISATEUR_CONFIRMATION_PASSWORD = "La confirmation est échoué.!!";
+    public static final String ERROR_USER_PASSWORD_CONFIRMATION = "La confirmation est échoué.!!";
 
-    public static final String ERROR_UTILISATEUR_ALREADY_EXISTS = "L'adresse email existe auparavant.!!";
-    public static final String ERROR_UTILISATEUR_NOT_FOUND = "Aucun compte lié à cet email.!!";
+    public static final String ERROR_USER_ALREADY_EXISTS = "L'adresse email existe auparavant.!!";
+    public static final String ERROR_USER_NOT_FOUND = "Aucun compte lié à cet email.!!";
+    public static final String ERROR_CURRENT_USER_NOT_FOUND = "La recuperation de vos est échoué.!! Ressayez...";
 
     // Client Errors
     public static final String ERROR_CLIENT_FIDELITY = "Le nombre des points de fidelite est invalide.!!";
@@ -98,5 +106,13 @@ public class ErrorMessage {
     public static final String ERROR_REDUCTION_DURE_INVALID = "La dure est invalid.!!";
     public static final String ERROR_REDUCTION_TAUX_REQUIRED = "Vous devez saisir la taux de la reduction.!!";
     public static final String ERROR_REDUCTION_TAUX_INVALID = "Le taux est invalid.!!";
+
+    // Categorie Errors
+    public static final String ERROR_CATEGORIE_NOT_FOUND = "La categorie choisi n'existe pas.!!";
+
+    // Global Errors
+    public static final String ERROR_DATA_CASTING = "Le traitement est échoué.!! Ressayez...";
+    public static final String ERROR_DATA_STORING = "Le serveur des données ne répond pas pour le moment.!! Ressayez plus tard...";
+    public static final String ERROR_DATA = "Le traitement des données est échouée.!!";
 
 }

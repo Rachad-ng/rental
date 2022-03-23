@@ -1,6 +1,6 @@
 package com.negra.location.security;
 
-import com.negra.location.model.Utilisateur;
+import com.negra.location.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +20,7 @@ public class MyUserDetails implements UserDetails {
 
     }
 
-    public MyUserDetails(Utilisateur user){
+    public MyUserDetails(User user){
         this.username = user.getEmail();
         this.password = user.getPassword();
         this.active = user.getActive();

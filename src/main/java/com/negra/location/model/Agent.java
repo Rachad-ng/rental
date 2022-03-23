@@ -1,6 +1,7 @@
 package com.negra.location.model;
 
-import com.negra.location.utility.ReputationUtility;
+import com.negra.location.utility.NotorietyUtility;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,84 +12,50 @@ import java.util.Set;
 import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.PATTERN_RS_AGENCE;
 
+@Data
 @Entity
-public class Agent extends Utilisateur {
+public class Agent extends User {
 
     @OneToMany(mappedBy = "agent")
-    private Set<Voiture> voitures = new HashSet<>();
+    private Set<Car> carSet = new HashSet<>();
 
     @OneToOne
-    @JoinColumn(name = "adresse_id")
-    private Adresse adresse;
+    @JoinColumn(name = "address_id")
+    private Address address;
 
-    @NotNull(message = ERROR_SENDS_DATA)
+    @NotNull(message = ERROR_SEND_DATA)
     @Pattern(regexp = PATTERN_RS_AGENCE, message = ERROR_AGENT_RS)
     @Column(nullable = false, columnDefinition = "varchar(255) default 'none'")
     private String rsAgence;
 
     @Column(nullable = false, columnDefinition = "varchar(255) default 'none'")
-    private String reputation;
-
-    // Getters and Setters
-    public String getRsAgence() {
-        return rsAgence;
-    }
-
-    public void setRsAgence(String rsAgence) {
-        this.rsAgence = rsAgence;
-    }
-
-    public String getReputation() {
-        return reputation;
-    }
-
-    public void setReputation(String reputation) {
-        this.reputation = reputation;
-    }
-
-    public Set<Voiture> getVoitures() {
-        return voitures;
-    }
-
-    public void setVoitures(Set<Voiture> voitures) {
-        this.voitures = voitures;
-    }
-
-    public void setAdresse(Adresse adresse) {
-        this.adresse = adresse;
-    }
-
-    public Adresse getAdresse() {
-        return adresse;
-    }
-
+    private String notoriety;
 
     // Constructeur (Inistialisation de la date d'inscription)
 
     public Agent(){
         super();
-        this.setReputation(ReputationUtility.BRONZE);
+        this.setNotoriety(NotorietyUtility.BRONZE);
     }
-
 
     // Gestion des relations bi-directionnels
 
-    public void addVoiture(Voiture voiture){
-        voiture.setAgent(this);
-        this.getVoitures().add(voiture);
+    public void addCar(Car car){
+        car.setAgent(this);
+        this.getCarSet().add(car);
     }
 
-    public void removeVoiture(Voiture voiture){
-        this.getVoitures().remove(voiture);
+    public void removeCar(Car car){
+        this.getCarSet().remove(car);
     }
 
-    public void addAdresse(Adresse adresse){
-        adresse.setAgent(this);
-        this.setAdresse(adresse);
+    public void addAddress(Address address){
+        address.setAgent(this);
+        this.setAddress(address);
     }
 
-    public void removeAdresse(Adresse adresse){
-        this.setAdresse(null);
+    public void removeAdresse(Address address){
+        this.setAddress(null);
     }
 
 }

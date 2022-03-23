@@ -1,5 +1,6 @@
 package com.negra.location.model;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -11,7 +12,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.negra.location.utility.ErrorMessage.*;
+import static com.negra.location.utility.Pattern.PATTERN_DURATION;
 
+@Data
 @Entity
 @Table(name = "reduction")
 public class Reduction implements Serializable {
@@ -21,61 +24,27 @@ public class Reduction implements Serializable {
     private Long id;
 
     @OneToMany(mappedBy = "reduction")
-    private Set<Location> locations = new HashSet<>();
+    private Set<Rental> rentalSet = new HashSet<>();
 
-    @NotNull(message = ERROR_SENDS_DATA)
+    @NotNull(message = ERROR_SEND_DATA)
     @NotBlank(message = ERROR_REDUCTION_DURE_REQUIRED)
-    @Pattern(regexp = "^[a-zA-Z]{3,10}$", message = ERROR_REDUCTION_DURE_INVALID)
+    @Pattern(regexp = PATTERN_DURATION, message = ERROR_REDUCTION_DURE_INVALID)
     @Column(nullable = false)
-    private String dure;
+    private String duration;
 
-    @NotNull(message = ERROR_SENDS_DATA)
+    @NotNull(message = ERROR_SEND_DATA)
     @Range(min = 0, max = 1, message = ERROR_REDUCTION_TAUX_INVALID)
     @Column(nullable = false)
-    private double tauxReduction;
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDure() {
-        return dure;
-    }
-
-    public void setDure(String dure) {
-        this.dure = dure;
-    }
-
-    public double getTauxReduction() {
-        return tauxReduction;
-    }
-
-    public void setTauxReduction(double tauxReduction) {
-        this.tauxReduction = tauxReduction;
-    }
-
-    public Set<Location> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(Set<Location> locations) {
-        this.locations = locations;
-    }
+    private double reductionRate;
 
     // Gestion des relations bi-directionnels
 
-    public void addLocation(Location location){
-        location.setReduction(this);
-        this.getLocations().add(location);
+    public void addLocation(Rental rental){
+        rental.setReduction(this);
+        this.getRentalSet().add(rental);
     }
 
-    public void removeLocation(Location location){
-        this.getLocations().remove(location);
+    public void removeLocation(Rental rental){
+        this.getRentalSet().remove(rental);
     }
 }

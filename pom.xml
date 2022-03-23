@@ -14,10 +14,10 @@
     <!-- =============================================================== -->
     <!-- ===== Informations Maven ===== -->
     <groupId>com.negra</groupId>
-    <artifactId>location</artifactId>
+    <artifactId>rental</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>location</name>
-    <description>location</description>
+    <name>rental</name>
+    <description>rental</description>
 
     <!-- =============================================================== -->
     <!-- Properties -->
@@ -126,6 +126,13 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+            <scope>compile</scope>
+        </dependency>
+
 
     </dependencies>
 

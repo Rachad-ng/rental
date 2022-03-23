@@ -17,9 +17,9 @@
             <div class="listing-top__container">
                 <div class="listing-top__left">
                     <ul class=" list-unstyled listing-top__menu">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a th:href="@{/}">Home</a></li>
                         <li><span>-</span></li>
-                        <li>09 Results</li>
+                        <li th:text="${nombreCars + ' Results'}"> </li>
                     </ul>
                 </div>
                 <div class="listing-top__right">
@@ -140,8 +140,8 @@
                                 <div class="listing__filter-inner">
                                     <div class="listing__filter-left">
                                         <div class="listing__filter-icon">
-                                            <a href="listings-details.html" class="icon-grid active"></a>
-                                            <a href="listings-details.html" class="icon-list list-icon"></a>
+                                            <a href="#" class="icon-grid active"></a>
+                                            <a th:href="@{/listingsDetails}" class="icon-list list-icon"></a>
                                         </div>
                                     </div>
                                     <div class="listing__filter-right">
@@ -164,129 +164,23 @@
                         </div>
                     </div>
                     <div class="listing__list-box">
-                        <div class="row">
-                            <div class="col-xl-6">
+                        <div class="row" th:object="${cars}">
+                            <div class="col-xl-6" th:each="car : ${cars}">
                                 <!--Listing List Box Single-->
                                 <div class="listing__list-box-single">
                                     <div class="listing__list-box-img">
-                                        <img src="/static/assets/images/resources/listing-list-box-img-1.jpg" alt="">
+                                        <img src="/assets/images/resources/car.jpg" alt="">
                                         <div class="listing__list-box__icon">
                                             <i class="far fa-heart"></i>
                                         </div>
                                     </div>
                                     <div class="listing__list-box-content">
-                                        <h5 class="listing__list-box-sub-title">Sedan Car</h5>
-                                        <h3 class="listing__list-box-title">Land Rover Evoque Pure</h3>
-                                        <p class="listing__list-box-price"><span>$32 </span>/perday</p>
+                                        <h5 class="listing__list-box-sub-title" th:text="${car.categorieDto.libelle} + ' Car'"></h5>
+                                        <h3 class="listing__list-box-title" th:text="${car.modelAndMarkDto.marqueDto.libelle + ' ' + car.modelAndMarkDto.libelle}">Land Rover Evoque Pure</h3>
+                                        <p class="listing__list-box-price"><span th:text="${car.prixJour + ' DH'}">$32 </span>/jour</p>
                                         <ul class="list-unstyled listing__list-box-details">
-                                            <li>2016 Petrol</li>
-                                            <li>Air Condition</li>
-                                            <li>Auto</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <!--Listing List Box Single-->
-                                <div class="listing__list-box-single">
-                                    <div class="listing__list-box-img">
-                                        <img src="/static/assets/images/resources/listing-list-box-img-2.jpg" alt="">
-                                        <div class="listing__list-box__icon">
-                                            <i class="far fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listing__list-box-content">
-                                        <h5 class="listing__list-box-sub-title">Sedan Car</h5>
-                                        <h3 class="listing__list-box-title">Land Rover Evoque Pure</h3>
-                                        <p class="listing__list-box-price"><span>$32 </span>/perday</p>
-                                        <ul class="list-unstyled listing__list-box-details">
-                                            <li>2016 Petrol</li>
-                                            <li>Air Condition</li>
-                                            <li>Auto</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <!--Listing List Box Single-->
-                                <div class="listing__list-box-single">
-                                    <div class="listing__list-box-img">
-                                        <img src="/static/assets/images/resources/listing-list-box-img-3.jpg" alt="">
-                                        <div class="listing__list-box__icon">
-                                            <i class="far fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listing__list-box-content">
-                                        <h5 class="listing__list-box-sub-title">Sedan Car</h5>
-                                        <h3 class="listing__list-box-title">Land Rover Evoque Pure</h3>
-                                        <p class="listing__list-box-price"><span>$32 </span>/perday</p>
-                                        <ul class="list-unstyled listing__list-box-details">
-                                            <li>2016 Petrol</li>
-                                            <li>Air Condition</li>
-                                            <li>Auto</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <!--Listing List Box Single-->
-                                <div class="listing__list-box-single">
-                                    <div class="listing__list-box-img">
-                                        <img src="/static/assets/images/resources/listing-list-box-img-4.jpg" alt="">
-                                        <div class="listing__list-box__icon">
-                                            <i class="far fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listing__list-box-content">
-                                        <h5 class="listing__list-box-sub-title">Sedan Car</h5>
-                                        <h3 class="listing__list-box-title">Land Rover Evoque Pure</h3>
-                                        <p class="listing__list-box-price"><span>$32 </span>/perday</p>
-                                        <ul class="list-unstyled listing__list-box-details">
-                                            <li>2016 Petrol</li>
-                                            <li>Air Condition</li>
-                                            <li>Auto</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <!--Listing List Box Single-->
-                                <div class="listing__list-box-single">
-                                    <div class="listing__list-box-img">
-                                        <img src="/static/assets/images/resources/listing-list-box-img-5.jpg" alt="">
-                                        <div class="listing__list-box__icon">
-                                            <i class="far fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listing__list-box-content">
-                                        <h5 class="listing__list-box-sub-title">Sedan Car</h5>
-                                        <h3 class="listing__list-box-title">Land Rover Evoque Pure</h3>
-                                        <p class="listing__list-box-price"><span>$32 </span>/perday</p>
-                                        <ul class="list-unstyled listing__list-box-details">
-                                            <li>2016 Petrol</li>
-                                            <li>Air Condition</li>
-                                            <li>Auto</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <!--Listing List Box Single-->
-                                <div class="listing__list-box-single">
-                                    <div class="listing__list-box-img">
-                                        <img src="/static/assets/images/resources/listing-list-box-img-6.jpg" alt="">
-                                        <div class="listing__list-box__icon">
-                                            <i class="far fa-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listing__list-box-content">
-                                        <h5 class="listing__list-box-sub-title">Sedan Car</h5>
-                                        <h3 class="listing__list-box-title">Land Rover Evoque Pure</h3>
-                                        <p class="listing__list-box-price"><span>$32 </span>/perday</p>
-                                        <ul class="list-unstyled listing__list-box-details">
-                                            <li>2016 Petrol</li>
-                                            <li>Air Condition</li>
-                                            <li>Auto</li>
+                                            <li th:text="${car.anneeCirculation + ' ' + car.fuelDto.libelle}"></li>
+                                            <li th:text="${car.boiteAuto}? 'Auto' : 'Manuel'"></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -294,14 +188,14 @@
                         </div>
                         <div class="listing__pagination-box">
                             <ul class="listing__pagination list-unstyled">
-                                <li class="next">
-                                    <a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a>
+                                <li class="next" th:if="${currentPage > 0}">
+                                    <a th:href="@{/listings(page=${previousPage})}" aria-label="Previous"><i class="fa fa-angle-left"></i></a>
                                 </li>
-                                <li class="count"><a href="#">1</a></li>
-                                <li class="count"><a href="#">2</a></li>
-                                <li class="count"><a href="#">3</a></li>
-                                <li class="previous">
-                                    <a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a>
+                                <li class="count" th:each="i : ${#numbers.sequence( 1, nombrePages)}" th:if="${(i > (currentPage - nombreCarParPage + 2)) && (i < currentPage + nombreCarParPage)}">
+                                    <a th:style="${currentPage==(i-1)? 'background-color: #0aa5cd; color: white;' : ''}" th:text="${i}" th:href="@{/listings(page=${i-1} , size=${nombreCarParPage})}"></a>
+                                </li>
+                                <li class="previous" th:if="${currentPage < (nombrePages-1)}">
+                                    <a th:href="@{/listings(page=${nextPage})}" aria-label="Next"><i class="fa fa-angle-right"></i></a>
                                 </li>
                             </ul>
                         </div>

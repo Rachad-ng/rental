@@ -2,11 +2,7 @@ header.clearfix {
     background-color: rgb(23,32,45);
     position: unset;
 }
-/*
-.main-header {
-    margin-bottom: 3rem;
-}
-*/
+
 .cta-one {
     padding: 2rem 0;
     margin-top: 3rem;
@@ -21,3 +17,15 @@ header.clearfix {
     background-color: rgb(10, 165, 205);
     color: white;
 }
+
+/* Creation car page Style Start */
+
+.form-floating .form-select, .form-floating .form-control, #matricule, #datepicker {
+    height: 4rem;
+}
+
+.search-box__input {
+    margin-right: 10px;
+}
+
+/* Creation car page Style End */

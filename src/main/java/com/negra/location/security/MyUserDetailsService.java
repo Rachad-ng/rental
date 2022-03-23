@@ -1,6 +1,6 @@
 package com.negra.location.security;
 
-import com.negra.location.model.Utilisateur;
+import com.negra.location.model.User;
 import com.negra.location.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.negra.location.utility.ErrorMessage.ERROR_UTILISATEUR_NOT_FOUND;
+import static com.negra.location.utility.ErrorMessage.ERROR_USER_NOT_FOUND;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -21,9 +21,9 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<Utilisateur> user = utilisateurRepository.findByEmail(username);
+        Optional<User> user = utilisateurRepository.findByEmail(username);
 
-        user.orElseThrow(() -> new UsernameNotFoundException(ERROR_UTILISATEUR_NOT_FOUND));
+        user.orElseThrow(() -> new UsernameNotFoundException(ERROR_USER_NOT_FOUND));
 
         return user.map(MyUserDetails::new).get();
     }

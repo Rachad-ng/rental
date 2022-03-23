@@ -11,19 +11,20 @@
 
         <section layout:fragment="content">
 
-            <div class="row">
-                <div class="container container-form col-10 col-md-6">
+            <div class="row mt-3">
+                <div class="container container-form col-10 col-md-6 mt-5" th:object="${clientRegistrationDto}">
                     <h2 class="text-center m-3">Inscription</h2>
                     <div class="alert alert-danger py-0" th:if="${alreadyExistsErrorMessage}" th:text="${alreadyExistsErrorMessage}"></div>
-                    <form id="signinForm" th:action="@{/signinClient}" th:object="${clientRegistrationDto}" method="post">
+                    <div class="alert alert-danger py-0" th:if="${systemError}" th:text="${systemError}"></div>
+                    <form id="signinForm" th:action="@{/signinClient}" th:object="${agentRegistrationDto}" method="post">
                         <!-- Common data for client and agent -->
                         <div class="mt-4">
-                            <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></div>
-                            <input type="text" class="form-control" placeholder="Nom" name="nom" pattern="^[a-zA-Z ]{3,30}$" required="required" th:field="*{nom}"><br>
+                            <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></div>
+                            <input type="text" class="form-control" placeholder="Nom" name="nom" pattern="^[a-zA-Z ]{3,30}$" required="required" th:field="*{lastname}"><br>
                         </div>
                         <div>
-                            <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></div>
-                            <input type="text" class="form-control" placeholder="Prenom" name="prenom" pattern="^[a-zA-Z ]{3,30}$" required="none" th:field="*{prenom}"><br>
+                            <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></div>
+                            <input type="text" class="form-control" placeholder="Prenom" name="prenom" pattern="^[a-zA-Z ]{3,30}$" required="none" th:field="*{firstname}"><br>
                         </div>
                         <div>
                             <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
@@ -54,31 +55,31 @@
                         </div><br>
 
                         <!-- Data juste for agent -->
-                        <div class="agent-data" th:object="${agentRegistrationDto}">
+                        <div class="agent-data" >
                             <div>
                                 <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('rsAgence')}" th:errors="*{rsAgence}"></div>
                                 <input type="text" class="form-control agent-form-item" placeholder="Rs agence" name="rsAgence" pattern="^[a-zA-Z0-9 ]{3,30}$" required th:field="*{rsAgence}"><br>
                             </div>
                             <div>
                                 <div>
-                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}"></div>
-                                    <input type="number" class="form-control agent-form-item" placeholder="Numero de porte" name="numeroPorte" required th:field="*{numero}"><br>
+                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('addressDto.number')}" th:errors="*{addressDto.number}"></div>
+                                    <input type="number" class="form-control agent-form-item" placeholder="Numero de porte" name="numeroPorte" required th:field="*{addressDto.number}"><br>
                                 </div>
                                 <div>
-                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('rue')}" th:errors="*{rue}"></div>
-                                    <input type="text" class="form-control agent-form-item" placeholder="Rue" name="rue" pattern="^[a-zA-Z0-9- ]{3,30}$" required th:field="*{rue}"><br>
+                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('addressDto.street')}" th:errors="*{addressDto.street}"></div>
+                                    <input type="text" class="form-control agent-form-item" placeholder="Rue" name="rue" pattern="^[a-zA-Z0-9- ]{3,30}$" required th:field="*{addressDto.street}"><br>
                                 </div>
                                 <div>
-                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('quartier')}" th:errors="*{quartier}"></div>
-                                    <input type="text" class="form-control agent-form-item" placeholder="Quartier" name="quartier" pattern="^[a-zA-Z0-9- ]{3,30}$" required th:field="*{quartier}"><br>
+                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('addressDto.district')}" th:errors="*{addressDto.district}"></div>
+                                    <input type="text" class="form-control agent-form-item" placeholder="Quartier" name="quartier" pattern="^[a-zA-Z0-9- ]{3,30}$" required th:field="*{addressDto.district}"><br>
                                 </div>
                                 <div>
-                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}"></div>
-                                    <input type="text" class="form-control agent-form-item" placeholder="Ville" name="ville" pattern="^[a-zA-Z- ]{3,30}$" required th:field="*{ville}"><br>
+                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('addressDto.town')}" th:errors="*{addressDto.town}"></div>
+                                    <input type="text" class="form-control agent-form-item" placeholder="Ville" name="ville" pattern="^[a-zA-Z- ]{3,30}$" required th:field="*{addressDto.town}"><br>
                                 </div>
                                 <div>
-                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('pays')}" th:errors="*{pays}"></div>
-                                    <input type="text" class="form-control agent-form-item" placeholder="Pays" name="pays" pattern="^[a-zA-Z- ]{3,30}$" required th:field="*{pays}"><br>
+                                    <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('addressDto.country')}" th:errors="*{addressDto.country}"></div>
+                                    <input type="text" class="form-control agent-form-item" placeholder="Pays" name="pays" pattern="^[a-zA-Z- ]{3,30}$" required th:field="*{addressDto.country}"><br>
                                 </div>
                             </div>
                         </div>

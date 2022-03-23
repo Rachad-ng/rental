@@ -8,16 +8,16 @@ import java.time.LocalDateTime;
 public class ObjectInitialisation {
 
     // User Initialisation
-    public static void userInitialisation(Utilisateur user){
-        user.setNom("Neggaz");
-        user.setPrenom("Rachad");
+    public static void userInitialisation(User user){
+        user.setLastName("Neggaz");
+        user.setFirstname("Rachad");
         user.setTel("0707101019");
         user.setPassword("helloWorld");
         user.setActive(true);
     }
 
     // Admin initialisation
-    public static void adminInitialisation(Administrateur admin){
+    public static void adminInitialisation(Administrator admin){
         userInitialisation(admin);
         admin.setEmail("rachad.ng@gmail.com");
         admin.setRole("ROLE_ADMIN");
@@ -29,7 +29,7 @@ public class ObjectInitialisation {
         agent.setEmail("rachad.neg@gmail.com");
         agent.setRole("ROLE_AGENT");
         agent.setRsAgence("BestCar");
-        agent.setReputation(ReputationUtility.BRONZE);
+        agent.setNotoriety(NotorietyUtility.BRONZE);
     }
 
     // Client Initialisation
@@ -37,90 +37,90 @@ public class ObjectInitialisation {
         userInitialisation(client);
         client.setEmail("rachad-ng@gmail.com");
         client.setRole("ROLE_CLIENT");
-        client.setFidelite(0);
+        client.setLoyalty(0);
     }
 
     // Adresse Initialisation
-    public static void adresseInitialisation(Adresse adresse, Agent agent){
-        adresse.setNumero(1);
-        adresse.setRue("Lekbab");
-        adresse.setQuartier("El Massira");
-        adresse.setVille("Berkane");
-        adresse.setPays("Maroc");
-        adresse.setAgent(agent);
+    public static void adresseInitialisation(Address address, Agent agent){
+        address.setNumber(1);
+        address.setStreet("Lekbab");
+        address.setDistrict("El Massira");
+        address.setTown("Berkane");
+        address.setCountry("Maroc");
+        address.setAgent(agent);
     }
 
     // Marque Initialisation
-    public static void marqueInitialisation(Marque marque){
-        marque.setLibelle("Mercedes");
+    public static void marqueInitialisation(Mark mark){
+        mark.setLibelle("Mercedes");
     }
 
     // Model Initialisation
-    public static void modelInitialisation(Model model, Marque marque){
+    public static void modelInitialisation(Model model, Mark mark){
         model.setLibelle("C220");
-        model.setMarque(marque);
+        model.setMark(mark);
     }
 
     // Voiture Initialisation
-    public static void voitureInitialisation(Voiture voiture, Model model, Agent agent){
-        voiture.setModel(model);
-        voiture.setCarburant("Diesel");
-        voiture.setNombrePlaces(5);
-        voiture.setNombrePortes(5);
-        voiture.setClimatisation(true);
-        voiture.setCouleur("Noire");
-        voiture.setKilometrage(0);
-        voiture.setDateMiseCirculation(LocalDate.now().minusDays(1));
-        voiture.setMatricule("17588-A-49");
-        voiture.setPosteAndroid(true);
-        voiture.setDisponible(true);
-        voiture.setPrixJour(200);
-        voiture.setAgent(agent);
+    public static void voitureInitialisation(Car car, Model model, Agent agent){
+        car.setModel(model);
+ //       voiture.setCarburant("Diesel");
+        car.setNumberPlaces(5);
+        car.setNumberDoors(5);
+        car.setAirConditioning(true);
+        car.setColor("Noire");
+        car.setMileage(0);
+        car.setDateCirculation(LocalDate.now().minusDays(1));
+        car.setRegistrationNumber("17588-A-49");
+        car.setAndroidAvailable(true);
+        car.setAvailable(true);
+        car.setPricePerDay(200);
+        car.setAgent(agent);
     }
 
     // Reservation Initialisation
-    public static void reservationInitialisation(Reservation reservation, Voiture voiture, Client client){
-        reservation.setDateDebut(LocalDateTime.now());
-        reservation.setDateFin(LocalDateTime.now().plusDays(10));
-        reservation.setEtat("En cours");
-        reservation.setVoiture(voiture);
+    public static void reservationInitialisation(Reservation reservation, Car car, Client client){
+        reservation.setStartDate(LocalDateTime.now());
+        reservation.setBackDate(LocalDateTime.now().plusDays(10));
+        reservation.setState("En cours");
+        reservation.setCar(car);
         reservation.setClient(client);
     }
 
     // Reduction Initialisation
     public static void reductionInitialisation(Reduction reduction){
-        reduction.setDure("Petit");
-        reduction.setTauxReduction(0);
+        reduction.setDuration("Petit");
+        reduction.setReductionRate(0);
     }
 
     // Location Initialisation
-    public static void locationInitialisation(Location location, Reservation reservation, Reduction reduction){
-        location.setReservation(reservation);
-        location.setReduction(reduction);
-        location.setDateDebut(LocalDateTime.now());
-        location.setKilometrageDebut(5000);
+    public static void locationInitialisation(Rental rental, Reservation reservation, Reduction reduction){
+        rental.setReservation(reservation);
+        rental.setReduction(reduction);
+        rental.setStartDate(LocalDateTime.now());
+        rental.setStartMileage(5000);
     }
 
     // Frais Initialisation
-    public static void fraisInitialisation(Frais frais, Voiture voiture){
-        frais.setVoiture(voiture);
-        frais.setDateEffet(LocalDateTime.now());
-        frais.setDateEcheance(LocalDateTime.now().plusYears(1));
-        frais.setMontant(2000);
+    public static void fraisInitialisation(Cost cost, Car car){
+        cost.setCar(car);
+        cost.setStartDate(LocalDateTime.now());
+        cost.setDueDate(LocalDateTime.now().plusYears(1));
+        cost.setAmount(2000);
     }
 
     // Entretien Initialisation
-    public static void entretienInitialisation(Entretien entretien, Voiture voiture){
-        entretien.setVoiture(voiture);
-        entretien.setDescription("Vidange de voiture");
-        entretien.setMontant(350);
-        entretien.setDate(LocalDateTime.now());
+    public static void entretienInitialisation(Maintenance maintenance, Car car){
+        maintenance.setCar(car);
+        maintenance.setDescription("Vidange de voiture");
+        maintenance.setAmount(350);
+        maintenance.setDate(LocalDateTime.now());
     }
 
     // Vidange Initialisation
-    public static void vidangeInitalisation(Vidange vidange, Voiture voiture){
-        entretienInitialisation(vidange, voiture);
-        vidange.setKilometrageMaximal(70000);
+    public static void vidangeInitalisation(CarOilChange carOilChange, Car car){
+        entretienInitialisation(carOilChange, car);
+        carOilChange.setMaxMileage(70000);
     }
 
 }
