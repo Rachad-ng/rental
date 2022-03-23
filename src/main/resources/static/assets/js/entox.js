@@ -30,11 +30,8 @@
   }
 
   if ($('#datepicker').length) {
-    $('#datepicker').datepicker({
-      locale: {
-        format: 'DD/MM/YYYY'
-      }
-    });
+
+    $('#datepicker').datepicker();
   };
 
   if ($('#datepicker2').length) {
