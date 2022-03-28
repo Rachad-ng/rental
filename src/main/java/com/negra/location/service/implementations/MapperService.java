@@ -2,10 +2,14 @@ package com.negra.location.service.implementations;
 
 import com.negra.location.dto.*;
 import com.negra.location.model.*;
+import com.negra.location.model.Mark;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,13 +31,18 @@ public class MapperService {
         address.setCountry(agentRegistrationDto.getAddressDto().getCountry());
     }
 
-    public static FuelDto carburantToCarburantDto(Fuel fuel, FuelDto fuelDto){
-        fuelDto.setId(fuel.getId());
-        fuelDto.setLibelle(fuel.getLibelle());
-        return fuelDto;
+    public static void carsToCarAndModelWithImageDtos(List<Car> cars, List<CarAndModelWithImageDto> carAndModelWithImageDtos){
+        for (Car car: cars)
+            carAndModelWithImageDtos.add(new CarAndModelWithImageDto(car.getId(),
+                    new ModelWithImageDto(car.getModel().getId(),
+                            car.getModel().getLibelle(),
+                            car.getModel().getImage(),
+                            new MarkDto(car.getModel().getMark().getId(),
+                                    car.getModel().getMark().getLibelle())),
+                    car.getPricePerDay(), car.isAutoTransmission()));
     }
 
-    public static List<FuelDto> carburantsListToDtos(List<Fuel> fuels, List<FuelDto> fuelDtos){
+    public static List<FuelDto> fuelsToFuelDtos(List<Fuel> fuels, List<FuelDto> fuelDtos){
         FuelDto fuelDto;
         for (Fuel fuel : fuels){
             fuelDto = new FuelDto();
@@ -44,18 +53,21 @@ public class MapperService {
         return fuelDtos;
     }
 
-    public static void voitureCreationDtoToVoiture(CarCreationDto carCreationDto, Car car){
+    public static void carCreationDtoToCar(CarCreationDto carCreationDto, Car car){
 
-        car.setAirConditioning(carCreationDto.isClimatisation());
-        car.setColor(carCreationDto.getCouleur());
-        car.setDateCirculation(carCreationDto.getDateMiseCirculation());
-        car.setMileage(carCreationDto.getKilometrage());
-        car.setRegistrationNumber(carCreationDto.getMatricule());
-        car.setNumberPlaces(carCreationDto.getNombrePlaces());
-        car.setNumberDoors(carCreationDto.getNombrePortes());
-        car.setPricePerDay(carCreationDto.getPrixJour());
-        car.setAndroidAvailable(carCreationDto.isPosteAndroid());
-        car.setAutoTransmission(carCreationDto.isBoiteAuto());
+        car.setAirConditioning(carCreationDto.isAirConditioning());
+        car.setColor(carCreationDto.getColor());
+        car.setDateCirculation(carCreationDto.getDateCirculation());
+        car.setMileage(carCreationDto.getMileage());
+        car.setRegistrationNumber(carCreationDto.getRegistrationNumber());
+        car.setNumberOfPlaces(carCreationDto.getNumberPlaces());
+        car.setNumberOfDoors(carCreationDto.getNumberDoors());
+        car.setPricePerDay(carCreationDto.getPricePerDay());
+        car.setAndroidAvailable(carCreationDto.isAndroidAvailable());
+        car.setAutoTransmission(carCreationDto.isAutoTransmission());
+        car.setTintedGlass(carCreationDto.isTintedGlass());
+        car.setSunroof(carCreationDto.isSunroof());
+        car.setChildSeat(carCreationDto.isChildSeat());
 
         car.setAvailable(true);
     }
@@ -65,43 +77,51 @@ public class MapperService {
             modelDtos.add(new ModelDto(model.getId(), model.getLibelle()));
     }
 
-    public static void voitureToVoitureDto(Car car, VoitureDto voitureDto){
-        voitureDto.setBoiteAuto(car.isAutoTransmission());
-        voitureDto.setId(car.getId());
-        voitureDto.setPrixJour(car.getPricePerDay());
-        voitureDto.setDateMiseCirculation(car.getDateCirculation());
-        voitureDto.setCategorieDto(categorieToCategorieDto(car.getCategory(), new CategorieDto()));
-        voitureDto.setModelAndMarkDto(modelToModelAndMarkDto(car.getModel(), new ModelAndMarkDto()));
-        voitureDto.setFuelDto(carburantToCarburantDto(car.getFuel(), new FuelDto()));
-    }
-
-    public static CategorieDto categorieToCategorieDto(Category category, CategorieDto categorieDto){
-        categorieDto.setId(category.getId());
-        categorieDto.setLibelle(category.getLibelle());
-        return categorieDto;
-    }
-
-    public static List<CategorieDto> categoriesToCategorieDtos(List<Category> categories, List<CategorieDto> categorieDtos){
-        CategorieDto categorieDto;
-        for (Category category : categories) {
-            categorieDto = new CategorieDto();
-            categorieDto.setId(category.getId());
-            categorieDto.setLibelle(category.getLibelle());
-            categorieDtos.add(categorieDto);
+    public static void carsToListingCarDtos(List<Car> cars, List<ListingCarDto> listingCarDtos){
+        ListingCarDto listingCarDto;
+        for (Car car : cars) {
+            listingCarDto = new ListingCarDto();
+            MapperService.carToListingCarDto(car, listingCarDto);
+            listingCarDtos.add(listingCarDto);
         }
-        return categorieDtos;
     }
 
-    public static ModelAndMarkDto modelToModelAndMarkDto(Model model, ModelAndMarkDto modelAndMarkDto){
-        modelAndMarkDto.setLibelle(model.getLibelle());
-        modelAndMarkDto.setMarqueDto(markToMarkDto(model.getMark(), new MarqueDto()));
-        return modelAndMarkDto;
+    public static void carToListingCarDto(Car car, ListingCarDto listingCarDto){
+        listingCarDto.setId(car.getId());
+        listingCarDto.setAutoTransmission(car.isAutoTransmission());
+        listingCarDto.setPricePerDay(car.getPricePerDay());
+        listingCarDto.setDateCirculation(car.getDateCirculation());
+        listingCarDto.setListingCategoryDto(new ListingCategoryDto(car.getCategory().getLibelle()));
+        listingCarDto.setListingModelDto(new ListingModelDto(car.getModel().getLibelle(), car.getModel().getImage(), new ListingMarkDto(car.getModel().getMark().getLibelle())));
+        listingCarDto.setListingFuelDto(new ListingFuelDto(car.getFuel().getLibelle()));
     }
 
-    public static MarqueDto markToMarkDto(Mark mark, MarqueDto marqueDto){
-        marqueDto.setId(mark.getId());
-        marqueDto.setLibelle(mark.getLibelle());
-        return marqueDto;
+    public static List<CategoryDto> categoriesToCategoryDtos(List<Category> categories, List<CategoryDto> categoryDtos){
+        CategoryDto categoryDto;
+        for (Category category : categories) {
+            categoryDto = new CategoryDto();
+            categoryDto.setId(category.getId());
+            categoryDto.setLibelle(category.getLibelle());
+            categoryDtos.add(categoryDto);
+        }
+        return categoryDtos;
+    }
+
+    public static void marksToMarkWithModelDtos(List<Mark> marks, List<MarkWithModelDto> markWithModelDtos){
+        MarkWithModelDto markWithModelDto;
+        for (Mark mark: marks) {
+            markWithModelDto = new MarkWithModelDto();
+            markToMarkWithModelDto(mark, markWithModelDto);
+            markWithModelDtos.add(markWithModelDto);
+        }
+    }
+
+    public static void markToMarkWithModelDto(Mark mark, MarkWithModelDto markWithModelDto){
+        markWithModelDto.setId(mark.getId());
+        markWithModelDto.setLibelle(mark.getLibelle());
+        List<Model> modelList = new ArrayList<>(mark.getModelSet()).stream().sorted(Comparator.comparing(Model::getLibelle)).collect(Collectors.toList());
+        for (Model model: modelList)
+            markWithModelDto.getModelDtos().add(new ModelDto(model.getId(), model.getLibelle()));
     }
 
     public static void clientRegitrationDtoToClient(ClientRegistrationDto clientRegistrationDto, Client client){
@@ -111,6 +131,26 @@ public class MapperService {
         client.setPassword(clientRegistrationDto.getPassword());
         client.setTel(clientRegistrationDto.getTel());
         client.setRole(clientRegistrationDto.getRole());
+    }
+
+    public static void carToListingDetailsCarDto(Car car, ListingDetailsCarDto listingDetailsCarDto){
+        listingDetailsCarDto.setId(car.getId());
+        listingDetailsCarDto.setPricePerDay(car.getPricePerDay());
+        listingDetailsCarDto.setAutoTransmission(car.isAutoTransmission());
+        listingDetailsCarDto.setColor(car.getColor());
+        listingDetailsCarDto.setAndroidAvailable(car.isAndroidAvailable());
+        listingDetailsCarDto.setCirculationYear(car.getDateCirculation().getYear());
+        listingDetailsCarDto.setNumberOfPlaces(car.getNumberOfPlaces());
+        listingDetailsCarDto.setNumberOfDoors(car.getNumberOfDoors());
+        listingDetailsCarDto.setAirConditioning(car.isAirConditioning());
+        listingDetailsCarDto.setTintedGlass(car.isTintedGlass());
+        listingDetailsCarDto.setChildSeat(car.isChildSeat());
+        listingDetailsCarDto.setSunroof(car.isSunroof());
+
+        listingDetailsCarDto.setListingCategoryDto(new ListingCategoryDto(car.getCategory().getLibelle()));
+        listingDetailsCarDto.setListingFuelDto(new ListingFuelDto(car.getFuel().getLibelle()));
+        listingDetailsCarDto.setListingModelDto(new ListingModelDto(car.getModel().getLibelle(), car.getModel().getImage(), new ListingMarkDto(car.getModel().getMark().getLibelle())));
+        listingDetailsCarDto.setAgentDto(new AgentDto(car.getAgent().getEmail(), car.getAgent().getTel(), car.getAgent().getTel().substring(0,6) + "....", new AddressDto(car.getAgent().getAddress()), car.getAgent().getRsAgence(), car.getAgent().getNotoriety()));
     }
 
 }

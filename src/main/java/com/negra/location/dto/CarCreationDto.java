@@ -1,10 +1,9 @@
 package com.negra.location.dto;
 
-import com.negra.location.model.Mark;
 import lombok.Data;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -13,52 +12,56 @@ import java.util.List;
 
 import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.PATTERN_COLOR;
-import static com.negra.location.utility.Pattern.PATTERN_VOITURE_MATRICULE;
+import static com.negra.location.utility.Pattern.PATTERN_CAR_REGISTRATION_NUMBER;
 
 @Data
 public class CarCreationDto implements Serializable {
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CAR_PLACES_NUMBER)
-    private int nombrePlaces;
+    private int numberPlaces;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CAR_DOORS_NUMBER)
-    private int nombrePortes;
+    private int numberDoors;
 
     @NotNull(message = ERROR_SEND_DATA)
-    private boolean climatisation;
+    private boolean airConditioning;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Pattern(regexp = PATTERN_COLOR, message = ERROR_CAR_COLOR)
-    private String couleur;
+    private String color;
 
     @NotNull(message = ERROR_SEND_DATA)
-    private boolean posteAndroid;
+    private boolean androidAvailable;
 
     @NotNull(message = ERROR_SEND_DATA)
-    private boolean boiteAuto;
+    private boolean autoTransmission;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_VOITURE_MATRICULE, message = ERROR_CAR_MATRICULE)
-    private String matricule;
+    private boolean sunroof;
 
-    /*
-    @NotNull(message = ERROR_SENDS_DATA)
+    @NotNull(message = ERROR_SEND_DATA)
+    private boolean tintedGlass;
+
+    @NotNull(message = ERROR_SEND_DATA)
+    private boolean childSeat;
+
+    @NotNull(message = ERROR_SEND_DATA)
+    @Pattern(regexp = PATTERN_CAR_REGISTRATION_NUMBER, message = ERROR_CAR_MATRICULE)
+    private String registrationNumber;
+
+    @NotNull(message = ERROR_SEND_DATA)
     @Past(message = ERROR_CAR_DATE_MISE_CIRCULATION)
-    @DateTimeFormat(pattern = "mm/dd/yyyy")    */
-    private LocalDate dateMiseCirculation;
-
-    @NotNull(message = ERROR_SEND_DATA)
-    private String dateCirculation;
+    private LocalDate dateCirculation;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 0, message = ERROR_CAR_KILOMETRAGE)
-    private int kilometrage;
+    private int mileage;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 0, message = ERROR_CAR_PRICE)
-    private int prixJour;
+    private int pricePerDay;
 
     @NotNull(message = ERROR_CAR_MODEL)
     @Min(value = 1, message = ERROR_CAR_MODEL)
@@ -70,18 +73,18 @@ public class CarCreationDto implements Serializable {
 
     @NotNull(message = ERROR_CAR_ENGINE)
     @Min(value = 1, message = ERROR_CAR_ENGINE)
-    private long idCarburant;
+    private long idFuel;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CATEGORIE_NOT_FOUND)
-    private long idCategorie;
+    private long idCategory;
 
-    private List<Mark> marks = new ArrayList<>();
+    private List<MarkWithModelDto> markWithModelDtos = new ArrayList<>();
 
     private List<ModelDto> modelDtos = new ArrayList<>();
 
     private List<FuelDto> fuelDtos = new ArrayList<>();
 
-    private List<CategorieDto> categorieDtos = new ArrayList<>();
+    private List<CategoryDto> categoryDtos = new ArrayList<>();
 
 }

@@ -4,7 +4,7 @@ import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
 import com.negra.location.model.Mark;
 import com.negra.location.model.Model;
-import com.negra.location.repository.MarqueRepository;
+import com.negra.location.repository.MarkRepository;
 import com.negra.location.service.interfaces.IMarkService;
 import com.negra.location.service.interfaces.IModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,17 @@ import static com.negra.location.utility.ErrorMessage.*;
 
 @Service
 @Transactional
-public class MarqueService implements IMarkService {
+public class MarKService implements IMarkService {
 
     @Autowired
-    private MarqueRepository marqueRepository;
+    private MarkRepository markRepository;
     @Autowired
     private IModelService modelService;
 
     // Creation d'une marque
     public void createMarque(Mark mark){
         try{
-            marqueRepository.save(mark);
+            markRepository.save(mark);
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA_STORING);
         }
@@ -44,7 +44,7 @@ public class MarqueService implements IMarkService {
             for (Model model: models) {
                 modelService.deleteModel(model);
             }
-            marqueRepository.delete(mark);
+            markRepository.delete(mark);
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA);
         }
@@ -53,7 +53,7 @@ public class MarqueService implements IMarkService {
     // Recuperations de tous les marques
     public List<Mark> findAll(){
         try{
-            List<Mark> marks = marqueRepository.findAll().stream()
+            List<Mark> marks = markRepository.findAll().stream()
                     .sorted( Comparator.comparing( Mark::getLibelle ) )
                     .collect( Collectors.toList() );
 
@@ -65,7 +65,7 @@ public class MarqueService implements IMarkService {
 
     public Mark findById(long id){
 
-        Optional<Mark> optionalMarque = marqueRepository.findById(id);
+        Optional<Mark> optionalMarque = markRepository.findById(id);
         if(optionalMarque.isPresent())
             return optionalMarque.get();
         else

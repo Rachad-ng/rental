@@ -19,7 +19,7 @@
                     <ul class=" list-unstyled listing-top__menu">
                         <li><a th:href="@{/}">Home</a></li>
                         <li><span>-</span></li>
-                        <li th:text="${nombreCars + ' Results'}"> </li>
+                        <li th:text="${numberOfCars + ' Results'}"> </li>
                     </ul>
                 </div>
                 <div class="listing-top__right">
@@ -164,26 +164,26 @@
                         </div>
                     </div>
                     <div class="listing__list-box">
-                        <div class="row" th:object="${cars}">
-                            <div class="col-xl-6" th:each="car : ${cars}">
-                                <!--Listing List Box Single-->
+                        <div class="row" th:object="${listingCarDtos}">
+                            <div class="col-xl-6" th:each="listingCarDto : ${listingCarDtos}">
+                                <!--Listing List Box Single--><a th:href="@{/listingsDetails(id = ${listingCarDto.id})}">
                                 <div class="listing__list-box-single">
                                     <div class="listing__list-box-img">
-                                        <img src="/assets/images/resources/car.jpg" alt="">
+                                        <img th:src="@{${'/assets/images/resources/cars/minimized/' + listingCarDto.listingModelDto.image + '-min.jpg'}}" th:alt="${'Rental car model' + listingCarDto.listingModelDto.libelle}">
                                         <div class="listing__list-box__icon">
                                             <i class="far fa-heart"></i>
                                         </div>
                                     </div>
                                     <div class="listing__list-box-content">
-                                        <h5 class="listing__list-box-sub-title" th:text="${car.categorieDto.libelle} + ' Car'"></h5>
-                                        <h3 class="listing__list-box-title" th:text="${car.modelAndMarkDto.marqueDto.libelle + ' ' + car.modelAndMarkDto.libelle}">Land Rover Evoque Pure</h3>
-                                        <p class="listing__list-box-price"><span th:text="${car.prixJour + ' DH'}">$32 </span>/jour</p>
+                                        <h5 class="listing__list-box-sub-title" th:text="${listingCarDto.listingCategoryDto.libelle} + ' Car'"></h5>
+                                        <h3 class="listing__list-box-title" th:text="${listingCarDto.listingModelDto.listingMarkDto.libelle + ' ' + listingCarDto.listingModelDto.libelle}"></h3>
+                                        <p class="listing__list-box-price"><span th:text="${listingCarDto.pricePerDay + ' DH'}">$32 </span>/jour</p>
                                         <ul class="list-unstyled listing__list-box-details">
-                                            <li th:text="${car.anneeCirculation + ' ' + car.fuelDto.libelle}"></li>
-                                            <li th:text="${car.boiteAuto}? 'Auto' : 'Manuel'"></li>
+                                            <li th:text="${listingCarDto.circulationYear + ' ' + listingCarDto.listingFuelDto.libelle}"></li>
+                                            <li th:text="${listingCarDto.autoTransmission}? 'Auto' : 'Manuel'"></li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div></a>
                             </div>
                         </div>
                         <div class="listing__pagination-box">
@@ -191,10 +191,10 @@
                                 <li class="next" th:if="${currentPage > 0}">
                                     <a th:href="@{/listings(page=${previousPage})}" aria-label="Previous"><i class="fa fa-angle-left"></i></a>
                                 </li>
-                                <li class="count" th:each="i : ${#numbers.sequence( 1, nombrePages)}" th:if="${(i > (currentPage - nombreCarParPage + 2)) && (i < currentPage + nombreCarParPage)}">
-                                    <a th:style="${currentPage==(i-1)? 'background-color: #0aa5cd; color: white;' : ''}" th:text="${i}" th:href="@{/listings(page=${i-1} , size=${nombreCarParPage})}"></a>
+                                <li class="count" th:each="i : ${#numbers.sequence( 1, numberOfPages)}" th:if="${(i > (currentPage - numberOfCarPerPage + 2)) && (i < currentPage + numberOfCarPerPage)}">
+                                    <a th:style="${currentPage==(i-1)? 'background-color: #0aa5cd; color: white;' : ''}" th:text="${i}" th:href="@{/listings(page=${i-1} , size=${numberOfCarPerPage})}"></a>
                                 </li>
-                                <li class="previous" th:if="${currentPage < (nombrePages-1)}">
+                                <li class="previous" th:if="${currentPage < (numberOfPages - 1)}">
                                     <a th:href="@{/listings(page=${nextPage})}" aria-label="Next"><i class="fa fa-angle-right"></i></a>
                                 </li>
                             </ul>

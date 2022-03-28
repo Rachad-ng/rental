@@ -1,6 +1,8 @@
 package com.negra.location.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,6 +29,11 @@ public class Model implements Serializable {
     @Column(nullable = false)
     private String libelle;
 
+    @NotNull(message = ERROR_SEND_DATA)
+    private String image;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "mark_id", nullable = false)
     private Mark mark;

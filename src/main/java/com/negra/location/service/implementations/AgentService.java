@@ -3,6 +3,7 @@ package com.negra.location.service.implementations;
 import com.negra.location.dto.*;
 import com.negra.location.exception.DataStoreException;
 import com.negra.location.model.*;
+import com.negra.location.model.Mark;
 import com.negra.location.repository.AgentRepository;
 import com.negra.location.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.negra.location.utility.DataUtility.NUMBER_PLACES_MAX;
 import static com.negra.location.utility.ErrorMessage.*;
@@ -34,7 +36,7 @@ public class AgentService implements IAgentService {
     @Autowired
     private IFuelService fuelService;
     @Autowired
-    private ICategorieService categoryService;
+    private ICategoryService categoryService;
 
     public void createAgent(AgentRegistrationDto agentRegistrationDto)
     {
@@ -66,29 +68,30 @@ public class AgentService implements IAgentService {
     }
 
     // Recueration des donnée nécessaire pour l'ajout d'une voiture
-    public void initialisationCarCreationFrom(org.springframework.ui.Model model) {
+    public void initialisationCarCreationFrom(org.springframework.ui.Model model) throws
+            DataStoreException, IndexOutOfBoundsException {
 
         List<Mark> marks = markService.findAll();
-        Mark mark = marks.get(0);
-        Set<Model> modelSet = mark.getModelSet();
-        List<Model> modelList = new ArrayList<>(modelSet);
+        List<MarkWithModelDto> markWithModelDtos = new ArrayList<>();
+        MapperService.marksToMarkWithModelDtos(marks, markWithModelDtos);
 
-        // Recuperation des modelDto de la premier marque pour remplir le select du formulaire
-        List<Model> models = new ArrayList<>(marks.get(0).getModelSet());
+        // Recuperation des modelDto de la premier marque pour remplir le select du formulaire (On les trie pour bien adapter l'affichage)
+        List<Model> models = new ArrayList<>(marks.get(0).getModelSet()).stream().sorted(Comparator.comparing(Model::getLibelle)).collect(Collectors.toList());
         List<ModelDto> modelDtos = new ArrayList<>();
+
         MapperService.modelsToModelDtos(models, modelDtos);
 
-        List<CategorieDto> categorieDtos = categoryService.findAllDtos();
+        List<CategoryDto> categoryDtos = categoryService.findAllDtos();
         List<FuelDto> fuelDtos = fuelService.findAllDtos();
 
         // Preparation de Dto pour le transfert et validation des données
         CarCreationDto carCreationDto = new CarCreationDto();
-        carCreationDto.setMarks(marks);
+        carCreationDto.setMarkWithModelDtos(markWithModelDtos);
         carCreationDto.setModelDtos(modelDtos);
         carCreationDto.setFuelDtos(fuelDtos);
-        carCreationDto.setCategorieDtos(categorieDtos);
+        carCreationDto.setCategoryDtos(categoryDtos);
 
-        model.addAttribute("voitureCreationDto", carCreationDto);
+        model.addAttribute("carCreationDto", carCreationDto);
         model.addAttribute("nbMaxPlaces", NUMBER_PLACES_MAX);
     }
 
@@ -102,14 +105,17 @@ public class AgentService implements IAgentService {
 
         // On doit récupérer les données non-valider (Puisqu'il sont pas garder par le validator)
         List<Mark> marks = markService.findAll();
+        List<MarkWithModelDto> markWithModelDtos = new ArrayList<>();
+        MapperService.marksToMarkWithModelDtos(marks, markWithModelDtos);
+
         List<FuelDto> fuelDtos = fuelService.findAllDtos();
-        List<CategorieDto> categorieDtos = categoryService.findAllDtos();
+        List<CategoryDto> categoryDtos = categoryService.findAllDtos();
 
-        carCreationDto.setMarks(marks);
+        carCreationDto.setMarkWithModelDtos(markWithModelDtos);
         carCreationDto.setFuelDtos(fuelDtos);
-        carCreationDto.setCategorieDtos(categorieDtos);
+        carCreationDto.setCategoryDtos(categoryDtos);
 
-        model.addAttribute("voitureCreationDto", carCreationDto);
+        model.addAttribute("carCreationDto", carCreationDto);
         model.addAttribute("errorMessage", ERROR_CAR_CREATION_MAPPING);
         model.addAttribute("nbMaxPlaces", NUMBER_PLACES_MAX);
     }

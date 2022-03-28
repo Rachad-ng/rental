@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class CategorieDto implements Serializable {
+public class CategoryDto implements Serializable {
 
     private Long id;
 

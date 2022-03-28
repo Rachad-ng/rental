@@ -24,8 +24,6 @@ public class SecurityController {
 
     private static final String HOME = "/";
     private static final String SIGNIN = "signin";
-    private static final String AGENT_HOME = "agent/home";
-    private static final String CLIENT_HOME = "client/home";
     private static final String LOGIN = "login";
     private static final String ACCES_DENIED_PAGE = "403";
 
@@ -59,7 +57,7 @@ public class SecurityController {
             if(agentRegistrationDto.getPassword().equals(agentRegistrationDto.getPasswordConfirmed())){
                 try{
                     agentService.createAgent(agentRegistrationDto);
-                    return  "redirect:/" + AGENT_HOME;
+                    return  "redirect:/" + LOGIN;
                 }catch (AlreadyExistsException e){
                     model.addAttribute("alreadyExistsErrorMessage", e.getMessage());
                 }catch (DataStoreException e){
@@ -86,7 +84,7 @@ public class SecurityController {
             if(clientRegistrationDto.getPassword().equals(clientRegistrationDto.getPasswordConfirmed())){
                 try {
                     clientService.createClient(clientRegistrationDto);
-                    return  "redirect:/" + CLIENT_HOME;
+                    return  "redirect:/" + LOGIN;
                 }catch (AlreadyExistsException e){
                     model.addAttribute("alreadyExistsErrorMessage", e.getMessage());
                 }catch(DataStoreException e){

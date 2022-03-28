@@ -5,9 +5,9 @@ import com.negra.location.model.Client;
 import com.negra.location.model.Rental;
 import com.negra.location.model.Reservation;
 import com.negra.location.model.Car;
-import com.negra.location.repository.ReservationRepository;
-import com.negra.location.service.interfaces.ILocationService;
-import com.negra.location.service.interfaces.IReservationService;
+import com.negra.location.repository.BookingRepository;
+import com.negra.location.service.interfaces.IRentalService;
+import com.negra.location.service.interfaces.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +18,19 @@ import static com.negra.location.utility.ErrorMessage.ERROR_DATA_STORING;
 
 @Service
 @Transactional
-public class ReservationService implements IReservationService {
+public class BookingService implements IBookingService {
 
     @Autowired
-    private ReservationRepository reservationRepository;
+    private BookingRepository bookingRepository;
     @Autowired
-    private ILocationService locationService;
+    private IRentalService locationService;
 
     public void createReservation(Reservation reservation, Client client, Car car){
         client.addReservation(reservation);
         car.addReservation(reservation);
 
         try{
-            reservationRepository.save(reservation);
+            bookingRepository.save(reservation);
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA_STORING);
         }
@@ -47,7 +47,7 @@ public class ReservationService implements IReservationService {
             if(rental != null)
                 locationService.deleteLocation(rental);
 
-            reservationRepository.delete(reservation);
+            bookingRepository.delete(reservation);
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA);
         }

@@ -9,21 +9,19 @@ public class Pattern {
 
     public static final String PATTERN_RS_AGENCE = "^[a-zA-Z0-9 ]{3,30}$";
 
-    public static final String PATTERN_ADRESSE_RUE = "^[a-zA-Z0-9- ]{3,30}$";
-    public static final String PATTERN_ADRESSE_QUARTIER = "^[a-zA-Z0-9- ]{3,30}$";
-    public static final String PATTERN_ADRESSE_VILLE = "^[a-zA-Z- ]{3,30}$";
-    public static final String PATTERN_ADRESSE_PAYS = "^[a-zA-Z- ]{3,30}$";
+    public static final String PATTERN_ADDRESS_RUE = "^[a-zA-Z0-9- ]{3,30}$";
+    public static final String PATTERN_ADDRESS_DISTRICT = "^[a-zA-Z0-9- ]{3,30}$";
+    public static final String PATTERN_ADDRESS_TOWN = "^[a-zA-Z- ]{3,30}$";
+    public static final String PATTERN_ADDRESS_COUNTRY = "^[a-zA-Z- ]{3,30}$";
 
-    public static final String PATTERN_MARQUE = "^[a-zA-Z ]{3,20}$";
+    public static final String PATTERN_MARk = "^[a-zA-Z ]{3,20}$";
     public static final String PATTERN_MODEL = "^[a-zA-Z0-9 ]{3,20}$";
 
-    public static final String PATTERN_CARBURANT_LIBELLE = "^[a-zA-z]{6,7}$";
+    public static final String PATTERN_FUEL_LIBELLE = "^[a-zA-z]{6,7}$";
 
-    public static final String PATTERN_VOITURE_MATRICULE = "^[1-9][0-9]{0,4}-[A-Z]-[1-9][0-9]?$";
+    public static final String PATTERN_CAR_REGISTRATION_NUMBER = "^[1-9][0-9]{0,4}-[A-Z]-[1-9][0-9]?$";
 
     public static final String PATTERN_COLOR = "^#[0-9a-f]{6}$";
-
-    public static final String PATTERN_DATE = "MM/dd/yyyy";
 
     public static final String PATTERN_DESCRIPTION = "^[a-zA-Z0-9 ]{3,100}$";
 

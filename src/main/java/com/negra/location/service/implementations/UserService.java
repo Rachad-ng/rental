@@ -4,7 +4,7 @@ import com.negra.location.exception.AlreadyExistsException;
 import com.negra.location.exception.CurrentUserNotFoundException;
 import com.negra.location.exception.UserNotFoundException;
 import com.negra.location.model.User;
-import com.negra.location.repository.UtilisateurRepository;
+import com.negra.location.repository.UserRepository;
 import com.negra.location.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,21 +18,21 @@ import static com.negra.location.utility.ErrorMessage.*;
 
 @Service
 @Transactional
-public class UtilisateurService implements IUserService {
+public class UserService implements IUserService {
 
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private UserRepository userRepository;
 
     // Methode de verification d'unicité des usernames lors de l'inscription
     public void isUserExists(String username) {
-        Optional<User> user = utilisateurRepository.findByEmail(username);
+        Optional<User> user = userRepository.findByEmail(username);
         user.ifPresent(user1 -> {throw new AlreadyExistsException(ERROR_USER_ALREADY_EXISTS);});
     }
 
     public User findByUsername(String username){
-        Optional<User> optionalUtilisateur = utilisateurRepository.findByEmail(username);
-        if(optionalUtilisateur.isPresent())
-            return optionalUtilisateur.get();
+        Optional<User> optionalUser = userRepository.findByEmail(username);
+        if(optionalUser.isPresent())
+            return optionalUser.get();
         else
             throw new UserNotFoundException(ERROR_USER_NOT_FOUND);
     }

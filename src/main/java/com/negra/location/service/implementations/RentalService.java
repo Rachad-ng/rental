@@ -5,7 +5,7 @@ import com.negra.location.model.Rental;
 import com.negra.location.model.Reduction;
 import com.negra.location.model.Reservation;
 import com.negra.location.repository.LocationRepository;
-import com.negra.location.service.interfaces.ILocationService;
+import com.negra.location.service.interfaces.IRentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import static com.negra.location.utility.ErrorMessage.ERROR_DATA_STORING;
 
 @Service
 @Transactional
-public class LocationService implements ILocationService {
+public class RentalService implements IRentalService {
 
     @Autowired
     private LocationRepository locationRepository;

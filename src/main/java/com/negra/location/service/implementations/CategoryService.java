@@ -1,11 +1,11 @@
 package com.negra.location.service.implementations;
 
-import com.negra.location.dto.CategorieDto;
+import com.negra.location.dto.CategoryDto;
 import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
 import com.negra.location.model.Category;
 import com.negra.location.repository.CategorieRepository;
-import com.negra.location.service.interfaces.ICategorieService;
+import com.negra.location.service.interfaces.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import static com.negra.location.utility.ErrorMessage.ERROR_DATA;
 
 @Service
 @Transactional
-public class CategorieService implements ICategorieService {
+public class CategoryService implements ICategoryService {
 
     @Autowired
     private CategorieRepository categorieRepository;
@@ -32,12 +32,12 @@ public class CategorieService implements ICategorieService {
             throw new DataNotFoundException(ERROR_CATEGORIE_NOT_FOUND);
     }
 
-    public List<CategorieDto> findAllDtos(){
+    public List<CategoryDto> findAllDtos(){
         try{
             List<Category> categories = categorieRepository.findAll();
-            List<CategorieDto> categorieDtos = new ArrayList<>();
-            MapperService.categoriesToCategorieDtos(categories, categorieDtos);
-            return categorieDtos;
+            List<CategoryDto> categoryDtos = new ArrayList<>();
+            MapperService.categoriesToCategoryDtos(categories, categoryDtos);
+            return categoryDtos;
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA);
         }

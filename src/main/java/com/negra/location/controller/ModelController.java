@@ -1,7 +1,7 @@
 package com.negra.location.controller;
 
 import com.google.gson.Gson;
-import com.negra.location.dto.ModelDto;
+import com.negra.location.dto.ModelWithImageDto;
 import com.negra.location.service.implementations.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +20,8 @@ public class ModelController {
     @PostMapping("/syncModelWithMark")
     public @ResponseBody
     String syncModelWithMark(@RequestParam long idMark){
-        List<ModelDto> modelDtos = modelService.getByMark(idMark);
-        return new Gson().toJson(modelDtos);
+        List<ModelWithImageDto> modelWithImageDtos = modelService.getByMark(idMark);
+        return new Gson().toJson(modelWithImageDtos);
     }
 
 }

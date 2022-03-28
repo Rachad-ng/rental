@@ -65,8 +65,8 @@ public class ObjectInitialisation {
     public static void voitureInitialisation(Car car, Model model, Agent agent){
         car.setModel(model);
  //       voiture.setCarburant("Diesel");
-        car.setNumberPlaces(5);
-        car.setNumberDoors(5);
+        car.setNumberOfPlaces(5);
+        car.setNumberOfDoors(5);
         car.setAirConditioning(true);
         car.setColor("Noire");
         car.setMileage(0);
@@ -118,9 +118,9 @@ public class ObjectInitialisation {
     }
 
     // Vidange Initialisation
-    public static void vidangeInitalisation(CarOilChange carOilChange, Car car){
-        entretienInitialisation(carOilChange, car);
-        carOilChange.setMaxMileage(70000);
+    public static void vidangeInitalisation(OilChange oilChange, Car car){
+        entretienInitialisation(oilChange, car);
+        oilChange.setMaxMileage(70000);
     }
 
 }

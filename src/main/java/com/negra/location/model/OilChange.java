@@ -11,7 +11,7 @@ import static com.negra.location.utility.ErrorMessage.*;
 
 @Data
 @Entity
-public class CarOilChange extends Maintenance {
+public class OilChange extends Maintenance {
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 0, message = ERROR_VIDANGE_KILOMETRAGE_MAX_INVALID)

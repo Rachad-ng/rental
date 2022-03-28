@@ -12,36 +12,36 @@
         <section layout:fragment="content">
 
             <div class="container container-form mt-5" th:object="${carCreationDto}">
-                <h2 class="text-center m-5">Nouvelle car</h2>
+                <h2 class="text-center mt-5">Nouvelle car</h2>
 
                 <!-- Messages d'erreurs Start -->
                 <div class="alert alert-danger py-0 w-50 m-auto text-center" th:if="${errorMessage}" th:text="${errorMessage}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${errorDateOrMatriculeMessage}" th:text="${errorDateOrMatriculeMessage}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${errorRegistrationNumberMessage}" th:text="${errorRegistrationNumberMessage}"></div>
                 <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('idMark')}" th:errors="*{idMark}"></div>
                 <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('idModel')}" th:errors="*{idModel}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('idCarburant')}" th:errors="*{idCarburant}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('idCategorie')}" th:errors="*{idCategorie}"></div><br>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('nombrePlaces')}" th:errors="*{nombrePlaces}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('nombrePortes')}" th:errors="*{nombrePortes}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('matricule')}" th:errors="${carCreationDto.matricule}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('kilometrage')}" th:errors="*{kilometrage}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('prixJour')}" th:errors="*{prixJour}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('dateMiseCirculation')}" th:errors="*{dateMiseCirculation}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('posteAndroid')}" th:errors="*{posteAndroid}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('climatisation')}" th:errors="*{climatisation}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('boiteAuto')}" th:errors="*{boiteAuto}"></div>
-                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('couleur')}" th:errors="*{couleur}"></div><br>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('idFuel')}" th:errors="*{idFuel}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('idCategory')}" th:errors="*{idCategory}"></div><br>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('numberPlaces')}" th:errors="*{numberPlaces}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('numberDoors')}" th:errors="*{numberDoors}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('registrationNumber')}" th:errors="${carCreationDto.registrationNumber}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('pricePerDay')}" th:errors="*{pricePerDay}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('dateCirculation')}" th:errors="*{dateCirculation}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('androidAvailable')}" th:errors="*{androidAvailable}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('airConditioning')}" th:errors="*{airConditioning}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('autoTransmission')}" th:errors="*{autoTransmission}"></div>
+                <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div><br>
                 <!-- Messages d'erreurs End -->
 
                 <!--Search Box Start-->
-                <section class="search-box mt-3">
+                <section class="search-box mt-1">
                     <div class="search-box__container">
-                        <form th:action="@{/agent/newCar}"  method="post" class="search-box__form">
+                        <form th:action="@{/agent/newCar}"  method="post" class="search-box__form create-car">
                             <ul class="list-unstyled search-box__main clearfix">
                                 <li class="search-box__input mb-4">
                                     <div class="form-floating">
                                         <select class="form-select" id="mark" name="mark" th:field="*{idMark}">
-                                            <option th:each="mark, status: *{marks}" th:text="${mark.libelle}" th:value="${mark.id}"></option>
+                                            <option th:each="markWithModelDto, status: *{markWithModelDtos}" th:text="${markWithModelDto.libelle}" th:value="${markWithModelDto.id}"></option>
                                         </select>
                                         <label for="mark" class="form-label">Select mark (select one):</label>
                                     </div>
@@ -56,7 +56,15 @@
                                 </li>
                                 <li class="search-box__input mb-4">
                                     <div class="form-floating mb">
-                                        <select class="form-select" id="fuel" name="fuel" th:field="*{idCarburant}">
+                                        <select class="form-select" id="category" name="category" th:field="*{idCategory}">
+                                            <option th:each="categoryDto: *{categoryDtos}" th:text="${categoryDto.libelle}" th:value="${categoryDto.id}"></option>
+                                        </select>
+                                        <label for="category" class="form-label">Select catègorie (select one):</label>
+                                    </div>
+                                </li>
+                                <li class="search-box__input mb-4">
+                                    <div class="form-floating mb">
+                                        <select class="form-select" id="fuel" name="fuel" th:field="*{idFuel}">
                                             <option th:each="fuelDto: *{fuelDtos}" th:text="${fuelDto.libelle}" th:value="${fuelDto.id}"></option>
                                         </select>
                                         <label for="fuel" class="form-label">Select fuel (select one):</label>
@@ -64,7 +72,7 @@
                                 </li>
                                 <li class="search-box__input mb-4">
                                     <div class="form-floating">
-                                        <select class="form-select" id="nbPlaces" name="nbPlaces" th:field="*{nombrePlaces}">
+                                        <select class="form-select" id="nbPlaces" name="nbPlaces" th:field="*{numberPlaces}">
                                             <option th:each="i : ${#numbers.sequence( 1, nbMaxPlaces)}" th:text="${i}" th:value="${i}" th:selected="${i == 5}? 'selected'" ></option>
                                         </select>
                                         <label for="nbPlaces" class="form-label">Select places number (select one):</label>
@@ -72,64 +80,70 @@
                                 </li>
                                 <li class="search-box__input mb-4">
                                     <div class="form-floating">
-                                        <select class="form-select" id="nbPortes" name="nbPortes" th:field="*{nombrePortes}">
+                                        <select class="form-select" id="numberDoors" name="numberDoors" th:field="*{numberDoors}">
                                             <option value="5" selected>5</option>
                                             <option value="3" >3</option>
                                         </select>
-                                        <label for="nbPortes" class="form-label">Select doors number (select one):</label>
-                                    </div>
-                                </li>
-                                <li class="search-box__input mb-4">
-                                    <div class="form-floating mb">
-                                        <select class="form-select" id="category" name="category" th:field="*{idCategorie}">
-                                            <option th:each="categorieDto: *{categorieDtos}" th:text="${categorieDto.libelle}" th:value="${categorieDto.id}"></option>
-                                        </select>
-                                        <label for="category" class="form-label">Select catègorie (select one):</label>
+                                        <label for="numberDoors" class="form-label">Select doors number (select one):</label>
                                     </div>
                                 </li>
                                 <li class="search-box__input mb-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="matricule" pattern="^[1-9][0-9]{0,4}-[A-Z]-[1-9][0-9]?$" placeholder="Enter matricule" name="matricule" th:field="*{matricule}" required>
-                                        <label for="matricule">Matricule ( XXXXX-A-49)</label>
+                                        <input type="text" class="form-control" id="registrationNumber" pattern="^[1-9][0-9]{0,4}-[A-Z]-[1-9][0-9]?$" placeholder="Enter matricule" name="registrationNumber" th:field="*{registrationNumber}" required>
+                                        <label for="registrationNumber">Matricule ( XXXXX-A-49)</label>
                                     </div>
                                 </li>
                                 <li class="search-box__input mb-4">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="kilometrage" placeholder="Enter kilometrage" min="0" name="kilometrage" th:field="*{kilometrage}" required>
-                                        <label for="kilometrage">Kilometrage</label>
+                                        <input type="number" class="form-control" id="mileage" placeholder="Enter kilometrage" min="0" name="mileage" th:field="*{mileage}" required>
+                                        <label for="mileage">Kilometrage</label>
                                     </div>
                                 </li>
                                 <li class="search-box__input mb-4">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="prixJour" placeholder="Enter prixJour" min="1" name="prixJour" th:field="*{prixJour}" required>
-                                        <label for="prixJour">Prix/Jour</label>
+                                        <input type="number" class="form-control" id="pricePerDay" placeholder="Enter prixJour" min="1" name="pricePerDay" th:field="*{pricePerDay}" required>
+                                        <label for="pricePerDay">Prix/Jour</label>
                                     </div>
                                 </li>
                                 <li class="search-box__input mb-4">
-                                    <input type="text" name="date" placeholder="Select date mise en circulation" id="datepicker" th:field="*{dateCirculation}" required> <!-- th:field="*{dateMiseCirculation}" -->
+                                    <input type="text" name="date" placeholder="Select date mise en circulation" id="datepicker" th:field="*{dateCirculation}" required>
                                     <div class="search-box__icon-box">
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </li>
                             </ul>
-                            <div class="container row d-flex justify-content-around mb-4 bg-white py-2 w-75 m-auto">
-                                <div class="col-8 col-md-5 pt-2">
+                            <div class="container row d-flex justify-content-around my-4 bg-white py-2 w-75 m-auto">
+                                <div class="col-8 col-md-4 pt-2 radio-group">
                                     <div class="form-check form-switch ">
-                                        <input class="form-check-input" type="checkbox" id="android" name="android" value="true" th:field="*{posteAndroid}" checked>
-                                        <label class="form-check-label" for="android">Poste android</label>
+                                        <input class="form-check-input" type="checkbox" id="androidAvailable" name="androidAvailable" value="true" th:field="*{androidAvailable}" checked>
+                                        <label class="form-check-label" for="androidAvailable">Poste android</label>
                                     </div>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="climatisation" name="climatisation" value="true" th:field="*{climatisation}" checked>
-                                        <label class="form-check-label" for="climatisation">Climatisation</label>
+                                        <input class="form-check-input" type="checkbox" id="airConditioning" name="airConditioning" value="true" th:field="*{airConditioning}" checked>
+                                        <label class="form-check-label" for="airConditioning">Climatisation</label>
                                     </div>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="boiteAuto" name="boiteAuto" th:value="true" th:field="*{boiteAuto}" checked>
-                                        <label class="form-check-label" for="boiteAuto">Boite auto</label>
+                                        <input class="form-check-input" type="checkbox" id="autoTransmission" name="autoTransmission" th:value="true" th:field="*{autoTransmission}" checked>
+                                        <label class="form-check-label" for="autoTransmission">Boite auto</label>
                                     </div>
                                 </div>
-                                <div class="col-8 col-md-5">
+                                <div class="col-8 col-md-4 pt-2 radio-group">
+                                    <div class="form-check form-switch ">
+                                        <input class="form-check-input" type="checkbox" id="childSeat" name="childSeat" value="true" th:field="*{childSeat}" checked>
+                                        <label class="form-check-label" for="childSeat">Siège enfant</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="tintedGlass" name="tintedGlass" value="true" th:field="*{tintedGlass}" checked>
+                                        <label class="form-check-label" for="tintedGlass">Verre teinté</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="sunroof" name="sunroof" th:value="true" th:field="*{sunroof}" checked>
+                                        <label class="form-check-label" for="sunroof">Toit ouvrant</label>
+                                    </div>
+                                </div>
+                                <div class="col-8 col-md-4">
                                     <label for="color" class="form-label">Color picker</label>
-                                    <input type="color" class="form-control form-control-color" id="color" value="#563d7c" title="Choose your color" th:field="*{couleur}">
+                                    <input type="color" class="form-control form-control-color" id="color" name="color" value="#563d7c" title="Choose your color" th:field="*{color}">
                                 </div>
                             </div>
                             <div class="w-50 m-auto">

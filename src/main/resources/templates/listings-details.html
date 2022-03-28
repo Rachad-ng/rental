@@ -10,7 +10,7 @@
     <body>
 
     <!-- Dynamic Content Section Start -->
-    <section layout:fragment="content">
+    <section layout:fragment="content" th:object="${listingDetailsCarDto}">
 
         <!--Listing Top Start-->
         <section class="listing-details-top">
@@ -20,7 +20,7 @@
                     <li><span>-</span></li>
                     <li><a th:href="@{/listings}">Listings</a></li>
                     <li><span>-</span></li>
-                    <li class="active"><a href="#">Land Rover Evoque Pure</a></li>
+                    <li class="active"><a href="#" th:text="*{listingModelDto.listingMarkDto.libelle + ' ' + listingModelDto.libelle}"></a></li>
                 </ul>
             </div>
         </section>
@@ -37,193 +37,70 @@
                                     <ul class="bxslider list-unstyled clearfix">
                                         <li>
                                             <div class="listing-details__gallery-sliding-img">
-                                                <img src="/assets/images/resources/listing-details-gallery-img-1.jpg"
-                                                     alt="">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="listing-details__gallery-sliding-img">
-                                                <img src="/assets/images/resources/listing-details-gallery-img-1.jpg"
-                                                     alt="">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="listing-details__gallery-sliding-img">
-                                                <img src="/assets/images/resources/listing-details-gallery-img-1.jpg"
-                                                     alt="">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="listing-details__gallery-sliding-img">
-                                                <img src="/assets/images/resources/listing-details-gallery-img-1.jpg"
-                                                     alt="">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="listing-details__gallery-sliding-img">
-                                                <img src="/assets/images/resources/listing-details-gallery-img-1.jpg"
-                                                     alt="">
+                                                <img th:src="@{'/assets/images/resources/cars/standard/' + *{listingModelDto.image} + '.jpg'}"
+                                                     th:alt="${'Rental car ' + listingDetailsCarDto.listingModelDto.listingMarkDto.libelle + ' ' + listingDetailsCarDto.listingModelDto.libelle}">
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="slider-pager">
-                                    <ul class="listing-details__thumb-box list-unstyled">
-                                        <li>
-                                            <a class="active" data-slide-index="0" href="#">
-                                                <div class="listing-details__img-holder">
-                                                    <img src="/assets/images/resources/listing-details-tham-img-1.jpg"
-                                                         alt="">
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="active" data-slide-index="1" href="#">
-                                                <div class="listing-details__img-holder">
-                                                    <img src="/assets/images/resources/listing-details-tham-img-2.jpg"
-                                                         alt="">
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="active" data-slide-index="2" href="#">
-                                                <div class="listing-details__img-holder">
-                                                    <img src="/assets/images/resources/listing-details-tham-img-3.jpg"
-                                                         alt="">
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="active" data-slide-index="3" href="#">
-                                                <div class="listing-details__img-holder">
-                                                    <img src="/assets/images/resources/listing-details-tham-img-4.jpg"
-                                                         alt="">
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="listing-details__desc">
-                                <h2 class="listing-details__title">Description</h2>
-                                <p class="listing-details__text-1">Aliquam lorem ante, dapibus in, viverra quis, feugiat
-                                    a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Etiam
-                                    ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                                    rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero,
-                                    adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-                                    hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
-                                    ut libero venenatis faucibus.</p>
-                                <p class="listing-details__text-2">Nullam quis ante tiam sit amet orci eget eros
-                                    faucibus tincidunt. Donec quam felis, ultricies pellentesque eu, pretium quis, sem.
-                                    Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet vulputate
-                                    eget, arcu. In enim justo, rhoncus ut imperdiet venenatis vitae, justo.</p>
                             </div>
                             <div class="listing-details__features">
                                 <div class="row">
                                     <div class="col-xl-4 col-lg-4 col-md-4">
                                         <ul class="list-unstyled listing-details__features-list">
-                                            <li>
+                                            <li th:if="*{airConditioning}">
                                                 <div class="icon">
                                                     <i class="fa fa-check"></i>
                                                 </div>
                                                 <div class="text">
-                                                    <p>Air Conditioning</p>
+                                                    <p>Climatiosation</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li th:if="*{androidAvailable}">
                                                 <div class="icon">
                                                     <i class="fa fa-check"></i>
                                                 </div>
                                                 <div class="text">
-                                                    <p>Leather Seats</p>
+                                                    <p>Systeme Android</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li th:if="*{autoTransmission}">
                                                 <div class="icon">
                                                     <i class="fa fa-check"></i>
                                                 </div>
                                                 <div class="text">
-                                                    <p>Music System</p>
+                                                    <p>Boite automatique</p>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-xl-4 col-lg-4 col-md-4">
                                         <ul class="list-unstyled listing-details__features-list">
-                                            <li>
+                                            <li th:if="*{childSeat}">
                                                 <div class="icon">
                                                     <i class="fa fa-check"></i>
                                                 </div>
                                                 <div class="text">
-                                                    <p>Air Conditioning</p>
+                                                    <p>Siège enfant</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li th:if="*{tintedGlass}">
                                                 <div class="icon">
                                                     <i class="fa fa-check"></i>
                                                 </div>
                                                 <div class="text">
-                                                    <p>Leather Seats</p>
+                                                    <p>Verre teinté</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li th:if="*{sunroof}">
                                                 <div class="icon">
                                                     <i class="fa fa-check"></i>
                                                 </div>
                                                 <div class="text">
-                                                    <p>Music System</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-4">
-                                        <ul class="list-unstyled listing-details__features-list mar-b-0">
-                                            <li>
-                                                <div class="icon">
-                                                    <i class="fa fa-check"></i>
-                                                </div>
-                                                <div class="text">
-                                                    <p>Air Conditioning</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="icon">
-                                                    <i class="fa fa-check"></i>
-                                                </div>
-                                                <div class="text">
-                                                    <p>Leather Seats</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="icon">
-                                                    <i class="fa fa-check"></i>
-                                                </div>
-                                                <div class="text">
-                                                    <p>Music System</p>
+                                                    <p>Toit ouvrant</p>
                                                 </div>
                                             </li>
                                         </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="listing-details__store-policies">
-                                <h2 class="listing-details__store-policies-title">Store Policies</h2>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <div
-                                                class="listing-details__store-policies-single listing-details__store-policies-single-left">
-                                            <p class="listing-details__store-policies-text">Making this the first true
-                                                genertor Internet Lorem Ipsum is not simply random text If you are going
-                                                to use a passage Quis ipsum suspendisseviverra</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <div
-                                                class="listing-details__store-policies-single listing-details__store-policies-single-right">
-                                            <p class="listing-details__store-policies-text">Making this the first true
-                                                genertor Internet Lorem Ipsum is not simply random text If you are going
-                                                to use a passage Quis ipsum suspendisseviverra</p>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -428,9 +305,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="listing-details__calendar">
-                                <div id="datepicker-inline"></div><!-- /#datepicker-inline -->
-                            </div>
                             <div class="listing-details__tag">
                                 <h3 class="listing-details__tag-title">Tags</h3>
                                 <div class="listing-details__tag-list">
@@ -439,101 +313,11 @@
                                     <a href="#">Listings</a>
                                 </div>
                             </div>
-                            <div class="listing-details__reviews-box">
-                                <h3 class="listing-details__reviews-title">2 Reviews</h3>
-                                <div class="listing-details__reviews-single">
-                                    <div class="listing-details__reviews-img">
-                                        <img src="/assets/images/resources/listing-details-review-img-1.png" alt="">
-                                    </div>
-                                    <div class="listing-details__reviews-content">
-                                        <div class="listing-details__reviews-content-top">
-                                            <div class="listing-details__reviews-content-top-title">
-                                                <h3>David Cooper</h3>
-                                            </div>
-                                            <div class="listing-details__reviews-content-top-rating">
-                                                <ul
-                                                        class="list-unstyled listing-details__reviews-content-top-rating-box">
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <p class="listing-details__reviews-content-text">Lorem ipsum is simply free text
-                                            used by copytyping refreshing. Neque porro est qui dolorem ipsum quia quaed
-                                            inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="listing-details__reviews-single">
-                                    <div class="listing-details__reviews-img">
-                                        <img src="/assets/images/resources/listing-details-review-img-2.png" alt="">
-                                    </div>
-                                    <div class="listing-details__reviews-content">
-                                        <div class="listing-details__reviews-content-top">
-                                            <div class="listing-details__reviews-content-top-title">
-                                                <h3>Rose Albert</h3>
-                                            </div>
-                                            <div class="listing-details__reviews-content-top-rating">
-                                                <ul
-                                                        class="list-unstyled listing-details__reviews-content-top-rating-box">
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <p class="listing-details__reviews-content-text">Lorem ipsum is simply free text
-                                            used by copytyping refreshing. Neque porro est qui dolorem ipsum quia quaed
-                                            inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="listing-details__add-review">
-                                <h3 class="listing-details__add-review-title">Add Review</h3>
-                                <ul class="list-unstyled listing-details__add-review-rating">
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                </ul>
-                                <form action="/assets/inc/sendemail.php"
-                                      class="listing-details__add-review-form contact-form-validated"
-                                      novalidate="novalidate">
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <div class="listing-details__add-review-input-box">
-                                                <input type="text" placeholder="Your name" name="name">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="listing-details__add-review-input-box">
-                                                <input type="email" placeholder="Email address" name="email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-                                            <div class="listing-details__add-review-input-box">
-                                                <textarea name="message" placeholder="Write message"></textarea>
-                                            </div>
-                                            <button type="submit" class="thm-btn listing-details__add-review-btn">Submit
-                                                Review</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-5">
                         <div class="listing-details__right">
-                            <h3 class="listing-deails__right-title">Land Rover Evoque Pure</h3>
+                            <h3 class="listing-deails__right-title" th:text="*{listingModelDto.listingMarkDto.libelle + ' ' + listingModelDto.libelle}"></h3>
                             <ul class="list-unstyled listing-deails__right-rating">
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
@@ -543,10 +327,10 @@
                             </ul>
                             <div class="listing-details__right-price-box">
                                 <div class="listing-details__right-price-icon">
-                                    <span>$</span>
+                                    <span>DH</span>
                                 </div>
                                 <div class="listing-details__right-price-text">
-                                    <p>/perday</p>
+                                    <p th:text="*{pricePerDay + '/Jour'}"></p>
                                 </div>
                             </div>
                             <div class="listing-details__contact-info">
@@ -555,17 +339,16 @@
                                         <span class="icon-phone-call"></span>
                                     </div>
                                     <div class="text">
-                                        <h5 data-toggle-number="00 666 888 000" data-number="00 666 888 0...">00 666 888
-                                            0...</h5>
-                                        <p>Show Phone Number</p>
+                                        <h5 th:data-toggle-number="*{agentDto.tel}" th:data-number="*{agentDto.hiddenTelNumber}" th:text="*{agentDto.hiddenTelNumber}"></h5>
+                                        <p>Afficher le numero</p>
                                     </div>
                                 </a>
-                                <a href="mailto:needhelp@company.com" class="listing-details__contact-info-message">
+                                <a th:href="@{${'mailto:' + listingDetailsCarDto.agentDto.email}}" class="listing-details__contact-info-message">
                                     <div class="icon">
                                         <span class="icon-mail"></span>
                                     </div>
                                     <div class="text">
-                                        <p>Send Message</p>
+                                        <p>Envoyer Message</p>
                                     </div>
                                 </a>
                             </div>
@@ -577,18 +360,18 @@
                             <div class="listing-details__features-box">
                                 <div class="listing-details__features-box-single">
                                     <div class="listing-details__features-box-left">
-                                        <p>Make:</p>
+                                        <p>Marque:</p>
                                     </div>
                                     <div class="listing-details__features-box-right">
-                                        <span>Land Rover</span>
+                                        <span th:text="*{listingModelDto.listingMarkDto.libelle}"></span>
                                     </div>
                                 </div>
                                 <div class="listing-details__features-box-single">
                                     <div class="listing-details__features-box-left">
-                                        <p>Model:</p>
+                                        <p>Modèle:</p>
                                     </div>
                                     <div class="listing-details__features-box-right">
-                                        <span>Evoupe</span>
+                                        <span th:text="*{listingModelDto.libelle}"></span>
                                     </div>
                                 </div>
                                 <div class="listing-details__features-box-single">
@@ -596,71 +379,39 @@
                                         <p>Category:</p>
                                     </div>
                                     <div class="listing-details__features-box-right">
-                                        <span>Sedan Car</span>
+                                        <span th:text="${listingDetailsCarDto.listingCategoryDto.libelle}"></span>
                                     </div>
                                 </div>
                                 <div class="listing-details__features-box-single">
                                     <div class="listing-details__features-box-left">
-                                        <p>Drive Type:</p>
+                                        <p>Année:</p>
                                     </div>
                                     <div class="listing-details__features-box-right">
-                                        <span>AWD/4WD</span>
+                                        <span th:text="*{circulationYear}"></span>
                                     </div>
                                 </div>
                                 <div class="listing-details__features-box-single">
                                     <div class="listing-details__features-box-left">
-                                        <p>Transmission:</p>
+                                        <p>Type de carburant:</p>
                                     </div>
                                     <div class="listing-details__features-box-right">
-                                        <span>Automatic</span>
+                                        <span th:text="*{listingFuelDto.libelle}"></span>
                                     </div>
                                 </div>
                                 <div class="listing-details__features-box-single">
                                     <div class="listing-details__features-box-left">
-                                        <p>Condition:</p>
+                                        <p>Nombre de places:</p>
                                     </div>
                                     <div class="listing-details__features-box-right">
-                                        <span>Used</span>
+                                        <span th:text="*{numberOfPlaces}"></span>
                                     </div>
                                 </div>
                                 <div class="listing-details__features-box-single">
                                     <div class="listing-details__features-box-left">
-                                        <p>Year:</p>
+                                        <p>Nombre de portes:</p>
                                     </div>
                                     <div class="listing-details__features-box-right">
-                                        <span>2020</span>
-                                    </div>
-                                </div>
-                                <div class="listing-details__features-box-single">
-                                    <div class="listing-details__features-box-left">
-                                        <p>Fuel Type:</p>
-                                    </div>
-                                    <div class="listing-details__features-box-right">
-                                        <span>Petrol</span>
-                                    </div>
-                                </div>
-                                <div class="listing-details__features-box-single">
-                                    <div class="listing-details__features-box-left">
-                                        <p>Engine Size:</p>
-                                    </div>
-                                    <div class="listing-details__features-box-right">
-                                        <span>4.0L</span>
-                                    </div>
-                                </div>
-                                <div class="listing-details__features-box-single">
-                                    <div class="listing-details__features-box-left">
-                                        <p>Doors:</p>
-                                    </div>
-                                    <div class="listing-details__features-box-right">
-                                        <span>5-door</span>
-                                    </div>
-                                </div>
-                                <div class="listing-details__features-box-single">
-                                    <div class="listing-details__features-box-left">
-                                        <p>Cylinders:</p>
-                                    </div>
-                                    <div class="listing-details__features-box-right">
-                                        <span>6</span>
+                                        <span th:text="*{numberOfDoors}"></span>
                                     </div>
                                 </div>
                                 <div class="listing-details__features-box-single">
@@ -668,57 +419,12 @@
                                         <p>Color:</p>
                                     </div>
                                     <div class="listing-details__features-box-right">
-                                        <span>Silver</span>
+                                        <span th:style="${'background-color:' + listingDetailsCarDto.color + '; color: ' + listingDetailsCarDto.color}">Lorem</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="listing-details__author">
-                                <div class="listing-details__author-img">
-                                    <img src="/assets/images/resources/listing-details-author-img.png" alt="">
-                                </div>
-                                <div class="listing-details__author-details">
-                                    <div class="listing-details__author-details-name">
-                                        <h3>Mike Hardson</h3>
-                                    </div>
-                                    <div class="listing-details__author-details-rating-box">
-                                        <ul class="list-unstyled listing-details__author-details-rating">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="listing-details__author-contact-box">
-                                    <ul class="list-unstyled listing-details__author-contact-list">
-                                        <li>
-                                            <div class="icon">
-                                                <i class="fas fa-phone-square-alt"></i>
-                                            </div>
-                                            <div class="text">
-                                                <p><a href="tel:00-666-888-0000">00 666 888 0000</a></p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="icon">
-                                                <i class="fas fa-envelope"></i>
-                                            </div>
-                                            <div class="text">
-                                                <p><a href="mailto:needhelp@company.com">needhelp@company.com</a></p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="listing-details__author-social-list">
-                                    <a href="#"><i class="fab fa-twitter"></i></a>
-                                    <a href="#" class="clr-fb"><i class="fab fa-facebook"></i></a>
-                                    <a href="#" class="clr-dri"><i class="fab fa-dribbble"></i></a>
-                                    <a href="#" class="clr-ins"><i class="fab fa-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="listing-details__ask-question">
-                                <a href="#" class="listing-details__ask-question-btn">Ask Question</a>
+                            <div class="listing-details__calendar">
+                                <div id="datepicker-inline"></div><!-- /#datepicker-inline -->
                             </div>
                         </div>
                     </div>
@@ -734,66 +440,23 @@
                     <span class="section-title__tagline">Browse Hot Offers</span>
                     <h2 class="section-title__title">Similar Listings</h2>
                 </div>
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4">
+                <div class="row" th:object="${similarListingCarDtos}">
+                    <div class="col-xl-4 col-lg-4" th:each="similarListingCarDto : ${similarListingCarDtos}">
                         <!--Similar Listings Single-->
                         <div class="similar-listings__single">
                             <div class="similar-listings__img">
-                                <img src="/assets/images/resources/similar-listings-img-1.jpg" alt="">
+                                <img th:src="@{${'/assets/images/resources/cars/minimized/' + similarListingCarDto.listingModelDto.image + '-min.jpg'}}" alt="">
                                 <div class="similar-listings__icon">
                                     <i class="fas fa-heart"></i>
                                 </div>
                             </div>
                             <div class="similar-listings__content">
-                                <h5 class="similar-listings__sub-title">Sedan Car</h5>
-                                <h3 class="similar-listings__title">Land Rover Evoque Pure</h3>
-                                <p class="similar-listings__price"><span>$32 </span>/perday</p>
+                                <h5 class="similar-listings__sub-title" th:text="${similarListingCarDto.listingCategoryDto.libelle}"></h5>
+                                <h3 class="similar-listings__title" th:text="${similarListingCarDto.listingModelDto.listingMarkDto.libelle + ' ' + similarListingCarDto.listingModelDto.libelle}"></h3>
+                                <p class="similar-listings__price"><span th:text="${similarListingCarDto.pricePerDay + 'DH'}"> </span>/Jour</p>
                                 <ul class="list-unstyled similar-listings__details">
-                                    <li><a href="#">2016 Petrol</a></li>
-                                    <li><a href="#">Air Condition</a></li>
-                                    <li><a href="#">Auto</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4">
-                        <!--Similar Listings Single-->
-                        <div class="similar-listings__single">
-                            <div class="similar-listings__img">
-                                <img src="/assets/images/resources/similar-listings-img-2.jpg" alt="">
-                                <div class="similar-listings__icon">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                            </div>
-                            <div class="similar-listings__content">
-                                <h5 class="similar-listings__sub-title">Sedan Car</h5>
-                                <h3 class="similar-listings__title">Land Rover Evoque Pure</h3>
-                                <p class="similar-listings__price"><span>$32 </span>/perday</p>
-                                <ul class="list-unstyled similar-listings__details">
-                                    <li><a href="#">2016 Petrol</a></li>
-                                    <li><a href="#">Air Condition</a></li>
-                                    <li><a href="#">Auto</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4">
-                        <!--Similar Listings Single-->
-                        <div class="similar-listings__single">
-                            <div class="similar-listings__img">
-                                <img src="/assets/images/resources/similar-listings-img-3.jpg" alt="">
-                                <div class="similar-listings__icon">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                            </div>
-                            <div class="similar-listings__content">
-                                <h5 class="similar-listings__sub-title">Sedan Car</h5>
-                                <h3 class="similar-listings__title">Land Rover Evoque Pure</h3>
-                                <p class="similar-listings__price"><span>$32 </span>/perday</p>
-                                <ul class="list-unstyled similar-listings__details">
-                                    <li><a href="#">2016 Petrol</a></li>
-                                    <li><a href="#">Air Condition</a></li>
-                                    <li><a href="#">Auto</a></li>
+                                    <li><a href="#" th:text="${similarListingCarDto.circulationYear + ' ' + similarListingCarDto.listingFuelDto.libelle}"></a></li>
+                                    <li><a href="#" th:text="${similarListingCarDto.autoTransmission}? 'Auto' : 'Manuel'"></a></li>
                                 </ul>
                             </div>
                         </div>

@@ -1,11 +1,12 @@
 package com.negra.location.service.implementations;
 
-import com.negra.location.dto.ModelDto;
+import com.negra.location.dto.MarkDto;
+import com.negra.location.dto.ModelWithImageDto;
 import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
 import com.negra.location.model.Mark;
 import com.negra.location.model.Model;
-import com.negra.location.repository.MarqueRepository;
+import com.negra.location.repository.MarkRepository;
 import com.negra.location.repository.ModelRepository;
 import com.negra.location.service.interfaces.IModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ModelService implements IModelService {
     @Autowired
     private ModelRepository modelRepository;
     @Autowired
-    private MarqueRepository marqueRepository;
+    private MarkRepository markRepository;
 
     public void createModel(Model model, Mark mark){
         mark.addModel(model);
@@ -55,18 +56,25 @@ public class ModelService implements IModelService {
         }
     }
 
-    public  List<ModelDto> getByMark(long idMark){
-        List<ModelDto> resultat = null;
-        Optional<Mark> mark = marqueRepository.findById(idMark);
+    public  List<ModelWithImageDto> getByMark(long idMark){
+        List<ModelWithImageDto> resultat = null;
+        Optional<Mark> mark = markRepository.findById(idMark);
         if(mark.isPresent()){
 
             Set<Model> modelSet = mark.get().getModelSet();
             List<Model> models = new ArrayList<>(modelSet).stream().sorted(Comparator.comparing(Model::getLibelle)).collect(Collectors.toList());
-            List<ModelDto> modelDtos = new ArrayList<>();
+            List<ModelWithImageDto> modelWithImageDtos = new ArrayList<>();
             for (Model model: models)
-                modelDtos.add(new ModelDto(model.getId(), model.getLibelle()));
+                modelWithImageDtos.add(
+                        new ModelWithImageDto(
+                                model.getId(),
+                                model.getLibelle(),
+                                model.getImage(),
+                                new MarkDto(
+                                        model.getMark().getId(),
+                                        model.getMark().getLibelle())));
 
-            resultat = modelDtos;
+            resultat = modelWithImageDtos;
         }else
             throw new DataNotFoundException(ERROR_MARK_NOT_FOUND);
 

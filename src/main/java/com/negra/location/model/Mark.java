@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static com.negra.location.utility.ErrorMessage.ERROR_MARK_LIBELLE;
 import static com.negra.location.utility.ErrorMessage.ERROR_SEND_DATA;
-import static com.negra.location.utility.Pattern.PATTERN_MARQUE;
+import static com.negra.location.utility.Pattern.PATTERN_MARk;
 
 @Data
 @Entity
@@ -24,7 +24,7 @@ public class Mark implements Serializable {
     private Long id;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_MARQUE, message = ERROR_MARK_LIBELLE)
+    @Pattern(regexp = PATTERN_MARk, message = ERROR_MARK_LIBELLE)
     @Column(nullable = false)
     private String libelle;
 

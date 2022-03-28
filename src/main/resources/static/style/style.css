@@ -20,12 +20,34 @@ header.clearfix {
 
 /* Creation car page Style Start */
 
-.form-floating .form-select, .form-floating .form-control, #matricule, #datepicker {
+.form-floating .form-select, .form-floating .form-control, #registrationNumber, #datepicker {
     height: 4rem;
 }
 
 .search-box__input {
     margin-right: 10px;
+}
+
+@media screen and (max-width: 1202px) {
+    .create-car li {
+        margin: auto !important;
+    }
+
+    .create-car .form-floating {
+        margin-bottom: 2rem;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .radio-group {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .radio-group {
+        width: 70%;
+    }
 }
 
 /* Creation car page Style End */

@@ -4,7 +4,7 @@
       layout:decorate="homeLayout">
 
     <head>
-        <title>Home One || Entox || Entox HTML Template For Car Business</title>
+        <title>Home</title>
     </head>
     <body>
         <section layout:fragment="content">
@@ -51,7 +51,7 @@
                                 </div>
                             </li>
                             <li class="search-box__input">
-                                <button type="submit" class="search-box__btn">Find Your Car</button>
+                                <button type="submit" class="search-box__btn">Trouver</button>
                             </li>
                         </ul>
                     </form>
@@ -63,15 +63,15 @@
             <section class="premium-ride">
                 <div class="container">
                     <div class="section-title text-center">
-                        <span class="section-title__tagline">Meet the Right Services</span>
-                        <h2 class="section-title__title">Ride Premium Cars</h2>
+                        <span class="section-title__tagline">Rencontrez les bons services</span>
+                        <h2 class="section-title__title">Roulez en voiture premium</h2>
                     </div>
                     <div class="row">
                         <div class="col-xl-12">
                             <ul class="list-unstyled premium-ride-box">
                                 <li class="premium-ride__single wow fadeInUp" data-wow-delay="100ms">
                                     <div class="premium-ride__img">
-                                        <img src="/assets/images/resources/premium-ride-img-1.png" alt="">
+                                        <img src="/assets/images/resources/cars/home/businessCar.jpg" alt="Business Car rental">
                                     </div>
                                     <h3 class="premium-ride__title">Business <br>Rentals</h3>
                                     <p class="premium-ride__text">Trillion the carbon in our apple pies circumnavigated
@@ -79,7 +79,7 @@
                                 </li>
                                 <li class="premium-ride__single wow fadeInUp" data-wow-delay="200ms">
                                     <div class="premium-ride__img">
-                                        <img src="/assets/images/resources/premium-ride-img-2.png" alt="">
+                                        <img src="/assets/images/resources/cars/home/luxuryCar.jpg" alt="Luxury Car rental">
                                     </div>
                                     <h3 class="premium-ride__title">Luxury <br>Rentals</h3>
                                     <p class="premium-ride__text">Trillion the carbon in our apple pies circumnavigated
@@ -87,7 +87,7 @@
                                 </li>
                                 <li class="premium-ride__single wow fadeInUp" data-wow-delay="300ms">
                                     <div class="premium-ride__img">
-                                        <img src="/assets/images/resources/premium-ride-img-3.png" alt="">
+                                        <img src="/assets/images/resources/cars/home/travelingCar.jpg" alt="Traveling Car rental">
                                     </div>
                                     <h3 class="premium-ride__title">Traveling <br>Rentals</h3>
                                     <p class="premium-ride__text">Trillion the carbon in our apple pies circumnavigated
@@ -106,79 +106,42 @@
                     <div class="row">
                         <div class="col-xl-6 col-lg-8">
                             <div class="section-title text-left">
-                                <span class="section-title__tagline">People Love the Most</span>
-                                <h2 class="section-title__title">Featured Rent Cars</h2>
+                                <span class="section-title__tagline">Nouvelles annonces</span>
+                                <h2 class="section-title__title">Offres imbattables</h2>
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-4">
                             <div class="featured-one__btn-box">
-                                <a href="#" class="thm-btn featured-one__btn">View All Cars</a>
+                                <a th:href="@{/listings}" class="thm-btn featured-one__btn">Les annonces</a>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" th:object="${newCarAndModelWithImageDtos}">
                         <div class="col-xl-6 col-lg-6">
-                            <div class="featured-one__left wow fadeInLeft" data-wow-duration="1500ms">
-                                <div class="featured-one__left-img">
-                                    <img src="/assets/images/resources/featured-one-img-1.jpg" alt="">
-                                    <div class="featured-one__left-img-content">
-                                        <h2 class="featured-one__left-img-title"><a href="listings-details.html">Land Rover
-                                            Evoque Pure</a></h2>
-                                        <p class="featured-one__left-car-price"><span>$32</span> /perday</p>
+                            <a th:href="@{/listingsDetails(id = ${newCarAndModelWithImageDtos[0].id})}">
+                                <div class="featured-one__left wow fadeInLeft" data-wow-duration="1500ms">
+                                    <div class="featured-one__left-img">
+                                        <img th:src="@{${'/assets/images/resources/cars/home/' + newCarAndModelWithImageDtos[0].modelWithImageDto.image + '.jpg'}}" th:alt="${'Rental car ' + newCarAndModelWithImageDtos[0].modelWithImageDto.libelle}">
+                                        <div class="featured-one__left-img-content">
+                                            <h2 class="featured-one__left-img-title"><a href="listings-details.html" th:text="${newCarAndModelWithImageDtos[0].modelWithImageDto.markDto.libelle + ' ' + newCarAndModelWithImageDtos[0].modelWithImageDto.libelle}"></a></h2>
+                                            <p class="featured-one__left-car-price"><span th:text="${newCarAndModelWithImageDtos[0].pricePerDay + 'DH'}"></span> /Jour</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6">
+                                <div class="col-xl-6 col-lg-6 col-md-6" th:each="newCarAndModelWithImageDto, status : ${newCarAndModelWithImageDtos}" th:if="${status.count > 1}">
                                     <!--Featured One Single-->
-                                    <div class="featured-one__single wow fadeInUp" data-wow-delay="100ms">
+                                    <div class="featured-one__single wow fadeInUp" th:data-wow-delay="${(100 * (status.count - 1)) + 'ms'}">
                                         <div class="featured-one__img">
-                                            <img src="/assets/images/resources/featured-one-img-2.jpg" alt="">
+                                            <img th:src="@{${'/assets/images/resources/cars/home/' + newCarAndModelWithImageDto.modelWithImageDto.image + '.jpg'}}" th:alt="${'Rental car ' + newCarAndModelWithImageDto.modelWithImageDto.libelle}">
                                             <div class="featured-one__img-content">
-                                                <h3 class="featured-one__img-content-title"><a
-                                                        href="listings-details.html">Toyota Prius Auto</a></h3>
-                                                <p class="featured-one__img-content-car-price"><span>$32</span> /perday</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6">
-                                    <!--Featured One Single-->
-                                    <div class="featured-one__single wow fadeInUp" data-wow-delay="200ms">
-                                        <div class="featured-one__img">
-                                            <img src="/assets/images/resources/featured-one-img-3.jpg" alt="">
-                                            <div class="featured-one__img-content">
-                                                <h3 class="featured-one__img-content-title"><a
-                                                        href="listings-details.html">Toyota Prius Auto</a></h3>
-                                                <p class="featured-one__img-content-car-price"><span>$32</span> /perday</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6">
-                                    <!--Featured One Single-->
-                                    <div class="featured-one__single wow fadeInUp" data-wow-delay="300ms">
-                                        <div class="featured-one__img">
-                                            <img src="/assets/images/resources/featured-one-img-4.jpg" alt="">
-                                            <div class="featured-one__img-content">
-                                                <h3 class="featured-one__img-content-title"><a
-                                                        href="listings-details.html">Toyota Prius Auto</a></h3>
-                                                <p class="featured-one__img-content-car-price"><span>$32</span> /perday</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6">
-                                    <!--Featured One Single-->
-                                    <div class="featured-one__single wow fadeInUp" data-wow-delay="400ms">
-                                        <div class="featured-one__img">
-                                            <img src="/assets/images/resources/featured-one-img-5.jpg" alt="">
-                                            <div class="featured-one__img-content">
-                                                <h3 class="featured-one__img-content-title"><a
-                                                        href="listings-details.html">Toyota Prius Auto</a></h3>
-                                                <p class="featured-one__img-content-car-price"><span>$32</span> /perday</p>
+                                                <h3 class="featured-one__img-content-title">
+                                                    <a th:href="@{/listingsDetails(id = ${newCarAndModelWithImageDto.id})}" th:text="${newCarAndModelWithImageDto.modelWithImageDto.markDto.libelle + ' ' + newCarAndModelWithImageDto.modelWithImageDto.libelle}"></a>
+                                                </h3>
+                                                <p class="featured-one__img-content-car-price"><span th:text="${newCarAndModelWithImageDto.pricePerDay + 'DH'}"></span> /Jour</p>
                                             </div>
                                         </div>
                                     </div>
@@ -191,105 +154,75 @@
             <!--Featured One End-->
 
             <!--Explore Car Start-->
-            <section class="explore-car">
+            <section class="explore-car" th:object="${listingCarDtos}">
                 <div class="explore-car__container">
                     <div class="section-title text-center">
                         <span class="section-title__tagline">Browse Hot Offers</span>
                         <h2 class="section-title__title">Explore Car Range</h2>
                     </div>
                     <div class="row">
-                        <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
+                        <div th:each="bestOffreCarDto, status : ${bestOffreCarDtos}" class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" th:data-wow-delay="${(100 * status.count) + 'ms'}">
                             <!--Explore Car Single-->
-                            <div class="explore-car__single">
-                                <div class="explore-car__img">
-                                    <img src="/assets/images/resources/explore-car-img-1.jpg" alt="">
-                                    <div class="explore-car__icon">
-                                        <i class="far fa-heart"></i>
+                            <a th:href="@{/listingsDetails(id = ${bestOffreCarDto.id})}">
+                                <div class="explore-car__single">
+                                    <div class="explore-car__img">
+                                        <img th:src="${'/assets/images/resources/cars/minimized/' + bestOffreCarDto.listingModelDto.image + '-min.jpg'}" alt="">
+                                        <div class="explore-car__icon">
+                                            <i class="far fa-heart"></i>
+                                        </div>
+                                    </div>
+                                    <div class="explore-car__content">
+                                        <h5 class="explore-car__sub-title" th:text="${bestOffreCarDto.listingCategoryDto.libelle}"></h5>
+                                        <h3 class="explore-car__title"><a th:href="@{/listingsDetails(id = ${bestOffreCarDto.id})}" th:text="${bestOffreCarDto.listingModelDto.listingMarkDto.libelle + ' ' + bestOffreCarDto.listingModelDto.libelle}"></a></h3>
+                                        <p class="explore-car__price"><span th:text="${bestOffreCarDto.pricePerDay + 'DH'}"> </span>/Jour</p>
+                                        <ul class="list-unstyled explore-car__details">
+                                            <li><a th:href="@{/listingsDetails(id = ${bestOffreCarDto.id})}" th:text="${bestOffreCarDto.circulationYear + ' ' + bestOffreCarDto.listingFuelDto.libelle}"></a></li>
+                                            <li><a th:href="@{/listingsDetails(id = ${bestOffreCarDto.id})}" th:text="${bestOffreCarDto.autoTransmission}? 'Auto' : 'Manuel'"></a></li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="explore-car__content">
-                                    <h5 class="explore-car__sub-title">Sedan Car</h5>
-                                    <h3 class="explore-car__title"><a href="listings-details.html">Land Rover Evoque
-                                        Pure</a></h3>
-                                    <p class="explore-car__price"><span>$32 </span>/perday</p>
-                                    <ul class="list-unstyled explore-car__details">
-                                        <li><a href="#">2016 Petrol</a></li>
-                                        <li><a href="#">Air Condition</a></li>
-                                        <li><a href="#">Auto</a></li>
-                                    </ul>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Explore Car End-->
+
+            <!--Download Start-->
+            <section class="download">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="download__content">
+                                <p class="download__text">Get our mobile app for easy and convenient usage</p>
+                                <h2 class="download__title">Download Our Application</h2>
+                                <div class="download__btns">
+                                    <div class="download__btn-1">
+                                        <a href="#">
+                                            <i class="fa fa-play"></i>
+                                            <p><span>Get in</span><br>Google Play</p>
+                                        </a>
+                                    </div>
+                                    <div class="download__btn-1 download__btn-2">
+                                        <a href="#">
+                                            <i class="fab fa-apple"></i>
+                                            <p><span>Get in</span><br>Play Store</p>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="200ms">
-                            <!--Explore Car Single-->
-                            <div class="explore-car__single">
-                                <div class="explore-car__img">
-                                    <img src="/assets/images/resources/explore-car-img-2.jpg" alt="">
-                                    <div class="explore-car__icon">
-                                        <i class="far fa-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="explore-car__content">
-                                    <h5 class="explore-car__sub-title">Sedan Car</h5>
-                                    <h3 class="explore-car__title"><a href="listings-details.html">Land Rover Evoque
-                                        Pure</a></h3>
-                                    <p class="explore-car__price"><span>$32 </span>/perday</p>
-                                    <ul class="list-unstyled explore-car__details">
-                                        <li><a href="#">2016 Petrol</a></li>
-                                        <li><a href="#">Air Condition</a></li>
-                                        <li><a href="#">Auto</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="300ms">
-                            <!--Explore Car Single-->
-                            <div class="explore-car__single">
-                                <div class="explore-car__img">
-                                    <img src="/assets/images/resources/explore-car-img-3.jpg" alt="">
-                                    <div class="explore-car__icon">
-                                        <i class="far fa-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="explore-car__content">
-                                    <h5 class="explore-car__sub-title">Sedan Car</h5>
-                                    <h3 class="explore-car__title"><a href="listings-details.html">Land Rover Evoque
-                                        Pure</a></h3>
-                                    <p class="explore-car__price"><span>$32 </span>/perday</p>
-                                    <ul class="list-unstyled explore-car__details">
-                                        <li><a href="#">2016 Petrol</a></li>
-                                        <li><a href="#">Air Condition</a></li>
-                                        <li><a href="#">Auto</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms">
-                            <!--Explore Car Single-->
-                            <div class="explore-car__single">
-                                <div class="explore-car__img">
-                                    <img src="/assets/images/resources/explore-car-img-4.jpg" alt="">
-                                    <div class="explore-car__icon">
-                                        <i class="far fa-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="explore-car__content">
-                                    <h5 class="explore-car__sub-title">Sedan Car</h5>
-                                    <h3 class="explore-car__title"><a href="listings-details.html">Land Rover Evoque
-                                        Pure</a></h3>
-                                    <p class="explore-car__price"><span>$32 </span>/perday</p>
-                                    <ul class="list-unstyled explore-car__details">
-                                        <li><a href="#">2016 Petrol</a></li>
-                                        <li><a href="#">Air Condition</a></li>
-                                        <li><a href="#">Auto</a></li>
-                                    </ul>
+                        <div class="col-xl-4 wow fadeInRight" data-wow-duration="1500ms">
+                            <div class="download__screen">
+                                <div class="download__screen-image">
+                                    <img src="/assets/images/resources/download-screen-img.png" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <!--Explore Car End-->
+            <!--Download End-->
 
             <!--Rent a Car Start-->
             <section class="rent-car">
@@ -311,7 +244,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-lg-6">
+                        <div class="col-xl-6 col-lg-6 pt-5">
                             <div class="rent-car__right">
                                 <div class="section-title text-left">
                                     <span class="section-title__tagline">Get More Information</span>
@@ -355,237 +288,6 @@
                 </div>
             </section>
             <!--Rent a Car End-->
-
-            <!--Download Start-->
-            <section class="download">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-8">
-                            <div class="download__content">
-                                <p class="download__text">Get our mobile app for easy and convenient usage</p>
-                                <h2 class="download__title">Download Our Application</h2>
-                                <div class="download__btns">
-                                    <div class="download__btn-1">
-                                        <a href="#">
-                                            <i class="fa fa-play"></i>
-                                            <p><span>Get in</span><br>Google Play</p>
-                                        </a>
-                                    </div>
-                                    <div class="download__btn-1 download__btn-2">
-                                        <a href="#">
-                                            <i class="fab fa-apple"></i>
-                                            <p><span>Get in</span><br>Play Store</p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 wow fadeInRight" data-wow-duration="1500ms">
-                            <div class="download__screen">
-                                <div class="download__screen-image">
-                                    <img src="/assets/images/resources/download-screen-img.png" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--Download End-->
-
-            <!--About One Start-->
-            <section class="about-one">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 wow slideInLeft" data-wow-duration="1500ms">
-                            <div class="about-one__img">
-                                <img src="/assets/images/resources/about-one-img-1.jpg" alt="">
-                            </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-6">
-                            <div class="about-one__content">
-                                <div class="section-title text-left">
-                                    <span class="section-title__tagline">Get More Information</span>
-                                    <h2 class="section-title__title">About Premium Rent A Car</h2>
-                                </div>
-                                <p class="about-one__text">There are many variations of passages of Lorem Ipsum available,
-                                    but the majority have suffered alteration in some form.</p>
-                                <div class="about-one__bottom">
-                                    <div class="about-one__bottom-icon">
-                                        <span class="icon-car-rental"></span>
-                                    </div>
-                                    <div class="about-one__bottom-text">
-                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority
-                                            have suffered alteration in some form.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--About One End-->
-
-            <!--Brand One Start-->
-            <section class="brand-one">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
-                            <!--Brand One Single-->
-                            <div class="brand-one__single">
-                                <div class="brand-one__main-img">
-                                    <a href="#"><img src="/assets/images/brand/brand-1-1.png" alt=""></a>
-                                </div>
-                                <div class="brand-one__overly">
-                                    <a href="#"><img src="/assets/images/brand/brand-1-1-overly.png" alt=""></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="200ms">
-                            <!--Brand One Single-->
-                            <div class="brand-one__single">
-                                <div class="brand-one__main-img">
-                                    <a href="#"><img src="/assets/images/brand/brand-1-2.png" alt=""></a>
-                                </div>
-                                <div class="brand-one__overly">
-                                    <a href="#"><img src="/assets/images/brand/brand-1-2-overly.png" alt=""></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="300ms">
-                            <!--Brand One Single-->
-                            <div class="brand-one__single">
-                                <div class="brand-one__main-img">
-                                    <a href="#"><img src="/assets/images/brand/brand-1-3.png" alt=""></a>
-                                </div>
-                                <div class="brand-one__overly">
-                                    <a href="#"><img src="/assets/images/brand/brand-1-3-overly.png" alt=""></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms">
-                            <!--Brand One Single-->
-                            <div class="brand-one__single">
-                                <div class="brand-one__main-img">
-                                    <a href="#"><img src="/assets/images/brand/brand-1-4.png" alt=""></a>
-                                </div>
-                                <div class="brand-one__overly">
-                                    <a href="#"><img src="/assets/images/brand/brand-1-4-overly.png" alt=""></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--Brand One End-->
-
-            <!--News One Start-->
-            <section class="news-one">
-                <div class="container">
-                    <div class="section-title text-center">
-                        <span class="section-title__tagline">Directly From the Blog</span>
-                        <h2 class="section-title__title">News & Articles</h2>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="100ms">
-                            <!--News One Single-->
-                            <div class="news-one__single">
-                                <div class="news-one__img">
-                                    <img src="/assets/images/blog/news-one-1.jpg" alt="">
-                                    <div class="news-one__date-box">
-                                        <p>20 <br> Apr</p>
-                                    </div>
-                                    <a href="news-details.html">
-                                        <span class="news-one__plus"></span>
-                                    </a>
-                                </div>
-                                <div class="news-one__content">
-                                    <ul class="list-unstyled news-one__meta">
-                                        <li><a href="news-details.html"><i class="fas fa-tags"></i> Rental</a></li>
-                                        <li><a href="news-details.html"><i class="fas fa-comments"></i> 2 Comments</a>
-                                        </li>
-                                    </ul>
-                                    <h3 class="news-one__title">
-                                        <a href="news-details.html">Guide to Create a Listing Based Business</a>
-                                    </h3>
-                                    <div class="news-one__person">
-                                        <div class="news-one__person-img">
-                                            <img src="/assets/images/blog/news-one-person-1.png" alt="">
-                                        </div>
-                                        <div class="news-one__person-text">
-                                            <span>Mike Hardson</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="200ms">
-                            <!--News One Single-->
-                            <div class="news-one__single">
-                                <div class="news-one__img">
-                                    <img src="/assets/images/blog/news-one-2.jpg" alt="">
-                                    <div class="news-one__date-box">
-                                        <p>20 <br> Apr</p>
-                                    </div>
-                                    <a href="news-details.html">
-                                        <span class="news-one__plus"></span>
-                                    </a>
-                                </div>
-                                <div class="news-one__content">
-                                    <ul class="list-unstyled news-one__meta">
-                                        <li><a href="news-details.html"><i class="fas fa-tags"></i> Rental</a></li>
-                                        <li><a href="news-details.html"><i class="fas fa-comments"></i> 2 Comments</a>
-                                        </li>
-                                    </ul>
-                                    <h3 class="news-one__title">
-                                        <a href="news-details.html">Guide to Create a Listing Based Business</a>
-                                    </h3>
-                                    <div class="news-one__person">
-                                        <div class="news-one__person-img">
-                                            <img src="/assets/images/blog/news-one-person-2.png" alt="">
-                                        </div>
-                                        <div class="news-one__person-text">
-                                            <span>Jessica Brown</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="300ms">
-                            <!--News One Single-->
-                            <div class="news-one__single">
-                                <div class="news-one__img">
-                                    <img src="/assets/images/blog/news-one-3.jpg" alt="">
-                                    <div class="news-one__date-box">
-                                        <p>20 <br> Apr</p>
-                                    </div>
-                                    <a href="news-details.html">
-                                        <span class="news-one__plus"></span>
-                                    </a>
-                                </div>
-                                <div class="news-one__content">
-                                    <ul class="list-unstyled news-one__meta">
-                                        <li><a href="news-details.html"><i class="fas fa-tags"></i> Rental</a></li>
-                                        <li><a href="news-details.html"><i class="fas fa-comments"></i> 2 Comments</a>
-                                        </li>
-                                    </ul>
-                                    <h3 class="news-one__title">
-                                        <a href="news-details.html">Guide to Create a Listing Based Business</a>
-                                    </h3>
-                                    <div class="news-one__person">
-                                        <div class="news-one__person-img">
-                                            <img src="/assets/images/blog/news-one-person-3.png" alt="">
-                                        </div>
-                                        <div class="news-one__person-text">
-                                            <span>Kevin Martin</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--News One End-->
 
         </section>
     </body>

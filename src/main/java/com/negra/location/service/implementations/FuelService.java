@@ -30,7 +30,7 @@ public class FuelService implements IFuelService {
         List<Fuel> fuels;
         try{
             fuels = fuelRepository.findAll().stream().sorted(Comparator.comparing(Fuel::getLibelle)).collect(Collectors.toList());
-            return MapperService.carburantsListToDtos(fuels, new ArrayList<>());
+            return MapperService.fuelsToFuelDtos(fuels, new ArrayList<>());
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA);
         }

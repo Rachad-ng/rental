@@ -1,6 +1,8 @@
 package com.negra.location.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -11,7 +13,7 @@ import java.util.Set;
 
 import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.PATTERN_COLOR;
-import static com.negra.location.utility.Pattern.PATTERN_VOITURE_MATRICULE;
+import static com.negra.location.utility.Pattern.PATTERN_CAR_REGISTRATION_NUMBER;
 
 @Data
 @Entity
@@ -23,13 +25,29 @@ public class Car implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "model_id", nullable = false)
     private Model model;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "agent_id", nullable = false)
     private Agent agent;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne
+    @JoinColumn(name = "fuel_id", nullable = false)
+    private Fuel fuel;
 
     @OneToMany(mappedBy = "car")
     private Set<Cost> costSet = new HashSet<>();
@@ -40,19 +58,15 @@ public class Car implements Serializable {
     @OneToMany(mappedBy = "car")
     private Set<Reservation> reservationSet = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "fuel_id", nullable = false)
-    private Fuel fuel;
-
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CAR_PLACES_NUMBER)
     @Column(nullable = false)
-    private int numberPlaces;
+    private int numberOfPlaces;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CAR_DOORS_NUMBER)
     @Column(nullable = false)
-    private int numberDoors;
+    private int numberOfDoors;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Column(nullable = false)
@@ -68,7 +82,19 @@ public class Car implements Serializable {
     private boolean androidAvailable;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_VOITURE_MATRICULE, message = ERROR_CAR_MATRICULE)
+    @Column(nullable = false)
+    private boolean sunroof;
+
+    @NotNull(message = ERROR_SEND_DATA)
+    @Column(nullable = false)
+    private boolean tintedGlass;
+
+    @NotNull(message = ERROR_SEND_DATA)
+    @Column(nullable = false)
+    private boolean childSeat;
+
+    @NotNull(message = ERROR_SEND_DATA)
+    @Pattern(regexp = PATTERN_CAR_REGISTRATION_NUMBER, message = ERROR_CAR_MATRICULE)
     @Column(nullable = false)
     private String registrationNumber;
 
@@ -81,7 +107,7 @@ public class Car implements Serializable {
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 0, message = ERROR_CAR_KILOMETRAGE)
     @Column(nullable = false)
-    private int Mileage;
+    private int mileage;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 0, message = ERROR_CAR_PRICE)
@@ -94,10 +120,6 @@ public class Car implements Serializable {
 
     @NotNull(message = ERROR_SEND_DATA)
     private boolean autoTransmission;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
 
     // Gestion des relations bi-directionnels
 

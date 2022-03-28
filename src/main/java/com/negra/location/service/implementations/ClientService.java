@@ -7,7 +7,7 @@ import com.negra.location.model.Client;
 import com.negra.location.model.Reservation;
 import com.negra.location.repository.ClientRepository;
 import com.negra.location.service.interfaces.IClientService;
-import com.negra.location.service.interfaces.IReservationService;
+import com.negra.location.service.interfaces.IBookingService;
 import com.negra.location.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +27,7 @@ public class ClientService implements IClientService {
     @Autowired
     private IUserService utilisateurService;
     @Autowired
-    private IReservationService reservationService;
+    private IBookingService reservationService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 

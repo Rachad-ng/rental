@@ -33,7 +33,7 @@ $(function(){
     // Sign-in form script End    ************************************************
     
     
-    /* ***************************** Car Creation Script Start *************************************************/
+    /* ***************************** Car Creation Script Start *******************************/
 
     // Synchronisation du model avec la marque lors d'un changement du marque.
     $("#mark").change(function () {
@@ -77,6 +77,16 @@ $(function(){
             alert("La marque que vous séléctionner n'est pas valide");
             location.reload();
         }
-    };
+    }
+
+    /* ***************************** Car Creation Script End *******************************/
+
+
+    /* ***************************** Listing page Script Start *******************************/
+/*
+    $(".listing__list-box-single").click(function (){
+        alert("hello");
+    })
+*/
 
 });

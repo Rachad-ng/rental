@@ -3,7 +3,6 @@ import com.negra.location.dto.CarCreationDto;
 import com.negra.location.exception.*;
 import com.negra.location.service.interfaces.IAgentService;
 import com.negra.location.service.interfaces.ICarService;
-import com.negra.location.utility.DataUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 import static com.negra.location.utility.ErrorMessage.*;
@@ -30,7 +28,7 @@ public class AgentController {
     private static final String LISTINGS = "listings";
 
     @Autowired
-    private ICarService voitureService;
+    private ICarService carService;
     @Autowired
     private IAgentService agentService;
 
@@ -56,19 +54,11 @@ public class AgentController {
         String result = NEW_CARR;
         if(!bindingResult.hasErrors()){
             try {
-                /* Traitement temporaire de resolution du format de date
-                    Conversion du champ dateCirculation de String en Local date
-                    Affecter sa valeur au champs dateMiseCirculation
-               */
-                DataUtility.dateCreationCarFormatter(carCreationDto);
-
-                voitureService.createCar(carCreationDto);
+                carService.createCar(carCreationDto);
                 result = "redirect:/listings";
-            } catch(DateTimeParseException | DateConstraintException e){
-                model.addAttribute("errorDateMessage", ERROR_CAR_DATE_MISE_CIRCULATION);
             } catch (AlreadyExistsException | MapperException | CurrentUserNotFoundException | UserNotFoundException e) {
                 model.addAttribute("errorMessage", e.getMessage());
-                model.addAttribute("errorDateOrMatriculeMessage", e.getMessage());
+                model.addAttribute("errorRegistrationNumberMessage", e.getMessage());
             } catch (ClassCastException e) {
                 model.addAttribute("errorMessage", ERROR_DATA_CASTING);
             } catch (DataStoreException e) {
