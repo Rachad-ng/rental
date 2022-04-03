@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.negra.location.utility.ErrorMessage.ERROR_CARBURANT_NOT_FOUND;
+import static com.negra.location.utility.ErrorMessage.ERROR_FUEL_NOT_FOUND;
 import static com.negra.location.utility.ErrorMessage.ERROR_DATA;
 
 @Service
@@ -26,6 +26,7 @@ public class FuelService implements IFuelService {
     @Autowired
     private FuelRepository fuelRepository;
 
+    @Override
     public List<FuelDto> findAllDtos(){
         List<Fuel> fuels;
         try{
@@ -36,13 +37,14 @@ public class FuelService implements IFuelService {
         }
     }
 
+    @Override
     public Fuel findById(long idFuel) throws DataNotFoundException {
         Fuel fuel;
         Optional<Fuel> optionalCarburant = fuelRepository.findById(idFuel);
         if(optionalCarburant.isPresent())
             fuel = optionalCarburant.get();
         else
-            throw new DataNotFoundException(ERROR_CARBURANT_NOT_FOUND);
+            throw new DataNotFoundException(ERROR_FUEL_NOT_FOUND);
 
         return fuel;
     }

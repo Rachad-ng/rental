@@ -38,17 +38,17 @@ public abstract class User implements Serializable {
     private String role;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp= PATTERN_USER_TEL, message= ERROR_USER_TELE_INVALID)
+    @Pattern(regexp= PATTERN_USER_TEL, message= ERROR_USER_TEL_INVALID)
     @Column(nullable = false)
     private String tel;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_NOM_INVALID)
+    @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_LASTNAME_INVALID)
     @Column(nullable = false)
     private String lastName;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_PRENOM_INVALID)
+    @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_FIRSTNAME_INVALID)
     @Column(nullable = false)
     private String firstname;
 

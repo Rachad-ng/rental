@@ -18,6 +18,10 @@ header.clearfix {
     color: white;
 }
 
+.listing__content {
+    text-align: center;
+}
+
 /* Creation car page Style Start */
 
 .form-floating .form-select, .form-floating .form-control, #registrationNumber, #datepicker {

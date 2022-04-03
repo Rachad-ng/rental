@@ -21,7 +21,7 @@ public class AgentDto implements Serializable {
     private final String email;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_USER_TEL, message = ERROR_USER_TELE_INVALID)
+    @Pattern(regexp = PATTERN_USER_TEL, message = ERROR_USER_TEL_INVALID)
     private final String tel;
 
     private final String hiddenTelNumber;

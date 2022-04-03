@@ -1,6 +1,8 @@
 package com.negra.location.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.negra.location.utility.ErrorMessage.ERROR_CLIENT_FIDELITY;
+import static com.negra.location.utility.ErrorMessage.ERROR_CLIENT_LOYALTY;
 import static com.negra.location.utility.ErrorMessage.ERROR_SEND_DATA;
 
 @Data
@@ -18,10 +20,13 @@ import static com.negra.location.utility.ErrorMessage.ERROR_SEND_DATA;
 public class Client extends User {
 
     @OneToMany(mappedBy = "client")
-    private Set<Reservation> reservationSet = new HashSet<>();
+    private Set<Booking> bookingSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "client")
+    private Set<Visit> visitSet = new HashSet<>();
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Min(value = 0, message = ERROR_CLIENT_FIDELITY)
+    @Min(value = 0, message = ERROR_CLIENT_LOYALTY)
     @Column(nullable = false, columnDefinition = "int default -1")
     private Integer loyalty;
 
@@ -34,12 +39,21 @@ public class Client extends User {
 
     // Gestion des relations bi-directionnels
 
-    public void addReservation(Reservation reservation){
-        reservation.setClient(this);
-        this.getReservationSet().add(reservation);
+    public void addReservation(Booking booking){
+        booking.setClient(this);
+        this.getBookingSet().add(booking);
     }
 
-    public void removeReservation(Reservation reservation){
-        this.getReservationSet().remove(reservation);
+    public void removeReservation(Booking booking){
+        this.getBookingSet().remove(booking);
+    }
+
+    public void addVisit(Visit visit){
+        visit.setClient(this);
+        this.getVisitSet().add(visit);
+    }
+
+    public void removeVisit(Visit visit){
+        this.getVisitSet().remove(visit);
     }
 }

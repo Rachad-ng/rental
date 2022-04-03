@@ -1,6 +1,8 @@
 package com.negra.location.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -15,37 +17,40 @@ import static com.negra.location.utility.Pattern.*;
 @Entity
 @Table(name = "address")
 public class Address implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @OneToOne
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @JoinColumn(name = "agent_id", nullable = false)
     private Agent agent;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Min(value = 1, message = ERROR_ADRESSE_NUMBER_INVALID)
+    @Min(value = 1, message = ERROR_ADDRESS_NUMBER_INVALID)
     @Column(nullable = false)
     private Integer number;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_ADDRESS_RUE, message = ERROR_ADRESSE_RUE_INVALID)
+    @Pattern(regexp = PATTERN_ADDRESS_RUE, message = ERROR_ADDRESS_STREET_INVALID)
     @Column(nullable = false)
     private String street;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_ADDRESS_DISTRICT, message = ERROR_ADRESSE_QUARTIER_INVALID)
+    @Pattern(regexp = PATTERN_ADDRESS_DISTRICT, message = ERROR_ADDRESS_DISTRICT_INVALID)
     @Column(nullable = false)
     private String district;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_ADDRESS_TOWN, message = ERROR_ADRESSE_VILLE_INVALID)
+    @Pattern(regexp = PATTERN_ADDRESS_TOWN, message = ERROR_ADDRESS_TOWN_INVALID)
     @Column(nullable = false)
     private String town;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_ADDRESS_COUNTRY, message = ERROR_ADRESSE_PAYS_INVALID)
+    @Pattern(regexp = PATTERN_ADDRESS_COUNTRY, message = ERROR_ADDRESS_COUNTRY_INVALID)
     @Column(nullable = false)
     private String country;
 }

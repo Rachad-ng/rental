@@ -23,7 +23,7 @@ import static com.negra.location.utility.ErrorMessage.ERROR_USER_PASSWORD_CONFIR
 public class SecurityController {
 
     private static final String HOME = "/";
-    private static final String SIGNIN = "signin";
+    private static final String SIGNUP = "signup";
     private static final String LOGIN = "login";
     private static final String ACCES_DENIED_PAGE = "403";
 
@@ -33,8 +33,8 @@ public class SecurityController {
     @Autowired
     private IClientService clientService;
 
-    @GetMapping("/signin")
-    public String signin(Model model){
+    @GetMapping("/signup")
+    public String signup(Model model){
 
         // Creation des objets nécessaires à la validation de formulaire
 
@@ -46,12 +46,12 @@ public class SecurityController {
         model.addAttribute("clientRole", true);
         model.addAttribute("agentRole", false);
 
-        return SIGNIN;
+        return SIGNUP;
     }
 
 
-    @PostMapping("/signinAgent")
-    public String signinAgent(@Valid AgentRegistrationDto agentRegistrationDto, BindingResult bindingResultAgent, Model model){
+    @PostMapping("/signupAgent")
+    public String signupAgent(@Valid AgentRegistrationDto agentRegistrationDto, BindingResult bindingResultAgent, Model model){
 
         if(!bindingResultAgent.hasErrors()){
             if(agentRegistrationDto.getPassword().equals(agentRegistrationDto.getPasswordConfirmed())){
@@ -73,11 +73,11 @@ public class SecurityController {
         model.addAttribute("clientRole", false);
         model.addAttribute("agentRole", true);
 
-        return SIGNIN;
+        return SIGNUP;
     }
 
 
-    @PostMapping("/signinClient")
+    @PostMapping("/signupClient")
     public String signinClient(@Valid ClientRegistrationDto clientRegistrationDto, BindingResult bindingResult, Model model){
 
         if(!bindingResult.hasErrors()){
@@ -101,7 +101,7 @@ public class SecurityController {
         model.addAttribute("clientRole", true);
         model.addAttribute("agentRole", false);
 
-        return SIGNIN;
+        return SIGNUP;
     }
 
     @GetMapping("/login")

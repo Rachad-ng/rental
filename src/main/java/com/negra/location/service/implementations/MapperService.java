@@ -77,23 +77,35 @@ public class MapperService {
             modelDtos.add(new ModelDto(model.getId(), model.getLibelle()));
     }
 
-    public static void carsToListingCarDtos(List<Car> cars, List<ListingCarDto> listingCarDtos){
-        ListingCarDto listingCarDto;
+    public static void carsToListingDtos(List<Car> cars, List<ListingDto> listingDtos){
+        ListingDto listingDto;
         for (Car car : cars) {
-            listingCarDto = new ListingCarDto();
-            MapperService.carToListingCarDto(car, listingCarDto);
-            listingCarDtos.add(listingCarDto);
+            listingDto = new ListingDto();
+            carToListingDto(car, listingDto);
+            listingDtos.add(listingDto);
         }
     }
 
-    public static void carToListingCarDto(Car car, ListingCarDto listingCarDto){
-        listingCarDto.setId(car.getId());
-        listingCarDto.setAutoTransmission(car.isAutoTransmission());
-        listingCarDto.setPricePerDay(car.getPricePerDay());
-        listingCarDto.setDateCirculation(car.getDateCirculation());
-        listingCarDto.setListingCategoryDto(new ListingCategoryDto(car.getCategory().getLibelle()));
-        listingCarDto.setListingModelDto(new ListingModelDto(car.getModel().getLibelle(), car.getModel().getImage(), new ListingMarkDto(car.getModel().getMark().getLibelle())));
-        listingCarDto.setListingFuelDto(new ListingFuelDto(car.getFuel().getLibelle()));
+    public static void carToListingDto(Car car, ListingDto listingDto){
+
+        listingDto.setId(car.getId());
+        listingDto.setPricePerDay(car.getPricePerDay());
+        listingDto.setDateCirculation(car.getDateCirculation());
+        listingDto.setAutoTransmission(car.isAutoTransmission());
+        listingDto.setListingFuelDto(new ListingFuelDto(car.getFuel().getLibelle()));
+        listingDto.setListingCategoryDto(new ListingCategoryDto(car.getCategory().getLibelle()));
+
+        listingDto.setListingModelDto(
+                new ListingModelDto(
+                        car.getModel().getLibelle(), car.getModel().getImage(),
+                        new ListingMarkDto(car.getModel().getMark().getLibelle())
+                ));
+
+        listingDto.setListingAgenceWithTownDto(
+                new ListingAgenceWithTownDto(
+                        new AddressTownDto(car.getAgent().getAddress().getTown()),
+                        car.getAgent().getRsAgence()
+                ));
     }
 
     public static List<CategoryDto> categoriesToCategoryDtos(List<Category> categories, List<CategoryDto> categoryDtos){
@@ -133,24 +145,24 @@ public class MapperService {
         client.setRole(clientRegistrationDto.getRole());
     }
 
-    public static void carToListingDetailsCarDto(Car car, ListingDetailsCarDto listingDetailsCarDto){
-        listingDetailsCarDto.setId(car.getId());
-        listingDetailsCarDto.setPricePerDay(car.getPricePerDay());
-        listingDetailsCarDto.setAutoTransmission(car.isAutoTransmission());
-        listingDetailsCarDto.setColor(car.getColor());
-        listingDetailsCarDto.setAndroidAvailable(car.isAndroidAvailable());
-        listingDetailsCarDto.setCirculationYear(car.getDateCirculation().getYear());
-        listingDetailsCarDto.setNumberOfPlaces(car.getNumberOfPlaces());
-        listingDetailsCarDto.setNumberOfDoors(car.getNumberOfDoors());
-        listingDetailsCarDto.setAirConditioning(car.isAirConditioning());
-        listingDetailsCarDto.setTintedGlass(car.isTintedGlass());
-        listingDetailsCarDto.setChildSeat(car.isChildSeat());
-        listingDetailsCarDto.setSunroof(car.isSunroof());
+    public static void carToListingDetailsCarDto(Car car, ListingDetailsDto listingDetailsDto){
+        listingDetailsDto.setId(car.getId());
+        listingDetailsDto.setPricePerDay(car.getPricePerDay());
+        listingDetailsDto.setAutoTransmission(car.isAutoTransmission());
+        listingDetailsDto.setColor(car.getColor());
+        listingDetailsDto.setAndroidAvailable(car.isAndroidAvailable());
+        listingDetailsDto.setCirculationYear(car.getDateCirculation().getYear());
+        listingDetailsDto.setNumberOfPlaces(car.getNumberOfPlaces());
+        listingDetailsDto.setNumberOfDoors(car.getNumberOfDoors());
+        listingDetailsDto.setAirConditioning(car.isAirConditioning());
+        listingDetailsDto.setTintedGlass(car.isTintedGlass());
+        listingDetailsDto.setChildSeat(car.isChildSeat());
+        listingDetailsDto.setSunroof(car.isSunroof());
 
-        listingDetailsCarDto.setListingCategoryDto(new ListingCategoryDto(car.getCategory().getLibelle()));
-        listingDetailsCarDto.setListingFuelDto(new ListingFuelDto(car.getFuel().getLibelle()));
-        listingDetailsCarDto.setListingModelDto(new ListingModelDto(car.getModel().getLibelle(), car.getModel().getImage(), new ListingMarkDto(car.getModel().getMark().getLibelle())));
-        listingDetailsCarDto.setAgentDto(new AgentDto(car.getAgent().getEmail(), car.getAgent().getTel(), car.getAgent().getTel().substring(0,6) + "....", new AddressDto(car.getAgent().getAddress()), car.getAgent().getRsAgence(), car.getAgent().getNotoriety()));
+        listingDetailsDto.setListingCategoryDto(new ListingCategoryDto(car.getCategory().getLibelle()));
+        listingDetailsDto.setListingFuelDto(new ListingFuelDto(car.getFuel().getLibelle()));
+        listingDetailsDto.setListingModelDto(new ListingModelDto(car.getModel().getLibelle(), car.getModel().getImage(), new ListingMarkDto(car.getModel().getMark().getLibelle())));
+        listingDetailsDto.setAgentDto(new AgentDto(car.getAgent().getEmail(), car.getAgent().getTel(), car.getAgent().getTel().substring(0,6) + "....", new AddressDto(car.getAgent().getAddress()), car.getAgent().getRsAgence(), car.getAgent().getNotoriety()));
     }
 
 }

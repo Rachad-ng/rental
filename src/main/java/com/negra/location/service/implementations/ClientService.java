@@ -3,8 +3,8 @@ package com.negra.location.service.implementations;
 import com.negra.location.dto.ClientRegistrationDto;
 import com.negra.location.exception.AlreadyExistsException;
 import com.negra.location.exception.DataStoreException;
+import com.negra.location.model.Booking;
 import com.negra.location.model.Client;
-import com.negra.location.model.Reservation;
 import com.negra.location.repository.ClientRepository;
 import com.negra.location.service.interfaces.IClientService;
 import com.negra.location.service.interfaces.IBookingService;
@@ -31,6 +31,7 @@ public class ClientService implements IClientService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Override
     public void createClient(ClientRegistrationDto clientRegistrationDto) throws AlreadyExistsException, DataStoreException {
         utilisateurService.isUserExists(clientRegistrationDto.getEmail());
         Client client = new Client();
@@ -44,10 +45,11 @@ public class ClientService implements IClientService {
     }
 
     // Supprimer le client après la suppression des reservations associes
+    @Override
     public void deleteClient(Client client) {
-        Set<Reservation> reservations = client.getReservationSet();
-        for (Reservation reservation: reservations)
-            reservationService.deleteReservation(reservation);
+        Set<Booking> bookings = client.getBookingSet();
+        for (Booking booking : bookings)
+            reservationService.deleteReservation(booking);
 
         try {
             clientRepository.delete(client);

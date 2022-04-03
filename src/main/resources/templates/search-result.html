@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+    <head>
+        <title>Available Cars</title>
+        <link rel="stylesheet" th:href="@{/style/searchCarPageStyle.css}">
+    </head>
+    <body>
+
+        <!-- Dynamic Content Section Start -->
+        <section layout:fragment="content">
+
+            <!--Listing Top Start-->
+            <section class="listing-top">
+                <div class="listing-top__container">
+                    <div class="listing-top__left">
+                        <ul class=" list-unstyled listing-top__menu">
+                            <li><a th:href="@{/}">Home</a></li>
+                            <li><span>-</span></li>
+                            <li th:text="${numberOfCars + ' Results'}"> </li>
+                        </ul>
+                    </div>
+                    <div class="listing-top__right">
+                        <div class="listing-top__map-show-hide">
+                            <div class="listing-top__map-show-hide-text">
+                                <p>Screen: <span data-text="Full" data-toggle-text="Center">Full</span></p>
+                            </div>
+                            <div class="listing-top__map-show-hide-icon">
+                                <div class="listing-top__map-show-hide-icon-box"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Listing Top End-->
+
+            <!--Listing Start-->
+            <section class="listing">
+                <div class="listing-container clearfix">
+
+                    <!-- Result Search Listings Content Start -->
+                    <div class="listing__content">
+
+                        <!-- Search box Start -->
+                        <div class="listing__search-box">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="listing__search-box-inner">
+                                        <form class="listing__search-form">
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <div class="listing__search-input">
+                                                        <input type="text" placeholder="Enter keywords">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="listing__search-input">
+                                                        <select class="selectpicker" aria-label="Default select example">
+                                                            <option selected>Location</option>
+                                                            <option value="1">One</option>
+                                                            <option value="2">Two</option>
+                                                            <option value="3">Three</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="listing__search-input">
+                                                        <select class="selectpicker" aria-label="Default select example">
+                                                            <option selected>Select make</option>
+                                                            <option value="1">One</option>
+                                                            <option value="2">Two</option>
+                                                            <option value="3">Three</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="listing__search-input">
+                                                        <select class="selectpicker" aria-label="Default select example">
+                                                            <option selected>Select model</option>
+                                                            <option value="1">One</option>
+                                                            <option value="2">Two</option>
+                                                            <option value="3">Three</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="listing__search-input">
+                                                        <select class=" selectpicker" aria-label="Default select example">
+                                                            <option selected>Transmission</option>
+                                                            <option value="1">One</option>
+                                                            <option value="2">Two</option>
+                                                            <option value="3">Three</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="listing__search-input">
+                                                        <select class="selectpicker" aria-label="Default select example">
+                                                            <option selected>Select year</option>
+                                                            <option value="1">2016</option>
+                                                            <option value="2">2017</option>
+                                                            <option value="3">2018</option>
+                                                            <option value="3">2019</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="row">
+                                                        <div class="col-xl-6">
+                                                            <div class="min-price-input">
+                                                                <input type="text" placeholder="Min price">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="min-price-input">
+                                                                <input type="text" placeholder="Max price">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="listing__search-input">
+                                                        <select class="selectpicker" aria-label="Default select example">
+                                                            <option selected>Select year</option>
+                                                            <option value="1">2016</option>
+                                                            <option value="2">2017</option>
+                                                            <option value="3">2018</option>
+                                                            <option value="3">2019</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="linsting__btn">Find Your Car</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Search box End -->
+
+                        <!-- Listing Filter Start -->
+                        <div class="listing__filter">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="listing__filter-inner">
+                                        <div class="listing__filter-left">
+                                            <div class="listing__filter-icon">
+                                                <a href="#" class="icon-grid active"></a>
+                                                <a th:href="@{/listingsDetails}" class="icon-list list-icon"></a>
+                                            </div>
+                                        </div>
+                                        <div class="listing__filter-right">
+                                            <div class="listing__filter-shorting-box">
+                                                <div class="listing__filter-shorting-box-text">
+                                                    <p>Sort By:</p>
+                                                </div>
+                                                <div class="listing__filter-shorting-input">
+                                                    <select class="selectpicker" aria-label="Default select example">
+                                                        <option selected>Default sorting</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Listing Filter End -->
+
+                        <div class="listing__list-box">
+                            <div class="row" th:object="${listingDtos}">
+                                <div class="col-xl-6" th:each="listingDto : ${listingDtos}">
+                                    <!--Listing List Box Single-->
+                                    <a th:href="@{/listingsDetails(id = ${listingDto.id})}">
+                                        <div class="listing__list-box-single">
+                                            <div class="listing__list-box-img">
+                                                <img th:src="@{${'/assets/images/resources/cars/minimized/' + listingDto.listingModelDto.image + '-min.jpg'}}" th:alt="${'Rental car model' + listingDto.listingModelDto.libelle}">
+                                                <div class="listing__list-box__icon">
+                                                    <i class="far fa-heart"></i>
+                                                </div>
+                                            </div>
+                                            <div class="listing__list-box-content">
+                                                <h5 class="listing__list-box-sub-title" th:text="${listingDto.listingCategoryDto.libelle} + ' Car'"></h5>
+                                                <h3 class="listing__list-box-title" th:text="${listingDto.listingModelDto.listingMarkDto.libelle + ' ' + listingDto.listingModelDto.libelle}"></h3>
+                                                <p class="listing__list-box-price"><span th:text="${listingDto.pricePerDay + ' DH'}">$32 </span>/jour</p>
+                                                <ul class="list-unstyled listing__list-box-details">
+                                                    <li th:text="${listingDto.listingAgenceWithTownDto.rsAgence}"></li>
+                                                    <li th:text="${listingDto.listingAgenceWithTownDto.addressTownDto.town}"></li>
+                                                    <li th:text="${listingDto.circulationYear + ' ' + listingDto.listingFuelDto.libelle}"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="listing__pagination-box">
+                                <ul class="listing__pagination list-unstyled">
+                                    <li class="next" th:if="${currentPage > 0}">
+                                        <a th:href="@{/searchCar(page=${previousPage})}" aria-label="Previous"><i class="fa fa-angle-left"></i></a>
+                                    </li>
+                                    <li class="count" th:each="i : ${#numbers.sequence( 1, numberOfPages)}" th:if="${(i > (currentPage - numberOfCarPerPage + 2)) && (i < currentPage + numberOfCarPerPage)}">
+                                        <a th:style="${currentPage==(i-1)? 'background-color: #0aa5cd; color: white;' : ''}" th:text="${i}" th:href="@{/searchCar(page=${i-1} , size=${numberOfCarPerPage})}"></a>
+                                    </li>
+                                    <li class="previous" th:if="${currentPage < (numberOfPages - 1)}">
+                                        <a th:href="@{/searchCar(page=${nextPage})}" aria-label="Next"><i class="fa fa-angle-right"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Result Search Listings Content End -->
+
+                </div>
+            </section>
+            <!--Listing End-->
+
+        </section>
+        <!-- Dynamic Content Section End -->
+
+    </body>
+</html>

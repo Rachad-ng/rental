@@ -11,18 +11,19 @@ import java.time.LocalDate;
 import static com.negra.location.utility.ErrorMessage.*;
 
 @Data
-public class ListingCarDto implements Serializable {
+public class ListingDto implements Serializable {
 
     private Long id;
     private ListingModelDto listingModelDto;
     private ListingCategoryDto listingCategoryDto;
     private ListingFuelDto listingFuelDto;
+    private ListingAgenceWithTownDto listingAgenceWithTownDto;
 
     @NotNull(message = ERROR_SEND_DATA)
     private boolean autoTransmission;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Past(message = ERROR_CAR_DATE_MISE_CIRCULATION)
+    @Past(message = ERROR_CAR_DATE_CIRCULATION)
     private LocalDate dateCirculation;
 
     @NotNull(message = ERROR_SEND_DATA)

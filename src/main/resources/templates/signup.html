@@ -16,7 +16,7 @@
                     <h2 class="text-center m-3">Inscription</h2>
                     <div class="alert alert-danger py-0" th:if="${alreadyExistsErrorMessage}" th:text="${alreadyExistsErrorMessage}"></div>
                     <div class="alert alert-danger py-0" th:if="${systemError}" th:text="${systemError}"></div>
-                    <form id="signinForm" th:action="@{/signinClient}" th:object="${agentRegistrationDto}" method="post">
+                    <form id="signupForm" th:action="@{/signupClient}" th:object="${agentRegistrationDto}" method="post">
                         <!-- Common data for client and agent -->
                         <div class="mt-4">
                             <div class="alert alert-danger py-0" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></div>

@@ -79,12 +79,12 @@ public class ObjectInitialisation {
     }
 
     // Reservation Initialisation
-    public static void reservationInitialisation(Reservation reservation, Car car, Client client){
-        reservation.setStartDate(LocalDateTime.now());
-        reservation.setBackDate(LocalDateTime.now().plusDays(10));
-        reservation.setState("En cours");
-        reservation.setCar(car);
-        reservation.setClient(client);
+    public static void reservationInitialisation(Booking booking, Car car, Client client){
+        booking.setStartDate(LocalDateTime.now());
+        booking.setBackDate(LocalDateTime.now().plusDays(10));
+        booking.setState("En cours");
+        booking.setCar(car);
+        booking.setClient(client);
     }
 
     // Reduction Initialisation
@@ -94,8 +94,8 @@ public class ObjectInitialisation {
     }
 
     // Location Initialisation
-    public static void locationInitialisation(Rental rental, Reservation reservation, Reduction reduction){
-        rental.setReservation(reservation);
+    public static void locationInitialisation(Rental rental, Booking booking, Reduction reduction){
+        rental.setBooking(booking);
         rental.setReduction(reduction);
         rental.setStartDate(LocalDateTime.now());
         rental.setStartMileage(5000);

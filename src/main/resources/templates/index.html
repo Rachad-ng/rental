@@ -10,44 +10,47 @@
         <section layout:fragment="content">
 
             <!--Search Box Start-->
-            <section class="search-box">
+            <section class="search-box" th:object="${homeSearchCarDto}">
                 <div class="search-box__container">
-                    <form class="search-box__form">
+                    <form class="search-box__form" th:action="@{/searchCar}" method="post">
                         <ul class="list-unstyled search-box__main clearfix">
                             <li class="search-box__input">
-                                <select class="selectpicker" aria-label="Default select example">
-                                    <option selected>Pick-up rental</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
+                                <div class="form-floating">
+                                    <select class="form-select" id="mark" name="mark" th:field="*{idMark}">
+                                        <option value="0" selected></option>
+                                        <option th:each="markWithModelDto : *{markWithModelDtos}" th:text="${markWithModelDto.libelle}" th:value="${markWithModelDto.id}"></option>
+                                    </select>
+                                    <label for="mark" class="form-label">Select mark (select one):</label>
+                                </div>
                             </li>
                             <li class="search-box__input">
-                                <select class="selectpicker" aria-label="Default select example">
-                                    <option selected>Drop-off rental</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
+                                <div class="form-floating">
+                                    <select class="form-select" id="model" name="model" th:field="*{idModel}">
+                                        <option value="0" selected></option>
+                                        <option th:each="modelDto : *{markWithModelDtos[0].modelDtos}" th:value="${modelDto.id}" th:text="${modelDto.libelle}"></option>
+                                    </select>
+                                    <label for="model" class="form-label">Select model (select one):</label>
+                                </div>
                             </li>
                             <li class="search-box__input">
-                                <select class="selectpicker" aria-label="Default select example">
-                                    <option selected>Select car class</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
+                                <div class="form-floating">
+                                    <select class="form-select" id="town" name="town" th:field="*{town}">
+                                        <option value="" selected></option>
+                                        <option th:each="town : *{towns}" th:value="${town}" th:text="${town}"></option>
+                                    </select>
+                                    <label for="town" class="form-label">Select town (select one):</label>
+                                </div>
                             </li>
                             <li class="search-box__input">
-                                <input type="text" name="date" placeholder="Select date" id="datepicker">
+                                <input type="text" name="startDate" placeholder="Select date départ" id="datepicker" th:field="*{startDate}">
                                 <div class="search-box__icon-box">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </li>
                             <li class="search-box__input">
-                                <input type="text" name="time" placeholder="Select time">
+                                <input type="text" name="backDate" placeholder="Select date retour" id="datepicker2" th:field="*{backDate}">
                                 <div class="search-box__icon-box">
-                                    <i class="far fa-clock"></i>
+                                    <i class="fa fa-calendar"></i>
                                 </div>
                             </li>
                             <li class="search-box__input">
@@ -66,6 +69,7 @@
                         <span class="section-title__tagline">Rencontrez les bons services</span>
                         <h2 class="section-title__title">Roulez en voiture premium</h2>
                     </div>
+
                     <div class="row">
                         <div class="col-xl-12">
                             <ul class="list-unstyled premium-ride-box">
@@ -73,7 +77,7 @@
                                     <div class="premium-ride__img">
                                         <img src="/assets/images/resources/cars/home/businessCar.jpg" alt="Business Car rental">
                                     </div>
-                                    <h3 class="premium-ride__title">Business <br>Rentals</h3>
+                                    <h3 class="premium-ride__title">Entreprise <br>de location</h3>
                                     <p class="premium-ride__text">Trillion the carbon in our apple pies circumnavigated
                                         galaxies across the centuries.</p>
                                 </li>
@@ -81,7 +85,7 @@
                                     <div class="premium-ride__img">
                                         <img src="/assets/images/resources/cars/home/luxuryCar.jpg" alt="Luxury Car rental">
                                     </div>
-                                    <h3 class="premium-ride__title">Luxury <br>Rentals</h3>
+                                    <h3 class="premium-ride__title">Véhicules <br>de Luxe</h3>
                                     <p class="premium-ride__text">Trillion the carbon in our apple pies circumnavigated
                                         galaxies across the centuries.</p>
                                 </li>
@@ -89,13 +93,14 @@
                                     <div class="premium-ride__img">
                                         <img src="/assets/images/resources/cars/home/travelingCar.jpg" alt="Traveling Car rental">
                                     </div>
-                                    <h3 class="premium-ride__title">Traveling <br>Rentals</h3>
+                                    <h3 class="premium-ride__title">Locations <br>de voyage</h3>
                                     <p class="premium-ride__text">Trillion the carbon in our apple pies circumnavigated
                                         galaxies across the centuries.</p>
                                 </li>
                             </ul>
                         </div>
                     </div>
+
                 </div>
             </section>
             <!--Premium Ride End-->
@@ -106,25 +111,25 @@
                     <div class="row">
                         <div class="col-xl-6 col-lg-8">
                             <div class="section-title text-left">
-                                <span class="section-title__tagline">Nouvelles annonces</span>
-                                <h2 class="section-title__title">Offres imbattables</h2>
+                                <span class="section-title__tagline">Les gens aiment le plus</span>
+                                <h2 class="section-title__title">Explorez la gamme de voitures</h2>
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-4">
                             <div class="featured-one__btn-box">
-                                <a th:href="@{/listings}" class="thm-btn featured-one__btn">Les annonces</a>
+                                <a th:href="@{/listings}" class="thm-btn featured-one__btn">Toutes les annonces</a>
                             </div>
                         </div>
                     </div>
-                    <div class="row" th:object="${newCarAndModelWithImageDtos}">
+                    <div class="row" th:object="${mostPopularCarAndModelWithImageDtos}">
                         <div class="col-xl-6 col-lg-6">
-                            <a th:href="@{/listingsDetails(id = ${newCarAndModelWithImageDtos[0].id})}">
+                            <a th:href="@{/listingsDetails(id = ${mostPopularCarAndModelWithImageDtos[0].id})}">
                                 <div class="featured-one__left wow fadeInLeft" data-wow-duration="1500ms">
                                     <div class="featured-one__left-img">
-                                        <img th:src="@{${'/assets/images/resources/cars/home/' + newCarAndModelWithImageDtos[0].modelWithImageDto.image + '.jpg'}}" th:alt="${'Rental car ' + newCarAndModelWithImageDtos[0].modelWithImageDto.libelle}">
+                                        <img th:src="@{${'/assets/images/resources/cars/home/' + mostPopularCarAndModelWithImageDtos[0].modelWithImageDto.image + '.jpg'}}" th:alt="${'Rental car ' + mostPopularCarAndModelWithImageDtos[0].modelWithImageDto.libelle}">
                                         <div class="featured-one__left-img-content">
-                                            <h2 class="featured-one__left-img-title"><a href="listings-details.html" th:text="${newCarAndModelWithImageDtos[0].modelWithImageDto.markDto.libelle + ' ' + newCarAndModelWithImageDtos[0].modelWithImageDto.libelle}"></a></h2>
-                                            <p class="featured-one__left-car-price"><span th:text="${newCarAndModelWithImageDtos[0].pricePerDay + 'DH'}"></span> /Jour</p>
+                                            <h2 class="featured-one__left-img-title"><a th:href="@{/listingsDetails(id = ${mostPopularCarAndModelWithImageDtos[0].id})}" th:text="${mostPopularCarAndModelWithImageDtos[0].modelWithImageDto.markDto.libelle + ' ' + mostPopularCarAndModelWithImageDtos[0].modelWithImageDto.libelle}"></a></h2>
+                                            <p class="featured-one__left-car-price"><span th:text="${mostPopularCarAndModelWithImageDtos[0].pricePerDay + 'DH'}"></span> /Jour</p>
                                         </div>
                                     </div>
                                 </div>
@@ -132,16 +137,16 @@
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6" th:each="newCarAndModelWithImageDto, status : ${newCarAndModelWithImageDtos}" th:if="${status.count > 1}">
+                                <div class="col-xl-6 col-lg-6 col-md-6" th:each="mostPopularCarAndModelWithImageDto, status : ${mostPopularCarAndModelWithImageDtos}" th:if="${status.count > 1}">
                                     <!--Featured One Single-->
                                     <div class="featured-one__single wow fadeInUp" th:data-wow-delay="${(100 * (status.count - 1)) + 'ms'}">
                                         <div class="featured-one__img">
-                                            <img th:src="@{${'/assets/images/resources/cars/home/' + newCarAndModelWithImageDto.modelWithImageDto.image + '.jpg'}}" th:alt="${'Rental car ' + newCarAndModelWithImageDto.modelWithImageDto.libelle}">
+                                            <img th:src="@{${'/assets/images/resources/cars/home/' + mostPopularCarAndModelWithImageDto.modelWithImageDto.image + '.jpg'}}" th:alt="${'Rental car ' + mostPopularCarAndModelWithImageDto.modelWithImageDto.libelle}">
                                             <div class="featured-one__img-content">
                                                 <h3 class="featured-one__img-content-title">
-                                                    <a th:href="@{/listingsDetails(id = ${newCarAndModelWithImageDto.id})}" th:text="${newCarAndModelWithImageDto.modelWithImageDto.markDto.libelle + ' ' + newCarAndModelWithImageDto.modelWithImageDto.libelle}"></a>
+                                                    <a th:href="@{/listingsDetails(id = ${mostPopularCarAndModelWithImageDto.id})}" th:text="${mostPopularCarAndModelWithImageDto.modelWithImageDto.markDto.libelle + ' ' + mostPopularCarAndModelWithImageDto.modelWithImageDto.libelle}"></a>
                                                 </h3>
-                                                <p class="featured-one__img-content-car-price"><span th:text="${newCarAndModelWithImageDto.pricePerDay + 'DH'}"></span> /Jour</p>
+                                                <p class="featured-one__img-content-car-price"><span th:text="${mostPopularCarAndModelWithImageDto.pricePerDay + 'DH'}"></span> /Jour</p>
                                             </div>
                                         </div>
                                     </div>
@@ -154,30 +159,31 @@
             <!--Featured One End-->
 
             <!--Explore Car Start-->
-            <section class="explore-car" th:object="${listingCarDtos}">
+            <section class="explore-car" th:object="${listingDtos}">
                 <div class="explore-car__container">
                     <div class="section-title text-center">
-                        <span class="section-title__tagline">Browse Hot Offers</span>
-                        <h2 class="section-title__title">Explore Car Range</h2>
+                        <span class="section-title__tagline">Parcourir les offres chaudes</span>
+                        <h2 class="section-title__title">Offres imbattables</h2>
                     </div>
                     <div class="row">
-                        <div th:each="bestOffreCarDto, status : ${bestOffreCarDtos}" class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" th:data-wow-delay="${(100 * status.count) + 'ms'}">
+                        <div th:each="hotListingDto, status : ${hotListingDtos}" class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" th:data-wow-delay="${(100 * status.count) + 'ms'}">
                             <!--Explore Car Single-->
-                            <a th:href="@{/listingsDetails(id = ${bestOffreCarDto.id})}">
+                            <a th:href="@{/listingsDetails(id = ${hotListingDto.id})}">
                                 <div class="explore-car__single">
                                     <div class="explore-car__img">
-                                        <img th:src="${'/assets/images/resources/cars/minimized/' + bestOffreCarDto.listingModelDto.image + '-min.jpg'}" alt="">
+                                        <img th:src="${'/assets/images/resources/cars/minimized/' + hotListingDto.listingModelDto.image + '-min.jpg'}" alt="">
                                         <div class="explore-car__icon">
                                             <i class="far fa-heart"></i>
                                         </div>
                                     </div>
                                     <div class="explore-car__content">
-                                        <h5 class="explore-car__sub-title" th:text="${bestOffreCarDto.listingCategoryDto.libelle}"></h5>
-                                        <h3 class="explore-car__title"><a th:href="@{/listingsDetails(id = ${bestOffreCarDto.id})}" th:text="${bestOffreCarDto.listingModelDto.listingMarkDto.libelle + ' ' + bestOffreCarDto.listingModelDto.libelle}"></a></h3>
-                                        <p class="explore-car__price"><span th:text="${bestOffreCarDto.pricePerDay + 'DH'}"> </span>/Jour</p>
+                                        <h5 class="explore-car__sub-title" th:text="${hotListingDto.listingCategoryDto.libelle}"></h5>
+                                        <h3 class="explore-car__title"><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.listingModelDto.listingMarkDto.libelle + ' ' + hotListingDto.listingModelDto.libelle}"></a></h3>
+                                        <p class="explore-car__price"><span th:text="${hotListingDto.pricePerDay + 'DH'}"> </span>/Jour</p>
                                         <ul class="list-unstyled explore-car__details">
-                                            <li><a th:href="@{/listingsDetails(id = ${bestOffreCarDto.id})}" th:text="${bestOffreCarDto.circulationYear + ' ' + bestOffreCarDto.listingFuelDto.libelle}"></a></li>
-                                            <li><a th:href="@{/listingsDetails(id = ${bestOffreCarDto.id})}" th:text="${bestOffreCarDto.autoTransmission}? 'Auto' : 'Manuel'"></a></li>
+                                            <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.listingAgenceWithTownDto.rsAgence}"></a></li>
+                                            <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.listingAgenceWithTownDto.addressTownDto.town}"></a></li>
+                                            <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.circulationYear + ' ' + hotListingDto.listingFuelDto.libelle}"></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -194,8 +200,8 @@
                     <div class="row">
                         <div class="col-xl-8">
                             <div class="download__content">
-                                <p class="download__text">Get our mobile app for easy and convenient usage</p>
-                                <h2 class="download__title">Download Our Application</h2>
+                                <p class="download__text">Obtenez notre application mobile pour une utilisation facile et pratique</p>
+                                <h2 class="download__title">Téléchargez notre application</h2>
                                 <div class="download__btns">
                                     <div class="download__btn-1">
                                         <a href="#">
@@ -247,8 +253,8 @@
                         <div class="col-xl-6 col-lg-6 pt-5">
                             <div class="rent-car__right">
                                 <div class="section-title text-left">
-                                    <span class="section-title__tagline">Get More Information</span>
-                                    <h2 class="section-title__title">About Premium Rent A Car</h2>
+                                    <span class="section-title__tagline">Obtenir plus d'informations</span>
+                                    <h2 class="section-title__title">À propos de Premium Location</h2>
                                 </div>
                                 <ul class="list-unstyled rent-car__list-box">
                                     <li>
@@ -256,7 +262,7 @@
                                             <span class="icon-tick"></span>
                                         </div>
                                         <div class="rent-car__content">
-                                            <h4 class="rent-car__content-title">Wide Range of Cars</h4>
+                                            <h4 class="rent-car__content-title">Large gamme de voitures</h4>
                                             <p class="rent-car__content-text">Lorem Ipsum nibh vel velit auctor aliquet.
                                                 Aenean sollic tudin, lorem is simply free text quis bibendum.</p>
                                         </div>
@@ -266,7 +272,7 @@
                                             <span class="icon-tick"></span>
                                         </div>
                                         <div class="rent-car__content">
-                                            <h4 class="rent-car__content-title">Trusted of Thousands</h4>
+                                            <h4 class="rent-car__content-title">Confiance de milliers</h4>
                                             <p class="rent-car__content-text">Lorem Ipsum nibh vel velit auctor aliquet.
                                                 Aenean sollic tudin, lorem is simply free text quis bibendum.</p>
                                         </div>
@@ -276,7 +282,7 @@
                                             <span class="icon-tick"></span>
                                         </div>
                                         <div class="rent-car__content">
-                                            <h4 class="rent-car__content-title">Best Car Rental Services</h4>
+                                            <h4 class="rent-car__content-title">Meilleurs services de location de voitures</h4>
                                             <p class="rent-car__content-text">Lorem Ipsum nibh vel velit auctor aliquet.
                                                 Aenean sollic tudin, lorem is simply free text quis bibendum.</p>
                                         </div>

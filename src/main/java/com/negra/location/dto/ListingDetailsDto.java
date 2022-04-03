@@ -2,7 +2,6 @@ package com.negra.location.dto;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -14,7 +13,7 @@ import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.PATTERN_COLOR;
 
 @Data
-public class ListingDetailsCarDto implements Serializable {
+public class ListingDetailsDto implements Serializable {
 
     private Long id;
 
@@ -45,7 +44,7 @@ public class ListingDetailsCarDto implements Serializable {
     private boolean androidAvailable;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Past(message = ERROR_CAR_DATE_MISE_CIRCULATION)
+    @Past(message = ERROR_CAR_DATE_CIRCULATION)
     private LocalDate dateCirculation;
 
     private int circulationYear;

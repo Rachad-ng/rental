@@ -11,14 +11,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.negra.location.utility.ErrorMessage.ERROR_MODEL_LIBELLE;
-import static com.negra.location.utility.ErrorMessage.ERROR_SEND_DATA;
+import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.PATTERN_MODEL;
 
 @Data
 @Entity
 @Table(name = "model")
 public class Model implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -32,14 +32,22 @@ public class Model implements Serializable {
     @NotNull(message = ERROR_SEND_DATA)
     private String image;
 
+    @NotNull(message = ERROR_MODEL_REFERENCE_PRICE)
+    private int referencePrice;
+
+    @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne
     @JoinColumn(name = "mark_id", nullable = false)
     private Mark mark;
 
     @OneToMany(mappedBy = "model")
     private Set<Car> carSet = new HashSet<>();
+
+    /*
+    @ManyToMany
+    private Set<Category> categorySet = new HashSet<>();
+     */
 
     // Gestion d'une relation bi-directionnel
 

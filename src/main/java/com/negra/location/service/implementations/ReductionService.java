@@ -15,6 +15,7 @@ public class ReductionService implements IReductionService {
     @Autowired
     private ReductionRepository reductionRepository;
 
+    @Override
     public void createReduction(Reduction reduction){
         reductionRepository.save(reduction);
     }

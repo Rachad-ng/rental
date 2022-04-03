@@ -48,15 +48,15 @@ public class CarCreationDto implements Serializable {
     private boolean childSeat;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_CAR_REGISTRATION_NUMBER, message = ERROR_CAR_MATRICULE)
+    @Pattern(regexp = PATTERN_CAR_REGISTRATION_NUMBER, message = ERROR_CAR_REGISTRATION_NUMBER)
     private String registrationNumber;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Past(message = ERROR_CAR_DATE_MISE_CIRCULATION)
+    @Past(message = ERROR_CAR_DATE_CIRCULATION)
     private LocalDate dateCirculation;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Min(value = 0, message = ERROR_CAR_KILOMETRAGE)
+    @Min(value = 0, message = ERROR_CAR_MILEAGE)
     private int mileage;
 
     @NotNull(message = ERROR_SEND_DATA)
@@ -71,12 +71,12 @@ public class CarCreationDto implements Serializable {
     @Min(value = 1, message = ERROR_CAR_MODEL)
     private long idModel;
 
-    @NotNull(message = ERROR_CAR_ENGINE)
-    @Min(value = 1, message = ERROR_CAR_ENGINE)
+    @NotNull(message = ERROR_CAR_FUEL)
+    @Min(value = 1, message = ERROR_CAR_FUEL)
     private long idFuel;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Min(value = 1, message = ERROR_CATEGORIE_NOT_FOUND)
+    @Min(value = 1, message = ERROR_CATEGORY_NOT_FOUND)
     private long idCategory;
 
     private List<MarkWithModelDto> markWithModelDtos = new ArrayList<>();

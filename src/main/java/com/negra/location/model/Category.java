@@ -1,6 +1,9 @@
 package com.negra.location.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.springframework.beans.factory.support.ManagedSet;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,6 +25,11 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     Set<Car> carSet = new HashSet<>();
+
+    /*
+    @ManyToMany
+    Set<Model> modelSet = new ManagedSet<>();
+     */
 
     // Gestion des relations bi-directionnels
 

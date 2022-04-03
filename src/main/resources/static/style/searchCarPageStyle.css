@@ -1,0 +1,10 @@
+
+.listing__content {
+    float: none;
+    margin: auto;
+    padding: 3rem 0rem;
+}
+
+.listing__search-form {
+    text-align: center;
+}

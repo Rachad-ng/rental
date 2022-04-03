@@ -38,6 +38,7 @@ public class AgentService implements IAgentService {
     @Autowired
     private ICategoryService categoryService;
 
+    @Override
     public void createAgent(AgentRegistrationDto agentRegistrationDto)
     {
         userService.isUserExists(agentRegistrationDto.getEmail());
@@ -55,6 +56,7 @@ public class AgentService implements IAgentService {
     }
 
     // Suppression d'agent après la suppression de l'adresse associe s'elle existe
+    @Override
     public void deleteAgent(Agent agent){
         Address address = agent.getAddress();
         try {
@@ -68,6 +70,7 @@ public class AgentService implements IAgentService {
     }
 
     // Recueration des donnée nécessaire pour l'ajout d'une voiture
+    @Override
     public void initialisationCarCreationFrom(org.springframework.ui.Model model) throws
             DataStoreException, IndexOutOfBoundsException {
 
@@ -95,7 +98,7 @@ public class AgentService implements IAgentService {
         model.addAttribute("nbMaxPlaces", NUMBER_PLACES_MAX);
     }
 
-
+    @Override
     public void recuperationInputData(CarCreationDto carCreationDto, org.springframework.ui.Model model) {
 
         // Recuperation des modeles de l'état precedente du formulaire

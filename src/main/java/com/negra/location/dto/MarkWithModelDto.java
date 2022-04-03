@@ -19,7 +19,6 @@ public class MarkWithModelDto implements Serializable {
 
     @NotNull(message = ERROR_SEND_DATA)
     @Pattern(regexp = PATTERN_MARk, message = ERROR_MARK_LIBELLE)
-
     private String libelle;
 
     private List<ModelDto> modelDtos = new ArrayList<>();

@@ -20,6 +20,7 @@ public class CostService implements ICostService {
     @Autowired
     private CostRepository costRepository;
 
+    @Override
     public void createCost(Cost cost, Car car){
         car.addCost(cost);
         try {
@@ -29,6 +30,7 @@ public class CostService implements ICostService {
         }
     }
 
+    @Override
     public void deleteCost(Cost cost){
         cost.getCar().removeCost(cost);
         try{

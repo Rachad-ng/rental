@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.util.List;
+
 import static com.negra.location.utility.ErrorMessage.ERROR_DATA;
 import static com.negra.location.utility.ErrorMessage.ERROR_DATA_STORING;
 
@@ -20,6 +22,7 @@ public class AddressService implements IAddressService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Override
     public void createAddress(Address address, Agent agent){
         agent.addAddress(address);
         try {
@@ -30,6 +33,7 @@ public class AddressService implements IAddressService {
 
     }
 
+    @Override
     public void deleteAddress(Address address){
         address.getAgent().removeAdresse(address);
         try {
@@ -37,6 +41,11 @@ public class AddressService implements IAddressService {
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA);
         }
+    }
+
+    @Override
+    public List<String> findAvailableTowns() {
+        return addressRepository.findAvailableTowns();
     }
 
 }

@@ -27,6 +27,7 @@ public class ModelService implements IModelService {
     @Autowired
     private MarkRepository markRepository;
 
+    @Override
     public void createModel(Model model, Mark mark){
         mark.addModel(model);
         try {
@@ -36,6 +37,7 @@ public class ModelService implements IModelService {
         }
     }
 
+    @Override
     public Model findById(long id) throws DataNotFoundException{
         Model model;
         Optional<Model> optionalModel = modelRepository.findById(id);
@@ -47,6 +49,7 @@ public class ModelService implements IModelService {
         return model;
     }
 
+    @Override
     public void deleteModel(Model model){
         model.getMark().removeModel(model);
         try {
@@ -56,6 +59,7 @@ public class ModelService implements IModelService {
         }
     }
 
+    @Override
     public  List<ModelWithImageDto> getByMark(long idMark){
         List<ModelWithImageDto> resultat = null;
         Optional<Mark> mark = markRepository.findById(idMark);

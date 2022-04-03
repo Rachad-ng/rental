@@ -29,6 +29,7 @@ public class MarKService implements IMarkService {
     private IModelService modelService;
 
     // Creation d'une marque
+    @Override
     public void createMarque(Mark mark){
         try{
             markRepository.save(mark);
@@ -38,6 +39,7 @@ public class MarKService implements IMarkService {
     }
 
     // Supprimer la marque après la suppression des models associes
+    @Override
     public void deleteMarque(Mark mark){
         Set<Model> models = mark.getModelSet();
         try {
@@ -51,18 +53,17 @@ public class MarKService implements IMarkService {
     }
 
     // Recuperations de tous les marques
+    @Override
     public List<Mark> findAll(){
         try{
-            List<Mark> marks = markRepository.findAll().stream()
-                    .sorted( Comparator.comparing( Mark::getLibelle ) )
-                    .collect( Collectors.toList() );
-
+            List<Mark> marks = markRepository.getAllMarkOrderedByLibelle();
             return marks;
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA);
         }
     }
 
+    @Override
     public Mark findById(long id){
 
         Optional<Mark> optionalMarque = markRepository.findById(id);

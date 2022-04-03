@@ -24,11 +24,13 @@ public class UserService implements IUserService {
     private UserRepository userRepository;
 
     // Methode de verification d'unicité des usernames lors de l'inscription
+    @Override
     public void isUserExists(String username) {
         Optional<User> user = userRepository.findByEmail(username);
         user.ifPresent(user1 -> {throw new AlreadyExistsException(ERROR_USER_ALREADY_EXISTS);});
     }
 
+    @Override
     public User findByUsername(String username){
         Optional<User> optionalUser = userRepository.findByEmail(username);
         if(optionalUser.isPresent())
@@ -37,6 +39,7 @@ public class UserService implements IUserService {
             throw new UserNotFoundException(ERROR_USER_NOT_FOUND);
     }
 
+    @Override
     public String getCurrentUsername() {
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

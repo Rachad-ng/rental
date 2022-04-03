@@ -17,6 +17,7 @@ public class AdministratorService implements IAdministratorService {
     @Autowired
     private UserService userService;
 
+    @Override
     public void createAdministrateur(Administrator administrator){
         userService.isUserExists(administrator.getEmail());
         administrateurRepository.save(administrator);

@@ -1,9 +1,9 @@
 package com.negra.location.service.implementations;
 
 import com.negra.location.exception.DataStoreException;
+import com.negra.location.model.Booking;
 import com.negra.location.model.Rental;
 import com.negra.location.model.Reduction;
-import com.negra.location.model.Reservation;
 import com.negra.location.repository.LocationRepository;
 import com.negra.location.service.interfaces.IRentalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,9 @@ public class RentalService implements IRentalService {
     @Autowired
     private LocationRepository locationRepository;
 
-    public void createLocation(Rental rental, Reservation reservation, Reduction reduction){
-        reservation.addRental(rental);
+    @Override
+    public void createLocation(Rental rental, Booking booking, Reduction reduction){
+        booking.addRental(rental);
         reduction.addLocation(rental);
         try {
             locationRepository.save(rental);
@@ -32,8 +33,9 @@ public class RentalService implements IRentalService {
 
     }
 
+    @Override
     public void deleteLocation(Rental rental){
-        rental.getReservation().removeRental();
+        rental.getBooking().removeRental();
         rental.getReduction().removeLocation(rental);
         try {
             locationRepository.delete(rental);

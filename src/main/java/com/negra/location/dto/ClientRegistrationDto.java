@@ -30,14 +30,14 @@ public class ClientRegistrationDto implements Serializable {
     private String role;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_USER_TEL, message = ERROR_USER_TELE_INVALID)
+    @Pattern(regexp = PATTERN_USER_TEL, message = ERROR_USER_TEL_INVALID)
     private String tel;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_NOM_INVALID)
+    @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_LASTNAME_INVALID)
     private String lastname;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_PRENOM_INVALID)
+    @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_FIRSTNAME_INVALID)
     private String firstname;
 }

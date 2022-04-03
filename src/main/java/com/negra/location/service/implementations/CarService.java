@@ -14,7 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.negra.location.utility.ErrorMessage.*;
 
@@ -38,24 +40,40 @@ public class CarService implements ICarService {
     private IModelService modelService;
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private IMarkService markService;
+    @Autowired
+    private IBookingService bookingService;
 
     @Override
-    public Map<String, Object> getHomePageCars() {
+    public Map<String, Object> getHomePageListings() {
         Map<String, Object> data = new HashMap<>();
 
         try{
-            Page<Car> newCarsPage = carRepository.findNewCars(PageRequest.of(0,5));
-            List<Car> newCars = newCarsPage.getContent();
-            List<CarAndModelWithImageDto> newCarAndModelWithImageDtos = new ArrayList<>();
-            MapperService.carsToCarAndModelWithImageDtos(newCars, newCarAndModelWithImageDtos);
+            Page<Car> mostPopularListingsPage = carRepository.findMostPopular(PageRequest.of(0,5));
+            List<Car> mostPopularListings = mostPopularListingsPage.getContent();
 
-            Page<Car> bestOffreCarsPage = carRepository.findHotOffers(PageRequest.of(0, 4));
-            List<Car> bestOffreCars = bestOffreCarsPage.getContent();
-            List<ListingCarDto> bestOffreCarDtos = new ArrayList<>();
-            MapperService.carsToListingCarDtos(bestOffreCars, bestOffreCarDtos);
+        /*
+            List<Car> cars = carRepository.findAll();
+            Collections.sort(cars, new Comparator<Car>() {
+                @Override
+                public int compare(Car c1, Car c2) {
+                    return c2.getVisitSet().size() - c1.getVisitSet().size();
+                }
+            });
+            List<Car> mostPopularListings = cars.subList(0, 5);
+        */
 
-            data.put("newCarAndModelWithImageDtos", newCarAndModelWithImageDtos);
-            data.put("bestOffreCarDtos", bestOffreCarDtos);
+            List<CarAndModelWithImageDto> mostPopularCarAndModelWithImageDtos = new ArrayList<>();
+            MapperService.carsToCarAndModelWithImageDtos(mostPopularListings, mostPopularCarAndModelWithImageDtos);
+
+            Page<Car> bestListingCarsPage = carRepository.findHotListingCars(PageRequest.of(0, 4));
+            List<Car> bestListingCars = bestListingCarsPage.getContent();
+            List<ListingDto> hotListingDtos = new ArrayList<>();
+            MapperService.carsToListingDtos(bestListingCars, hotListingDtos);
+
+            data.put("mostPopularCarAndModelWithImageDtos", mostPopularCarAndModelWithImageDtos);
+            data.put("hotListingDtos", hotListingDtos);
 
             return data;
         }catch(Exception e){
@@ -63,6 +81,7 @@ public class CarService implements ICarService {
         }
     }
 
+    @Override
     public void createCar(CarCreationDto carCreationDto) {
 
         // Verification d'existance des objets, sinn on lève une exception au controlleur
@@ -83,6 +102,7 @@ public class CarService implements ICarService {
         insertCar(car, model, fuel, agent, category);
     }
 
+    @Override
     public void insertCar(Car car, Model model, Fuel fuel, Agent agent, Category category) {
         model.addCar(car);
         fuel.addCar(car);
@@ -95,30 +115,32 @@ public class CarService implements ICarService {
         }
     }
 
+    @Override
     public Car findByRegistrationNumber(String matricule) {
         Optional<Car> optinalVoiture = carRepository.findByRegistrationNumber(matricule);
         if(optinalVoiture.isPresent())
-            throw new AlreadyExistsException(ERROR_CAR_MATRICLE_ALREADY_EXISTS);
+            throw new AlreadyExistsException(ERROR_CAR_REGISTRATION_NUMBER_ALREADY_EXISTS);
         else
             return null;
     }
 
+    @Override
     public Map<String, Object> findAll(int page, int size){
         try{
-            Page<Car> carPages = carRepository.findAllOrdredByIdDesc(PageRequest.of(page, size));
-            int numberOfPages = carPages.getTotalPages();
-            long numberOfCars = carPages.getTotalElements();
-            List<Car> cars = carPages.getContent();
+            Page<Car> listingsPage = carRepository.findAllOrdredByIdDesc(PageRequest.of(page, size));
+            int numberOfPages = listingsPage.getTotalPages();
+            long numberOfListings = listingsPage.getTotalElements();
+            List<Car> cars = listingsPage.getContent();
 
             // Mapper le resultat dans une list ListingCarDto
-            List<ListingCarDto> listingCarDtos = new ArrayList<>();
-            MapperService.carsToListingCarDtos(cars, listingCarDtos);
+            List<ListingDto> listingDtos = new ArrayList<>();
+            MapperService.carsToListingDtos(cars, listingDtos);
 
             // Création d'une Map, pour passer les données nécessaire à la couche de présentation
             Map<String, Object> data = new HashMap<>();
-            data.put("listingCarDtos", listingCarDtos);
+            data.put("listingDtos", listingDtos);
             data.put("numberOfPages", numberOfPages);
-            data.put("numberOfCars", numberOfCars);
+            data.put("numberOfListings", numberOfListings);
 
             return data;
         }catch (Exception e){
@@ -126,7 +148,7 @@ public class CarService implements ICarService {
         }
     }
 
-
+    @Override
     public void deleteCar(Car car){
 
         car.getModel().removeCar(car);
@@ -143,9 +165,9 @@ public class CarService implements ICarService {
             maintenanceService.deleteMaintenance(maintenance);
 
         // Suppression des reservation
-        Set<Reservation> reservations = car.getReservationSet();
-        for (Reservation reservation: reservations)
-            reservationService.deleteReservation(reservation);
+        Set<Booking> bookings = car.getBookingSet();
+        for (Booking booking : bookings)
+            reservationService.deleteReservation(booking);
 
         try{
             carRepository.delete(car);
@@ -154,23 +176,127 @@ public class CarService implements ICarService {
         }
     }
 
-    public Map<String, Object> getListingDetailsCarDtoAndSimilarListingCarDtos(long id){
+    @Override
+    public Map<String, Object> getListingDetailsDtoAndSimilarListingDtos(long id){
         Map<String, Object> data = new HashMap<>();
 
-        ListingDetailsCarDto listingDetailsCarDto = new ListingDetailsCarDto();
+        ListingDetailsDto listingDetailsDto = new ListingDetailsDto();
         Car car = carRepository.getById(id);
-        MapperService.carToListingDetailsCarDto(car, listingDetailsCarDto);
+        MapperService.carToListingDetailsCarDto(car, listingDetailsDto);
 
         // Recuperation des voitures similaires
         Page<Car> smilarCarsPage = carRepository.findSimilarCars(car.getCategory().getId(), car.getFuel().getId(), car.getPricePerDay() / 2, car.getPricePerDay() * 2, car.getId(), PageRequest.of(0,3));
         List<Car> smilarCars = smilarCarsPage.getContent();
-        List<ListingCarDto> similarListingCarDtos = new ArrayList<>();
-        MapperService.carsToListingCarDtos(smilarCars, similarListingCarDtos);
+        List<ListingDto> similarListingDtos = new ArrayList<>();
+        MapperService.carsToListingDtos(smilarCars, similarListingDtos);
 
-        data.put("listingDetailsCarDto", listingDetailsCarDto);
-        data.put("similarListingCarDtos", similarListingCarDtos);
+        data.put("listingDetailsDto", listingDetailsDto);
+        data.put("similarListingDtos", similarListingDtos);
 
         return data;
+    }
+
+    @Override
+    public Car findById(Long id) throws DataNotFoundException {
+        Optional<Car> car = carRepository.findById(id);
+        if(car.isPresent())
+            return car.get();
+        else
+            throw new DataNotFoundException(ERROR_CAR_NOT_FOUND);
+    }
+
+    @Override
+    public List<Long> getNotReservedCarIds() {
+        return carRepository.getNotReservedCars();
+    }
+
+    @Override
+    public List<Car> findListingsWithoutDateConstraint(String markLibelle, String modelLibelle, String town) {
+        return carRepository.findCarsWithoutDateConstraint(markLibelle, modelLibelle, town);
+    }
+
+    @Override
+    public List<Car> getAvailableCars(HomeSearchCarDto homeSearchCarDto) throws DateException {
+
+        int idMark = homeSearchCarDto.getIdMark();
+        int idModel = homeSearchCarDto.getIdModel();
+        String town = homeSearchCarDto.getTown();
+        LocalDate startDate = homeSearchCarDto.getStartDate();
+        LocalDate backDate = homeSearchCarDto.getBackDate();
+
+        Mark mark;
+        Model model;
+        String markLibelle = "%", modelLibelle = "%";
+
+        List<Car> carList;
+
+        if (idModel >= 1) {
+            try {
+                model = modelService.findById(idModel);
+                modelLibelle = model.getLibelle();
+            } catch (DataNotFoundException e) {
+                // Si le model n'existe pas, on selectionne tous les modeles
+                if (idMark >= 1) {
+                    try {
+                        mark = markService.findById(idMark);
+                        markLibelle = mark.getLibelle();
+                    } catch (DataNotFoundException e1) {
+                        // Si la marque n'existe pas, on selectionne tous les marques
+                    }
+                }
+            }
+        } else {
+            // Si le model n'existe pas, on teste si l'utilisateur est intérésseé que par la marque
+            if (idMark >= 1) {
+                try {
+                    mark = markService.findById(idMark);
+                    markLibelle = mark.getLibelle();
+                } catch (DataNotFoundException e1) {
+                    // Si la marque n'existe pas, on selectionne tous les marques
+                }
+            }
+        }
+
+        if ("".equals(town))
+            town = "%";
+
+        carList = findListingsWithoutDateConstraint(markLibelle, modelLibelle, town);
+
+        // Manage Booking date constraints
+        if (startDate != null) {
+            if(startDate.isAfter(LocalDate.now())) {
+
+                // On doit éliminer les voitures déja résérvées
+                List<Long> reservedCarIds;
+                List<Long> notReservedCarIds = getNotReservedCarIds();
+
+                if (backDate != null) {
+                    if (backDate.isAfter(startDate)) {
+                        // La plage de date est précisée
+
+                        // Selectionner les voitures dont leurs reservations se terminent avant , ou commencent après la réservation souhaitée.
+                        reservedCarIds = bookingService.getReservedCarIds(startDate, backDate);
+
+                        // Selectionner les voitures non-réservées ou bien celles qui satisfait la contraites des réservations en cours
+                        carList = carList.stream().
+                                filter(c -> notReservedCarIds.contains(c.getId()) || reservedCarIds.contains(c.getId())).collect(Collectors.toList());
+                    } else
+                        throw new DateException(ERROR_RESERVATION_END_DATE_INVALID);
+                } else {
+                    // L'utilisateur n'a spécifié que la date de départ
+
+                    // Selectionner les voitures dont les période de réservations contient la date souhaitée.
+                    reservedCarIds = bookingService.getReservedCarIds(startDate);
+
+                    // Selectionner les voitures non-réservées ou bien celles qui satisfait la contraites des réservations en cours
+                    carList = carList.stream().
+                            filter(c -> notReservedCarIds.contains(c.getId()) || !reservedCarIds.contains(c.getId())).collect(Collectors.toList());
+                }
+            }else
+                throw new DateException(ERROR_RESERVATION_START_DATE_INVALID);
+        }
+
+        return carList;
     }
 
 }

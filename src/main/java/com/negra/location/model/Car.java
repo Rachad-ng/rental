@@ -25,27 +25,27 @@ public class Car implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne
     @JoinColumn(name = "model_id", nullable = false)
     private Model model;
 
+    @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne
     @JoinColumn(name = "agent_id", nullable = false)
     private Agent agent;
 
+    @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne
     @JoinColumn(name = "fuel_id", nullable = false)
     private Fuel fuel;
 
@@ -56,7 +56,10 @@ public class Car implements Serializable {
     private Set<Maintenance> maintenanceSet = new HashSet<>();
 
     @OneToMany(mappedBy = "car")
-    private Set<Reservation> reservationSet = new HashSet<>();
+    private Set<Booking> bookingSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "car")
+    private Set<Visit> visitSet = new HashSet<>();
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CAR_PLACES_NUMBER)
@@ -94,18 +97,18 @@ public class Car implements Serializable {
     private boolean childSeat;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Pattern(regexp = PATTERN_CAR_REGISTRATION_NUMBER, message = ERROR_CAR_MATRICULE)
+    @Pattern(regexp = PATTERN_CAR_REGISTRATION_NUMBER, message = ERROR_CAR_REGISTRATION_NUMBER)
     @Column(nullable = false)
     private String registrationNumber;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Past(message = ERROR_CAR_DATE_MISE_CIRCULATION)
+    @Past(message = ERROR_CAR_DATE_CIRCULATION)
     @Basic
     @Column(nullable = false)
     private LocalDate dateCirculation;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Min(value = 0, message = ERROR_CAR_KILOMETRAGE)
+    @Min(value = 0, message = ERROR_CAR_MILEAGE)
     @Column(nullable = false)
     private int mileage;
 
@@ -141,12 +144,21 @@ public class Car implements Serializable {
         this.getMaintenanceSet().remove(maintenance);
     }
 
-    public void addReservation(Reservation reservation){
-        reservation.setCar(this);
-        this.getReservationSet().add(reservation);
+    public void addReservation(Booking booking){
+        booking.setCar(this);
+        this.getBookingSet().add(booking);
     }
 
-    public void removeReservation(Reservation reservation){
-        this.getReservationSet().remove(reservation);
+    public void removeReservation(Booking booking){
+        this.getBookingSet().remove(booking);
+    }
+
+    public void addVisit(Visit visit){
+        visit.setCar(this);
+        this.getVisitSet().add(visit);
+    }
+
+    public void removeVisit(Visit visit){
+        this.getVisitSet().remove(visit);
     }
 }

@@ -20,6 +20,7 @@ public class MaintenanceService implements IMaintenanceService {
     @Autowired
     private EntretienRepository entretienRepository;
 
+    @Override
     public void createMaintenance(Maintenance maintenance, Car car){
         car.addMaintenance(maintenance);
         try{
@@ -29,6 +30,7 @@ public class MaintenanceService implements IMaintenanceService {
         }
     }
 
+    @Override
     public void deleteMaintenance(Maintenance maintenance){
         maintenance.getCar().removeMaintenance(maintenance);
         try{

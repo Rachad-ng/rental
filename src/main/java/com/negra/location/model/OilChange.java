@@ -14,7 +14,7 @@ import static com.negra.location.utility.ErrorMessage.*;
 public class OilChange extends Maintenance {
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Min(value = 0, message = ERROR_VIDANGE_KILOMETRAGE_MAX_INVALID)
+    @Min(value = 0, message = ERROR_OIL_CHANGE_MILEAGE_MAX_INVALID)
     @Column(nullable = false, columnDefinition = "int default 0")
     private int maxMileage;
 

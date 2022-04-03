@@ -2,6 +2,8 @@ package com.negra.location.model;
 
 import com.negra.location.utility.NotorietyUtility;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,6 +22,8 @@ public class Agent extends User {
     private Set<Car> carSet = new HashSet<>();
 
     @OneToOne
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @JoinColumn(name = "address_id")
     private Address address;
 
