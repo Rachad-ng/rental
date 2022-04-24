@@ -2,6 +2,7 @@ package com.negra.location.service.implementations;
 
 import com.negra.location.dto.HomeSearchCarDto;
 import com.negra.location.dto.MarkWithModelDto;
+import com.negra.location.mapper.MarkWithModelDtoMapper;
 import com.negra.location.model.Mark;
 import com.negra.location.service.interfaces.IAddressService;
 import com.negra.location.service.interfaces.IMarkService;
@@ -22,14 +23,15 @@ public class SearchService implements ISearchService {
     private IMarkService markService;
     @Autowired
     private IAddressService addressService;
+    @Autowired
+    private MarkWithModelDtoMapper markWithModelDtoMapper;
 
     @Override
     public HomeSearchCarDto initializeSearchCarForm() {
 
         // Get Marks With Models
         List<Mark> markList = markService.findAll();
-        List<MarkWithModelDto> markWithModelDtos = new ArrayList<>();
-        MapperService.marksToMarkWithModelDtos(markList, markWithModelDtos);
+        List<MarkWithModelDto> markWithModelDtos = markWithModelDtoMapper.markToMarkWithModelDto(markList);
 
         // Get Available Towns
         List<String> townList = addressService.findAvailableTowns();

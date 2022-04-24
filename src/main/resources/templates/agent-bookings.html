@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+    <head>
+        <meta th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
+        <title>Bookings</title>
+        <link rel="stylesheet" th:href="@{/style/booking-style.css}">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script th:src="@{/script/modal-booking.js}"></script>
+    </head>
+    <body>
+
+        <section layout:fragment="content">
+
+            <!--Explore Car Start-->
+            <section class="explore-car" th:object="${bookingAgentDtos}">
+                <div class="explore-car__container text-center">
+
+                    <!--Explore Cars Title Start -->
+                    <div class="section-title text-center" th:if="${bookingAgentDtos}">
+                        <span class="section-title__tagline">Consulter l'états des reservations</span>
+                        <h2 class="section-title__title">Vos reservations</h2>
+                    </div>
+                    <!--Explore Cars Title End -->
+
+                    <!--Explore Cars Content Start -->
+                    <div class="row justify-content-center">
+                        <div th:each="bookingAgentDto, status : ${bookingAgentDtos}" class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" th:data-wow-delay="${(100 * status.count) + 'ms'}">
+
+                            <!--Explore Car Single Start-->
+                            <a th:href="@{/listingsDetails(id = ${bookingAgentDto.car.id})}">
+                                <div class="explore-car__single">
+
+                                    <div class="explore-car__img">
+                                        <img th:src="${'/assets/images/resources/cars/minimized/' + bookingAgentDto.car.model.image + '-min.jpg'}" alt="">
+                                        <div class="explore-car__icon">
+                                            <i class="far fa-heart"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="row icons mx-0">
+                                        <div class="col-4 booking-item booking-car p-0" data-bs-toggle="modal" data-bs-target="#car-modal">
+                                            <a href="#" th:class="${bookingAgentDto.id}">
+                                                <i class="fas fa-car me-2"></i><span>Voiture</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-4 booking-item booking-user p-0" data-bs-toggle="modal" data-bs-target="#client-modal">
+                                            <a href="#" th:class="${bookingAgentDto.id}" >
+                                                <i class="fas fa-user me-2"></i><span>Client</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-4 booking-item booking-manager p-0" data-bs-toggle="modal" data-bs-target="#manager-modal">
+                                            <a href="#" th:class="${bookingAgentDto.id}">
+                                                <i class="fas fa-ellipsis-h me-2"></i><span>Gérer</span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="explore-car__content">
+                                        <p class="booking-duration"><span th:text="${bookingAgentDto.startDate + ' - ' + bookingAgentDto.backDate}"> </span></p>
+
+                                        <div class="mt-2 w-50 m-auto">
+                                            <p th:if="${bookingAgentDto.state != 'closed'}" th:class="${bookingAgentDto.state}" th:id="${'state-' + bookingAgentDto.id}" th:text="${bookingAgentDto.state == 'inprogress' ? 'En cours' : 'Confirmé'}"></p>
+                                            <p th:if="${bookingAgentDto.state == 'closed'}" th:class="${bookingAgentDto.state}" th:id="${'state-' + bookingAgentDto.id}">Archivé</p>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </a>
+                            <!--Explore Car Single Start End-->
+
+                        </div>
+                    </div>
+                    <!--Explore Cars Content End -->
+
+                    <!-- Modal Car Start -->
+                    <div class="modal fade" id="car-modal">
+                        <div class="modal-dialog modal-dialog-centered">
+
+                            <div class="modal-content">
+
+                                <!-- Modal car content start -->
+                                <div id="modal-car-content">
+                                    <!-- Modal Header start -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title text-light">Véhicule</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <!-- Modal Header end -->
+
+                                    <!-- Modal body start -->
+                                    <div class="p-4">
+
+                                        <div id="modal-car-details" class="text-start">
+
+                                            <h4 class="message-error text-danger text-center my-5 d-none"></h4>
+
+                                            <ul class="modal-list modal-list-car">
+                                                <li>Marque  :  <span id="mark"></span></li>
+                                                <li>Model  :  <span id="model"></span></li>
+                                                <li>Matricule  :  <span id="registration-number"></span></li>
+                                                <li>Assurance  :  <span id="assurance"></span></li>
+                                                <li>Visite Technique  :  <span id="technical-visit"></span></li>
+                                                <li>Vignette  :  <span id="car-sticker"></span></li>
+                                                <li>kilometrage  :  <span id="mileage"></span></li>
+                                                <li>Kilometrage de vidange :  <span id="oil-change-mileage"></span></li>
+                                                <li>Prix/jour  :  <span id="price"></span></li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <!-- Modal body end -->
+                                </div>
+                                <!-- Modal car content end -->
+
+                                <!-- Modal footer start -->
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-exit rounded-pill" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                                <!-- Modal footer end -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Modal Car End -->
+
+                    <!-- Modal Client Start -->
+                    <div class="modal fade" id="client-modal">
+                        <div class="modal-dialog modal-dialog-centered">
+
+                            <div class="modal-content">
+
+                                <!-- Modal client content start -->
+                                <div id="modal-client-content">
+                                    <!-- Modal Header start -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title text-light">Client</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <!-- Modal Header end -->
+
+                                    <!-- Modal body start -->
+                                    <div class="p-4">
+
+                                        <div id="modal-client-details" class="text-center">
+
+                                            <h4 class="message-error text-danger text-center my-5 d-none"></h4>
+
+                                            <ul class="modal-list modal-list-client">
+                                                <li>Nom  :  <span id="lastname"></span></li>
+                                                <li>Prénom  :  <span id="firstname"></span></li>
+                                                <li>Tél  :  <span id="phone-number"></span></li>
+                                                <li>Email  :  <span id="email"></span></li>
+                                                <li>Membre depuis  :  <span id="registration-date"></span></li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <!-- Modal body end -->
+                                </div>
+                                <!-- Modal client content end -->
+
+                                <!-- Modal footer start -->
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-exit rounded-pill" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                                <!-- Modal footer end -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Modal Client End -->
+
+                    <!-- Modal Manager Start -->
+                    <div class="modal fade" id="manager-modal">
+                        <div class="modal-dialog modal-dialog-centered">
+
+                            <div class="modal-content">
+
+                                <!-- Modal booking manager start -->
+                                <div id="modal-booking-manager-content">
+
+                                    <!-- Modal Header start -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title text-light">Reservation</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <!-- Modal Header end -->
+
+                                    <!-- Modal body start -->
+                                    <div class="p-4">
+
+                                        <h4 class="message-success text-success text-center my-5 d-none"></h4>
+                                        <h4 class="message-error text-danger text-center my-5 d-none"></h4>
+
+                                        <div id="modal-booking-manager-form">
+
+                                            <h5 class="text-white text-center mb-4">Gérer votre reservation : </h5>
+
+                                            <div class="form-checks">
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" id="confirm-booking" name="operation" value="confirm-booking" checked>
+                                                    <label class="form-check-label" for="confirm-booking">Confirmer</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" id="start-location" name="operation" value="start-location">
+                                                    <label class="form-check-label" for="start-location">Démarer</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" id="cancel-booking"  name="operation" value="cancel-booking">
+                                                    <label class="form-check-label" for="cancel-booking">Annuler</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- Modal body end -->
+                                </div>
+                                <!-- Modal booking manager end -->
+
+                                <!-- Modal footer start -->
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-add booking-manger-btn rounded-pill">Ok</button>
+                                    <button type="button" class="btn btn-exit rounded-pill" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                                <!-- Modal footer end -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Modal Manager End -->
+
+                    <!-- listing pagination start -->
+                    <div class="listing__pagination-box" th:if="${bookingAgentDtos != null && totalBookings > numberOfBookingPerPage}">
+                        <ul class="listing__pagination list-unstyled">
+                            <li class="next" th:if="${currentPage > 0}">
+                                <a th:href="@{/agent/bookings}" aria-label="Previous"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></a>
+                            </li>
+                            <li class="next" th:if="${currentPage > 0}">
+                                <a th:href="@{/agent/bookings(page=${currentPage - 1})}" aria-label="Previous"><i class="fa fa-angle-left"></i></a>
+                            </li>
+                            <li class="count" th:each="i : ${#numbers.sequence( 1, totalPages)}" th:if="${(i > (currentPage - numberOfBookingPerPage + 2)) && (i < currentPage + numberOfBookingPerPage)}">
+                                <a th:style="${currentPage == (i-1)? 'background-color: #0aa5cd; color: white;' : ''}" th:text="${i}" th:href="@{/agent/bookings(page=${i-1} , size=${numberOfBookingPerPage})}"></a>
+                            </li>
+                            <li class="previous" th:if="${currentPage < (totalPages - 1)}">
+                                <a th:href="@{/agent/bookings(page=${currentPage + 1})}" aria-label="Next"><i class="fa fa-angle-right"></i></a>
+                            </li>
+                            <li class="previous" th:if="${currentPage < (totalPages - 1)}">
+                                <a th:href="@{/agent/bookings(page=${totalPages - 1})}" aria-label="Next"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- listing pagination end -->
+
+                </div>
+            </section>
+            <!--Explore Car End-->
+
+            <!--Booking not found block info start -->
+            <section class="error-page" th:if="${bookingsNotFoundInfoMessage}">
+                <div class="container">
+                    <div class="row shadow p-5">
+                        <div class="col-xl-12">
+                            <div class="error-page__inner">
+                                <h3 class="error-page__tagline">Vous n'avez aucune reservation pour le moment!</h3>
+                                <p class="error-page__text">Ajouter des annonces en ligne , et cibler un grand nombre de clients</p>
+                                <a th:href="@{/agent/newCar}" class="thm-btn error-page__btn m-4">Nouvelle Offre</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Booking not found block info end -->
+
+        </section>
+
+    </body>
+</html>

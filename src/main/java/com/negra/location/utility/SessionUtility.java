@@ -11,4 +11,5 @@ public class SessionUtility {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attr.getRequest().getSession(true); // true == allow create
     }
+
 }

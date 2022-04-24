@@ -7,14 +7,14 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.PATTERN_RESERVATION_STATE;
 
 @Data
 @Entity
-@Table(name = "reservation")
+@Table(name = "booking")
 public class Booking implements Serializable {
 
     @Id
@@ -31,8 +31,8 @@ public class Booking implements Serializable {
     @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToOne
     @ToString.Exclude
@@ -41,19 +41,19 @@ public class Booking implements Serializable {
     private Rental rental;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Past(message = ERROR_RESERVATION_START_DATE_INVALID)
+    @Future(message = ERROR_BOOKING_START_DATE_INVALID)
     @Basic
     @Column(nullable = false)
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @NotNull(message = ERROR_SEND_DATA)
-    @Future(message = ERROR_RESERVATION_END_DATE_INVALID)
+    @Future(message = ERROR_BOOKING_BACK_DATE_INVALID)
     @Basic
     @Column(nullable = false)
-    private LocalDateTime backDate;
+    private LocalDate backDate;
 
-    @NotNull(message = ERROR_RESERVATION_STATE_REQUIRED)
-    @Pattern(regexp = PATTERN_RESERVATION_STATE, message = ERROR_RESERVATION_STATE_INVALID)
+    @NotNull(message = ERROR_BOOKING_STATE_REQUIRED)
+    @Pattern(regexp = PATTERN_RESERVATION_STATE, message = ERROR_BOOKING_STATE_INVALID)
     @Column(nullable = false)
     private String state;
 
@@ -66,5 +66,17 @@ public class Booking implements Serializable {
 
     public void removeRental(){
         this.setRental(null);
+    }
+
+
+    // Booking Constructs
+    public Booking() {
+
+    }
+
+    public Booking(LocalDate startDate, LocalDate backDate){
+        this.startDate = startDate;
+        this.backDate = backDate;
+        this.state = "inprogress";
     }
 }

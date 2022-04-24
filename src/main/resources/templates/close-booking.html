@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+    <head>
+        <title>Rental</title>
+        <link rel="stylesheet" th:href="@{/style/rental-style.css}">
+    </head>
+    <body>
+
+        <section layout:fragment="content">
+
+        <div class="row mt-5" th:object="${rentalCreationReductionDtoList}">
+            <div class="container container-form col-10 col-md-6" th:object="${bookingCreateRentalDto}">
+                <h2 class="text-center m-4">Location</h2>
+                <div class="text-center">
+                    <h6 th:text="${'Véhicule : ' + bookingCreateRentalDto.car.model.mark.libelle + ' ' + bookingCreateRentalDto.car.model.libelle}"></h6>
+                    <h6 th:text="${'Matricule : ' + bookingCreateRentalDto.car.registrationNumber}"></h6>
+                    <h6 th:text="${'Kilometrage : ' + bookingCreateRentalDto.car.mileage}"></h6>
+                    <h6 th:text="${'Période : ' + bookingCreateRentalDto.startDate + ' - ' + bookingCreateRentalDto.backDate}"></h6>
+                </div>
+                <!--<ul>
+                    <li>Marque : <span th:text="${bookingCreateRentalDto.car.model.mark.libelle}"></span></li>
+                    <li>Marque : <span th:text="${bookingCreateRentalDto.car.model.libelle}"></span></li>
+                    <li>Matricule : <span th:text="${bookingCreateRentalDto.car.registrationNumber}"></span></li>
+                    <li>Kilometrage : <span th:text="${bookingCreateRentalDto.car.mileage}"></span></li>
+                    <li>Prix/jour : <span th:text="${bookingCreateRentalDto.car.pricePerDay}"></span></li>
+                    <li>Reservation start : <span th:text="${bookingCreateRentalDto.startDate}"></span></li>
+                    <li>Reservation end : <span th:text="${bookingCreateRentalDto.backDate}"></span></li>
+                    <li>Location start date : <span th:text="${bookingCreateRentalDto.rental.startDate}"></span></li>
+                    <li>Location start mileage : <span th:text="${bookingCreateRentalDto.rental.startMileage}"></span></li>
+                    <li>Reduction id : <span th:text="${bookingCreateRentalDto.rental.reduction.id}"></span></li>
+                    <li>Reduction duration : <span th:text="${bookingCreateRentalDto.rental.reduction.duration}"></span></li>
+                    <li>Reduction rate : <span th:text="${bookingCreateRentalDto.rental.reduction.reductionRate}"></span></li>
+                </ul>-->
+
+                <div class="alert alert-info py-0 w-50 m-auto text-center mb-3" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+                <div class="alert alert-danger" th:if="${param.error}" >L'authentification est échoué.!!</div>
+                <form th:action="@{/close-booking}" method="post" class="m-5">
+
+                    <ul class="list-unstyled listing-details__start-booking-form clearfix">
+                        <li class="listing-details__start-booking-input shadow">
+                            <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('rental.startDate')}" th:errors="*{rental.startDate}"></div>
+                            <input type="text" class="f-item" name="rentalStartDate" placeholder="Select start date" id="datepicker" th:field="*{rental.startDate}" th:value="*{startDate}" required>
+                            <div class="listing-details__start-bookin-icon-box">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </li>
+                        <li class="listing-details__start-booking-input shadow">
+                            <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('rental.backDate')}" th:errors="*{rental.backDate}"></div>
+                            <input type="text" class="f-item" name="rentalBackDate" placeholder="Select back date" id="datepicker2" th:field="*{rental.backDate}" th:value="*{backDate}" required>
+                            <div class="listing-details__start-bookin-icon-box">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </li>
+                        <li class="search-box__input shadow">
+                            <select class="selectpicker f-item" aria-label="Default select example">
+                                <option selected>Select reduction</option>
+                                <option th:each="rentalCreationReductionDto : ${rentalCreationReductionDtoList}" th:value="${rentalCreationReductionDto.id}" th:text="${rentalCreationReductionDto.duration}"></option>
+                            </select>
+                        </li>
+                    </ul>
+
+                    <div class="alert alert-danger py-0 w-50 m-auto" th:if="${#fields.hasErrors('rental.startMileage')}" th:errors="*{rental.startMileage}"></div>
+                    <div class="form-floating shadow">
+                        <input type="text" class="form-control border-0 input-Mileage f-item" id="mileage" th:field="*{rental.startMileage}" required>
+                        <label for="mileage">Kilometrage</label>
+                    </div>
+
+                    <!-- Pour passer l'id de reservation -->
+                    <input type="hidden" name="idBooking" th:value="${bookingCreateRentalDto.id}">
+
+                    <div class="text-center mt-5">
+                        <button type="submit" class="btn btn-submit">OK</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </section>
+
+    </body>
+</html>

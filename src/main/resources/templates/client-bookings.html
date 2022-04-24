@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+    <head>
+        <meta th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
+        <title>Bookings</title>
+        <link rel="stylesheet" th:href="@{/style/booking-style.css}">
+    </head>
+    <body>
+
+        <section layout:fragment="content">
+
+            <!--Explore Car Start-->
+            <section class="explore-car pt-5" th:object="${bookingClientDtos}">
+                <div class="explore-car__container text-center">
+
+                    <!--Explore Cars Title Start -->
+                    <div class="section-title text-center" th:if="${bookingClientDtos}">
+                        <span class="section-title__tagline">Consulter l'états des reservations</span>
+                        <h2 class="section-title__title">Vos reservations</h2>
+                    </div>
+                    <!--Explore Cars Title End -->
+
+                    <!--Explore Cars Content Start -->
+                    <div class="row justify-content-center">
+                        <div th:each="bookingClientDto, status : ${bookingClientDtos}" class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" th:data-wow-delay="${(100 * status.count) + 'ms'}">
+
+                            <!--Explore Car Single Start-->
+                            <a th:href="@{/listingsDetails(id = ${bookingClientDto.car.id})}">
+                                <div class="explore-car__single">
+                                    <div class="explore-car__img">
+                                        <img th:src="${'/assets/images/resources/cars/minimized/' + bookingClientDto.car.model.image + '-min.jpg'}" alt="">
+                                        <div class="explore-car__icon">
+                                            <i class="far fa-heart"></i>
+                                        </div>
+                                    </div>
+                                    <div class="explore-car__content">
+                                        <h5 class="explore-car__sub-title" th:text="${bookingClientDto.car.category.libelle}"></h5>
+                                        <h3 class="explore-car__title"><a th:href="@{/listingsDetails(id = ${bookingClientDto.car.id})}" th:text="${bookingClientDto.car.model.mark.libelle + ' ' + bookingClientDto.car.model.libelle}"></a></h3>
+                                        <p class="explore-car__price"><span th:text="${bookingClientDto.car.pricePerDay + 'DH'}"> </span>/Jour</p>
+                                        <ul class="list-unstyled explore-car__details">
+                                            <li><a th:href="@{/listingsDetails(id = ${bookingClientDto.car.id})}" th:text="${bookingClientDto.car.agent.rsAgence}"></a></li>
+                                            <li><a th:href="@{/listingsDetails(id = ${bookingClientDto.car.id})}" th:text="${bookingClientDto.car.agent.address.town}"></a></li>
+                                            <li><a th:href="@{/listingsDetails(id = ${bookingClientDto.car.id})}" th:text="${#temporals.year(bookingClientDto.car.dateCirculation) + ' ' + bookingClientDto.car.fuel.libelle}"></a></li>
+                                        </ul>
+                                        <h5 class="explore-car__sub-title" th:text="${bookingClientDto.startDate + ' - ' + bookingClientDto.backDate}"></h5>
+
+                                        <div class="mt-2">
+                                            <p th:if="${bookingClientDto.state != 'closed'}" th:class="${'btn ' + bookingClientDto.state}" th:id="${'state-' + bookingClientDto.id}" th:text="${bookingClientDto.state == 'inprogress' ? 'En cours' : 'Confirmé'}"></p>
+                                            <p th:if="${bookingClientDto.state == 'closed'}" th:class="${'btn ' + bookingClientDto.state}" th:id="${'state-' + bookingClientDto.id}">Archivé</p>
+                                        </div>
+
+                                        <div>
+                                            <button type="button" class="btn btn-danger cancel-booking" th:id="${'cancel-' + bookingClientDto.id}">Annuler</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <!--Explore Car Single Start End-->
+
+                        </div>
+                    </div>
+                    <!--Explore Cars Content End -->
+
+                    <!-- listing pagination start -->
+                    <div class="listing__pagination-box" th:if="${bookingClientDtos != null && totalBookings > numberOfBookingPerPage}">
+                        <ul class="listing__pagination list-unstyled">
+                            <li class="next" th:if="${currentPage > 0}">
+                                <a th:href="@{/client/bookings}" aria-label="Previous"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></a>
+                            </li>
+                            <li class="next" th:if="${currentPage > 0}">
+                                <a th:href="@{/client/bookings(page=${currentPage - 1})}" aria-label="Previous"><i class="fa fa-angle-left"></i></a>
+                            </li>
+                            <li class="count" th:each="i : ${#numbers.sequence( 1, totalPages)}" th:if="${(i > (currentPage - numberOfBookingPerPage + 2)) && (i < currentPage + numberOfBookingPerPage)}">
+                                <a th:style="${currentPage == (i-1)? 'background-color: #0aa5cd; color: white;' : ''}" th:text="${i}" th:href="@{/client/bookings(page=${i-1} , size=${numberOfBookingPerPage})}"></a>
+                            </li>
+                            <li class="previous" th:if="${currentPage < (totalPages - 1)}">
+                                <a th:href="@{/client/bookings(page=${currentPage + 1})}" aria-label="Next"><i class="fa fa-angle-right"></i></a>
+                            </li>
+                            <li class="previous" th:if="${currentPage < (totalPages - 1)}">
+                                <a th:href="@{/client/bookings(page=${totalPages - 1})}" aria-label="Next"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- listing pagination end -->
+
+                </div>
+            </section>
+            <!--Explore Car End-->
+
+            <!--Booking not found block info start -->
+            <section class="error-page" th:if="${bookingsNotFoundInfoMessage}">
+                <div class="container">
+                    <div class="row shadow p-5">
+                        <div class="col-xl-12">
+                            <div class="error-page__inner">
+                                <h3 class="error-page__tagline">Vous n'avez aucune reservation pour le moment!</h3>
+                                <p class="error-page__text">Consulter les annonces disponibles , et réservez votre véhicule</p>
+                                <a th:href="@{/listings}" class="thm-btn error-page__btn m-4">Annonces</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Booking not found block info end -->
+
+        </section>
+
+    </body>
+</html>

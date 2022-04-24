@@ -9,7 +9,7 @@ public class ObjectInitialisation {
 
     // User Initialisation
     public static void userInitialisation(User user){
-        user.setLastName("Neggaz");
+        user.setLastname("Neggaz");
         user.setFirstname("Rachad");
         user.setTel("0707101019");
         user.setPassword("helloWorld");
@@ -79,12 +79,12 @@ public class ObjectInitialisation {
     }
 
     // Reservation Initialisation
-    public static void reservationInitialisation(Booking booking, Car car, Client client){
-        booking.setStartDate(LocalDateTime.now());
-        booking.setBackDate(LocalDateTime.now().plusDays(10));
+    public static void reservationInitialisation(Booking booking, Car car, User user){
+        booking.setStartDate(LocalDate.now());
+        booking.setBackDate(LocalDate.now().plusDays(10));
         booking.setState("En cours");
         booking.setCar(car);
-        booking.setClient(client);
+        booking.setUser(user);
     }
 
     // Reduction Initialisation
@@ -112,7 +112,7 @@ public class ObjectInitialisation {
     // Entretien Initialisation
     public static void entretienInitialisation(Maintenance maintenance, Car car){
         maintenance.setCar(car);
-        maintenance.setDescription("Vidange de voiture");
+    //    maintenance.setDescription("Vidange de voiture");
         maintenance.setAmount(350);
         maintenance.setDate(LocalDateTime.now());
     }

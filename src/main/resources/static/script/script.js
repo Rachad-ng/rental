@@ -42,9 +42,8 @@ $(function(){
 
     // Fonction de synchronisation de model avec la marque.
     function sychronizeModels(idMark){
-        alert(idMark);
-        var selectedMark = idMark;
-        var token = $("meta[name='_csrf']").attr("content");
+        let selectedMark = idMark;
+        let token = $("meta[name='_csrf']").attr("content");
 
         if(isFinite(selectedMark)){
             $.post('/syncModelWithMark?_csrf=' + token,
@@ -80,13 +79,5 @@ $(function(){
     }
 
     /* ***************************** Car Creation Script End *******************************/
-
-
-    /* ***************************** Listing page Script Start *******************************/
-/*
-    $(".listing__list-box-single").click(function (){
-        alert("hello");
-    })
-*/
 
 });

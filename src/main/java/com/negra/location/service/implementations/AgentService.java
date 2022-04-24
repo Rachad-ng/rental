@@ -1,12 +1,18 @@
 package com.negra.location.service.implementations;
 
 import com.negra.location.dto.*;
+import com.negra.location.exception.AlreadyExistsException;
+import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
+import com.negra.location.mapper.AddressDtoMapper;
+import com.negra.location.mapper.AgentRegistrationDtoMapper;
+import com.negra.location.mapper.MarkWithModelDtoMapper;
+import com.negra.location.mapper.ModelDtoMapper;
 import com.negra.location.model.*;
 import com.negra.location.model.Mark;
 import com.negra.location.repository.AgentRepository;
 import com.negra.location.service.interfaces.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,34 +25,33 @@ import java.util.stream.Collectors;
 import static com.negra.location.utility.DataUtility.NUMBER_PLACES_MAX;
 import static com.negra.location.utility.ErrorMessage.*;
 
+@AllArgsConstructor
 @Service
 @Transactional
 public class AgentService implements IAgentService {
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
     private AgentRepository agentRepository;
-    @Autowired
     private IAddressService addressService;
-    @Autowired
     private IUserService userService;
-    @Autowired
     private IMarkService markService;
-    @Autowired
     private IFuelService fuelService;
-    @Autowired
     private ICategoryService categoryService;
+    private ModelDtoMapper modelDtoMapper;
+    private MarkWithModelDtoMapper markWithModelDtoMapper;
+    private AddressDtoMapper addressDtoMapper;
+    private AgentRegistrationDtoMapper agentRegistrationDtoMapper;
 
     @Override
-    public void createAgent(AgentRegistrationDto agentRegistrationDto)
+    public void createAgent(AgentRegistrationDto agentRegistrationDto) throws DataNotFoundException, AlreadyExistsException, DataStoreException
     {
+        // Verification d'unicitée d'email, s'il existe déja en lève AlredyExisitException
         userService.isUserExists(agentRegistrationDto.getEmail());
-        Agent agent = new Agent();
-        Address address = new Address();
 
-        MapperService.agentRegitrationDtoToAgentAndAddress(agentRegistrationDto, agent, address);
+        Agent agent = agentRegistrationDtoMapper.AgentRegistrationDtoToAgent(agentRegistrationDto);
+        Address address = addressDtoMapper.addressDtoToAddress(agentRegistrationDto.getAddressDto());
         agent.setPassword(passwordEncoder.encode(agent.getPassword()));
+
         try{
             agentRepository.save(agent);
             addressService.createAddress(address, agent);
@@ -75,14 +80,11 @@ public class AgentService implements IAgentService {
             DataStoreException, IndexOutOfBoundsException {
 
         List<Mark> marks = markService.findAll();
-        List<MarkWithModelDto> markWithModelDtos = new ArrayList<>();
-        MapperService.marksToMarkWithModelDtos(marks, markWithModelDtos);
+        List<MarkWithModelDto> markWithModelDtos = markWithModelDtoMapper.markToMarkWithModelDto(marks);
 
         // Recuperation des modelDto de la premier marque pour remplir le select du formulaire (On les trie pour bien adapter l'affichage)
         List<Model> models = new ArrayList<>(marks.get(0).getModelSet()).stream().sorted(Comparator.comparing(Model::getLibelle)).collect(Collectors.toList());
-        List<ModelDto> modelDtos = new ArrayList<>();
-
-        MapperService.modelsToModelDtos(models, modelDtos);
+        List<ModelDto> modelDtos = modelDtoMapper.modelToModelDto(models);
 
         List<CategoryDto> categoryDtos = categoryService.findAllDtos();
         List<FuelDto> fuelDtos = fuelService.findAllDtos();
@@ -104,12 +106,12 @@ public class AgentService implements IAgentService {
         // Recuperation des modeles de l'état precedente du formulaire
         Mark mark = markService.findById(carCreationDto.getIdMark());
         List<Model> models = new ArrayList<>(mark.getModelSet());
-        MapperService.modelsToModelDtos(models, carCreationDto.getModelDtos());
+
+        carCreationDto.setModelDtos(modelDtoMapper.modelToModelDto(models));
 
         // On doit récupérer les données non-valider (Puisqu'il sont pas garder par le validator)
         List<Mark> marks = markService.findAll();
-        List<MarkWithModelDto> markWithModelDtos = new ArrayList<>();
-        MapperService.marksToMarkWithModelDtos(marks, markWithModelDtos);
+        List<MarkWithModelDto> markWithModelDtos = markWithModelDtoMapper.markToMarkWithModelDto(marks);
 
         List<FuelDto> fuelDtos = fuelService.findAllDtos();
         List<CategoryDto> categoryDtos = categoryService.findAllDtos();

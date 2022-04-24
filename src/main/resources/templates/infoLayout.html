@@ -55,6 +55,7 @@
     <!-- /.preloader -->
     <div class="page-wrapper">
         <header class="main-header clearfix">
+
             <div class="main-header__top">
                 <div class="main-header__top-left">
                     <p class="main-header__top-left-text">Bienvenue sur notre marché de location, <a th:href="@{/signup}">S'inscrire maintenant</a></p>
@@ -76,6 +77,7 @@
                     </div>
                 </div>
             </div>
+
             <nav class="main-menu clearfix">
                 <div class="main-menu-wrapper clearfix">
                     <div class="main-menu-wrapper__left clearfix">
@@ -99,14 +101,18 @@
                                     <a th:href="@{/listings}">Location</a>
                                     <ul sec:authorize="hasRole('ROLE_CLIENT')">
                                         <li><a th:href="@{/listings}">Annonces</a></li>
-                                        <li><a th:href="@{/bookings}">Reservations</a></li>
+                                        <li><a th:href="@{/client/bookings}">Reservations</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown" sec:authorize="hasRole('ROLE_AGENT')">
                                     <a href="#">Agence</a>
                                     <ul>
-                                        <li class="">
-                                            <a th:href="@{/agent/bookings}">Reservations</a>
+                                        <li class="dropdown">
+                                            <a href="#">Reservations</a>
+                                            <ul>
+                                                <li><a th:href="@{/agent/booking-requests}">Demandes</a></li>
+                                                <li><a th:href="@{/agent/bookings}">Vos reservation</a></li>
+                                            </ul>
                                         </li>
                                         <li class="">
                                             <a th:href="@{/agent/agence}">Mon agence</a>

@@ -14,6 +14,8 @@
             <div class="row mt-5">
                 <div class="container container-form col-10 col-md-6">
                     <h2 class="text-center m-4">Login</h2>
+
+                    <div class="alert alert-info py-0 w-50 m-auto text-center mb-3" th:if="${errorMessage}" th:text="${errorMessage}"></div>
                     <div class="alert alert-danger" th:if="${param.error}" >L'authentification est échoué.!!</div>
                     <form th:action="@{/login}" method="post" class="m-5">   <!-- th:object="${userLoginDto}" -->
                         <div>
@@ -29,6 +31,8 @@
                             <button type="submit" class="btn btn-submit">Se connecter</button>
                         </div>
                     </form>
+
+                    <p class="text-center">Vous n'avez pas du compte, <a th:href="@{/signup}">Inscrivez-Vous</a></p>
                 </div>
             </div>
 

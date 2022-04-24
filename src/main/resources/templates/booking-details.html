@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Layout">
+    <head>
+        <title>Details reservation</title>
+    </head>
+    <body>
+
+        <!-- Dynamic Content Section Start -->
+        <section layout:fragment="content" th:object="${bookingDetailsDto}">
+
+            <!--Booking details Top Start-->
+            <section class="listing-details-top">
+                <div class="container">
+                    <ul class="list-unstyled listing-details-top__menu">
+                        <li><a th:href="@{/}">Accueil</a></li>
+                        <li><span>-</span></li>
+                        <li><a th:href="@{/agent/bookings}">Reservations</a></li>
+                        <li><span>-</span></li>
+                        <li class="active"><a href="#" th:text="*{model.mark.libelle + ' ' + model.libelle}"></a></li>
+                    </ul>
+                </div>
+            </section>
+            <!--Booking details Top End-->
+
+            <!--Listing Details Start-->
+            <section class="listing-details">
+                <div class="container">
+                    <div class="row">
+
+                        <!-- Listing details left block Start -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="listing-details__left">
+
+                                <!-- Block images Start -->
+                                <div class="listing-details__gallery clearfix">
+                                    <div class="listing-details__gallery-content-box">
+                                        <ul class="bxslider list-unstyled clearfix">
+                                            <li>
+                                                <div class="listing-details__gallery-sliding-img">
+                                                    <img th:src="@{'/assets/images/resources/cars/standard/' + *{model.image} + '.jpg'}"
+                                                         th:alt="${'Rental car ' + listingDetailsDto.model.mark.libelle + ' ' + listingDetailsDto.model.libelle}">
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Block images End -->
+
+                                <!-- Car additional feautures start -->
+                                <div class="listing-details__features">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-4">
+                                            <ul class="list-unstyled listing-details__features-list">
+                                                <li th:if="*{airConditioning}">
+                                                    <div class="icon">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>Climatisation</p>
+                                                    </div>
+                                                </li>
+                                                <li th:if="*{androidAvailable}">
+                                                    <div class="icon">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>Systeme Android</p>
+                                                    </div>
+                                                </li>
+                                                <li th:if="*{autoTransmission}">
+                                                    <div class="icon">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>Boite automatique</p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4">
+                                            <ul class="list-unstyled listing-details__features-list">
+                                                <li th:if="*{childSeat}">
+                                                    <div class="icon">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>Siège enfant</p>
+                                                    </div>
+                                                </li>
+                                                <li th:if="*{tintedGlass}">
+                                                    <div class="icon">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>Verre teinté</p>
+                                                    </div>
+                                                </li>
+                                                <li th:if="*{sunroof}">
+                                                    <div class="icon">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>Toit ouvrant</p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Car additional feautures End -->
+
+                            </div>
+                        </div>
+                        <!-- Listing details left block End -->
+
+                        <!-- Listing details right block Start -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="listing-details__right">
+                                <h3 class="listing-deails__right-title" th:text="*{model.mark.libelle + ' ' + model.libelle}"></h3>
+                                <ul class="list-unstyled listing-deails__right-rating">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                </ul>
+                                <div class="listing-details__right-price-box">
+                                    <div class="listing-details__right-price-icon">
+                                        <span>DH</span>
+                                    </div>
+                                    <div class="listing-details__right-price-text">
+                                        <p th:text="*{pricePerDay + '/Jour'}"></p>
+                                    </div>
+                                </div>
+                                <div class="listing-details__contact-info">
+                                    <a href="#booking-form" class="listing-details__contact-info-message">
+                                        <div class="icon">
+                                            <span class="icon-car-rental"></span>
+                                        </div>
+                                        <div class="text">
+                                            <p>Demande Reservation</p>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="listing-details__contact-info-phone">
+                                        <div class="icon">
+                                            <span class="icon-phone-call"></span>
+                                        </div>
+                                        <div class="text">
+                                            <h5 th:data-toggle-number="*{agent.tel}" th:data-number="*{agent.hiddenTelNumber}" th:text="*{agent.hiddenTelNumber}"></h5>
+                                            <p>Afficher le numero</p>
+                                        </div>
+                                    </a>
+                                    <a th:href="@{${'mailto:' + listingDetailsDto.agent.email}}" class="listing-details__contact-info-message">
+                                        <div class="icon">
+                                            <span class="icon-mail"></span>
+                                        </div>
+                                        <div class="text">
+                                            <p>Envoyer Message</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="listing-details__share-report-favorite-btn">
+                                    <a href="#"><i class="fas fa-share"></i>Share</a>
+                                    <a href="#"><i class="fas fa-star"></i>Add to Favorites</a>
+                                    <a href="#"><i class="fas fa-flag"></i>Report</a>
+                                </div>
+                                <div class="listing-details__features-box">
+                                    <div class="listing-details__features-box-single">
+                                        <div class="listing-details__features-box-left">
+                                            <p>Marque:</p>
+                                        </div>
+                                        <div class="listing-details__features-box-right">
+                                            <span th:text="*{model.mark.libelle}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="listing-details__features-box-single">
+                                        <div class="listing-details__features-box-left">
+                                            <p>Modèle:</p>
+                                        </div>
+                                        <div class="listing-details__features-box-right">
+                                            <span th:text="*{model.libelle}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="listing-details__features-box-single">
+                                        <div class="listing-details__features-box-left">
+                                            <p>Category:</p>
+                                        </div>
+                                        <div class="listing-details__features-box-right">
+                                            <span th:text="${listingDetailsDto.category.libelle}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="listing-details__features-box-single">
+                                        <div class="listing-details__features-box-left">
+                                            <p>Année:</p>
+                                        </div>
+                                        <div class="listing-details__features-box-right">
+                                            <span th:text="${#temporals.year(listingDetailsDto.dateCirculation)}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="listing-details__features-box-single">
+                                        <div class="listing-details__features-box-left">
+                                            <p>Type de carburant:</p>
+                                        </div>
+                                        <div class="listing-details__features-box-right">
+                                            <span th:text="*{fuel.libelle}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="listing-details__features-box-single">
+                                        <div class="listing-details__features-box-left">
+                                            <p>Nombre de places:</p>
+                                        </div>
+                                        <div class="listing-details__features-box-right">
+                                            <span th:text="*{numberOfPlaces}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="listing-details__features-box-single">
+                                        <div class="listing-details__features-box-left">
+                                            <p>Nombre de portes:</p>
+                                        </div>
+                                        <div class="listing-details__features-box-right">
+                                            <span th:text="*{numberOfDoors}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="listing-details__features-box-single">
+                                        <div class="listing-details__features-box-left">
+                                            <p>Color:</p>
+                                        </div>
+                                        <div class="listing-details__features-box-right">
+                                            <span th:style="${'background-color:' + listingDetailsDto.color + '; color: ' + listingDetailsDto.color}">Lorem</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="listing-details__calendar">
+                                    <div id="datepicker-inline"></div><!-- /#datepicker-inline -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Listing details right block End -->
+
+                    </div>
+                </div>
+            </section>
+            <!--Listing Details End-->
+
+        </section>
+
+    </body>
+</html>

@@ -15,6 +15,9 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     Optional<Car> findByRegistrationNumber(String registrationNumber);
 
+    @Query("SELECT C FROM Car C WHERE C.agent.id = :agentId ORDER BY C.id DESC")
+    Page<Car> getAgentCars(@Param("agentId") Long agentId, Pageable pageable);
+
     @Query("SELECT C FROM Car C ORDER BY C.id DESC")
     Page<Car> findAllOrdredByIdDesc(PageRequest pageRequest);
 
@@ -32,10 +35,10 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     // Select les voitures non-réservées
     @Query("SELECT C.id FROM Car C WHERE C.bookingSet.size = 0")
-    List<Long> getNotReservedCars();
+    List<Long> getNotReservedCarIds();
 
     // Select Car without date constrainte
     @Query("SELECT C FROM Car C WHERE C.model.mark.libelle LIKE :markLibelle AND C.model.libelle LIKE :modelLibelle AND C.agent.address.town LIKE :town")
-    List<Car> findCarsWithoutDateConstraint(String markLibelle, String modelLibelle, String town);
+    List<Car> findCarsWithoutDateConstraint(@Param("markLibelle") String markLibelle, @Param("modelLibelle") String modelLibelle, @Param("town") String town);
 
 }

@@ -2,7 +2,9 @@ package com.negra.location.service.implementations;
 
 import com.negra.location.dto.ClientRegistrationDto;
 import com.negra.location.exception.AlreadyExistsException;
+import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
+import com.negra.location.mapper.ClientRegistrationDtoMapper;
 import com.negra.location.model.Booking;
 import com.negra.location.model.Client;
 import com.negra.location.repository.ClientRepository;
@@ -30,12 +32,16 @@ public class ClientService implements IClientService {
     private IBookingService reservationService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ClientRegistrationDtoMapper clientRegistrationDtoMapper;
 
     @Override
-    public void createClient(ClientRegistrationDto clientRegistrationDto) throws AlreadyExistsException, DataStoreException {
+    public void createClient(ClientRegistrationDto clientRegistrationDto) throws DataNotFoundException, AlreadyExistsException, DataStoreException {
+
         utilisateurService.isUserExists(clientRegistrationDto.getEmail());
-        Client client = new Client();
-        MapperService.clientRegitrationDtoToClient(clientRegistrationDto, client);
+
+        Client client = clientRegistrationDtoMapper.clientRegistrationDtoToClient(clientRegistrationDto);
+
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         try {
             clientRepository.save(client);
@@ -49,7 +55,7 @@ public class ClientService implements IClientService {
     public void deleteClient(Client client) {
         Set<Booking> bookings = client.getBookingSet();
         for (Booking booking : bookings)
-            reservationService.deleteReservation(booking);
+            reservationService.deleteBooking(booking);
 
         try {
             clientRepository.delete(client);

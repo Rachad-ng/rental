@@ -1,8 +1,7 @@
 package com.negra.location.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,11 +15,9 @@ import static com.negra.location.utility.ErrorMessage.ERROR_CLIENT_LOYALTY;
 import static com.negra.location.utility.ErrorMessage.ERROR_SEND_DATA;
 
 @Data
+@AllArgsConstructor
 @Entity
 public class Client extends User {
-
-    @OneToMany(mappedBy = "client")
-    private Set<Booking> bookingSet = new HashSet<>();
 
     @OneToMany(mappedBy = "client")
     private Set<Visit> visitSet = new HashSet<>();
@@ -38,15 +35,6 @@ public class Client extends User {
     }
 
     // Gestion des relations bi-directionnels
-
-    public void addReservation(Booking booking){
-        booking.setClient(this);
-        this.getBookingSet().add(booking);
-    }
-
-    public void removeReservation(Booking booking){
-        this.getBookingSet().remove(booking);
-    }
 
     public void addVisit(Visit visit){
         visit.setClient(this);

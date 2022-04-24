@@ -4,10 +4,12 @@ import com.negra.location.dto.AgentRegistrationDto;
 import com.negra.location.dto.ClientRegistrationDto;
 import com.negra.location.dto.UserLoginDto;
 import com.negra.location.exception.AlreadyExistsException;
+import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
 import com.negra.location.service.interfaces.IAgentService;
 import com.negra.location.service.interfaces.IClientService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.negra.location.utility.ErrorTransfertUtility;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,7 @@ import javax.validation.Valid;
 
 import static com.negra.location.utility.ErrorMessage.ERROR_USER_PASSWORD_CONFIRMATION;
 
+@AllArgsConstructor
 @Controller
 public class SecurityController {
 
@@ -28,9 +31,7 @@ public class SecurityController {
     private static final String ACCES_DENIED_PAGE = "403";
 
     // Injection des services
-    @Autowired
     private IAgentService agentService;
-    @Autowired
     private IClientService clientService;
 
     @GetMapping("/signup")
@@ -49,18 +50,15 @@ public class SecurityController {
         return SIGNUP;
     }
 
-
     @PostMapping("/signupAgent")
     public String signupAgent(@Valid AgentRegistrationDto agentRegistrationDto, BindingResult bindingResultAgent, Model model){
 
         if(!bindingResultAgent.hasErrors()){
             if(agentRegistrationDto.getPassword().equals(agentRegistrationDto.getPasswordConfirmed())){
-                try{
+                try {
                     agentService.createAgent(agentRegistrationDto);
-                    return  "redirect:/" + LOGIN;
-                }catch (AlreadyExistsException e){
-                    model.addAttribute("alreadyExistsErrorMessage", e.getMessage());
-                }catch (DataStoreException e){
+                    return "redirect:/" + LOGIN;
+                }catch (DataNotFoundException | DataStoreException | AlreadyExistsException e){
                     model.addAttribute("systemError", e.getMessage());
                 }
             }else
@@ -76,18 +74,15 @@ public class SecurityController {
         return SIGNUP;
     }
 
-
     @PostMapping("/signupClient")
-    public String signinClient(@Valid ClientRegistrationDto clientRegistrationDto, BindingResult bindingResult, Model model){
+    public String signupClient(@Valid ClientRegistrationDto clientRegistrationDto, BindingResult bindingResult, Model model){
 
         if(!bindingResult.hasErrors()){
             if(clientRegistrationDto.getPassword().equals(clientRegistrationDto.getPasswordConfirmed())){
                 try {
                     clientService.createClient(clientRegistrationDto);
                     return  "redirect:/" + LOGIN;
-                }catch (AlreadyExistsException e){
-                    model.addAttribute("alreadyExistsErrorMessage", e.getMessage());
-                }catch(DataStoreException e){
+                }catch (DataNotFoundException | AlreadyExistsException | DataStoreException e){
                     model.addAttribute("systemError", e.getMessage());
                 }
             }else
@@ -107,6 +102,7 @@ public class SecurityController {
     @GetMapping("/login")
     public String getLoginForm(Model model){
         model.addAttribute("userLoginDto", new UserLoginDto());
+        ErrorTransfertUtility.transfertLoginRequiredErrors(model);
         return LOGIN;
     }
 

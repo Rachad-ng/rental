@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.*;
@@ -19,6 +21,9 @@ public abstract class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Booking> bookingSet = new HashSet<>();
 
     @NotNull(message = ERROR_SEND_DATA)
     @NotBlank(message = ERROR_USER_EMAIL_EMPTY)
@@ -45,7 +50,7 @@ public abstract class User implements Serializable {
     @NotNull(message = ERROR_SEND_DATA)
     @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_LASTNAME_INVALID)
     @Column(nullable = false)
-    private String lastName;
+    private String lastname;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Pattern(regexp = PATTERN_USER_NAME, message = ERROR_USER_FIRSTNAME_INVALID)
@@ -66,5 +71,16 @@ public abstract class User implements Serializable {
     public User(){
         this.active = true;
         this.setRegistrationDate( LocalDateTime.now() );
+    }
+
+    // Gestion des relations bi-directionnels
+
+    public void addBooking(Booking booking){
+        booking.setUser(this);
+        this.getBookingSet().add(booking);
+    }
+
+    public void removeBooking(Booking booking){
+        this.getBookingSet().remove(booking);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 
 public interface IAgentService {
 
-    void createAgent(AgentRegistrationDto agentRegistrationDto) throws AlreadyExistsException, DataStoreException;
+    void createAgent(AgentRegistrationDto agentRegistrationDto) throws DataNotFoundException, AlreadyExistsException, DataStoreException;
     void deleteAgent(Agent agent) throws DataStoreException;
     void initialisationCarCreationFrom(Model model) throws DataStoreException;
     void recuperationInputData(CarCreationDto carCreationDto, Model model) throws DataNotFoundException, DataStoreException;

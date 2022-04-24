@@ -1,6 +1,8 @@
 package com.negra.location.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -9,6 +11,8 @@ import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.PATTERN_USER_EMAIL;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserLoginDto implements Serializable {
 
     @NotNull(message = ERROR_SEND_DATA)

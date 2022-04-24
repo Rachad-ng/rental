@@ -1,7 +1,7 @@
 package com.negra.location.service.implementations;
 
 import com.negra.location.dto.MarkDto;
-import com.negra.location.dto.ModelWithImageDto;
+import com.negra.location.dto.ModelWithImageAndMarkDto;
 import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
 import com.negra.location.model.Mark;
@@ -40,7 +40,14 @@ public class ModelService implements IModelService {
     @Override
     public Model findById(long id) throws DataNotFoundException{
         Model model;
-        Optional<Model> optionalModel = modelRepository.findById(id);
+        Optional<Model> optionalModel;
+
+        try {
+            optionalModel = modelRepository.findById(id);
+        }catch (Exception e){
+            throw new DataNotFoundException(ERROR_MODEL_LIBELLE);
+        }
+
         if(optionalModel.isPresent())
             model = optionalModel.get();
         else
@@ -60,17 +67,17 @@ public class ModelService implements IModelService {
     }
 
     @Override
-    public  List<ModelWithImageDto> getByMark(long idMark){
-        List<ModelWithImageDto> resultat = null;
+    public  List<ModelWithImageAndMarkDto> getByMark(long idMark){
+        List<ModelWithImageAndMarkDto> resultat = null;
         Optional<Mark> mark = markRepository.findById(idMark);
         if(mark.isPresent()){
 
             Set<Model> modelSet = mark.get().getModelSet();
             List<Model> models = new ArrayList<>(modelSet).stream().sorted(Comparator.comparing(Model::getLibelle)).collect(Collectors.toList());
-            List<ModelWithImageDto> modelWithImageDtos = new ArrayList<>();
+            List<ModelWithImageAndMarkDto> modelWithImageAndMarkDtos = new ArrayList<>();
             for (Model model: models)
-                modelWithImageDtos.add(
-                        new ModelWithImageDto(
+                modelWithImageAndMarkDtos.add(
+                        new ModelWithImageAndMarkDto(
                                 model.getId(),
                                 model.getLibelle(),
                                 model.getImage(),
@@ -78,7 +85,7 @@ public class ModelService implements IModelService {
                                         model.getMark().getId(),
                                         model.getMark().getLibelle())));
 
-            resultat = modelWithImageDtos;
+            resultat = modelWithImageAndMarkDtos;
         }else
             throw new DataNotFoundException(ERROR_MARK_NOT_FOUND);
 

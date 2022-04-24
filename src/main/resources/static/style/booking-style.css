@@ -1,0 +1,110 @@
+
+.explore-car {
+    padding: 3rem 0 0;
+}
+
+@media screen and (min-width: 1200px) {
+    .explore-car__container {
+        max-width: 80%;
+        margin: auto;
+    }
+
+    .col-xl-3 {
+        width: 33.33%;
+    }
+}
+
+.inprogress {
+    background-color: orange !important;
+    color: snow;
+}
+
+.confirmed {
+    background-color: #3FB8AF !important;
+    color: snow;
+}
+
+.closed {
+    background-color: #6c757d !important;
+    color: snow;
+}
+
+.input-Mileage {
+    height: 4rem !important;
+}
+
+.booking-duration {
+    font-size: 10px;
+    margin: 0;
+    line-height: 25px;
+}
+
+.booking-duration span {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.booking-item {
+    font-size: 1rem;
+}
+
+.icons {
+    background-color: #0aa5cd;
+}
+
+.booking-item * {
+    color: white;
+}
+
+/* Modal style start */
+
+.modal-title {
+    margin-left: 200px;
+}
+
+.modal-content {
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255, 0.8);
+}
+
+.btn-add {
+    color: white;
+    background-color: #0aa5cd;
+}
+
+.btn-add:hover {
+    color: #0aa5cd;
+    background-color: white;
+}
+
+.btn-exit, .btn-close {
+    color: white !important;
+    background-color: #dc3545;
+}
+
+.btn-exit:hover, .btn-close:hover {
+    color: #dc3545 !important;
+    background-color: white;
+}
+
+.modal-list {
+    list-style: none;
+}
+
+.modal-list span {
+    margin: initial !important;
+}
+
+#modal-booking-manager-form {
+    text-align: left;
+}
+
+.form-checks {
+    width: 50%;
+    margin: auto;
+}
+
+/* Modal style end */

@@ -3,6 +3,7 @@ package com.negra.location.service.implementations;
 import com.negra.location.dto.CategoryDto;
 import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
+import com.negra.location.mapper.CategoryDtoMapper;
 import com.negra.location.model.Category;
 import com.negra.location.repository.CategoryRepository;
 import com.negra.location.service.interfaces.ICategoryService;
@@ -23,6 +24,8 @@ public class CategoryService implements ICategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryDtoMapper categoryDtoMapper;
 
     @Override
     public Category findById(long id){
@@ -37,8 +40,7 @@ public class CategoryService implements ICategoryService {
     public List<CategoryDto> findAllDtos(){
         try{
             List<Category> categories = categoryRepository.findAll();
-            List<CategoryDto> categoryDtos = new ArrayList<>();
-            MapperService.categoriesToCategoryDtos(categories, categoryDtos);
+            List<CategoryDto> categoryDtos = categoryDtoMapper.categoryToCategoryDto(categories);
             return categoryDtos;
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA);

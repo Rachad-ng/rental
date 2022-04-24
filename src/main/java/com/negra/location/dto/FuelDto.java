@@ -1,6 +1,8 @@
 package com.negra.location.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -11,6 +13,8 @@ import static com.negra.location.utility.ErrorMessage.ERROR_CAR_FUEL;
 import static com.negra.location.utility.Pattern.PATTERN_FUEL_LIBELLE;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FuelDto implements Serializable {
 
     private Long id;

@@ -24,12 +24,17 @@ header.clearfix {
 
 /* Creation car page Style Start */
 
-.form-floating .form-select, .form-floating .form-control, #registrationNumber, #datepicker {
+.form-floating .form-select, .form-floating .form-control, #registrationNumber, #datepicker, #datepicker1, #datepicker2, #datepicker3 {
     height: 4rem;
 }
 
 .search-box__input {
     margin-right: 10px;
+}
+
+.registration-number {
+    width: 35%;
+    margin: auto;
 }
 
 @media screen and (max-width: 1202px) {
@@ -40,18 +45,56 @@ header.clearfix {
     .create-car .form-floating {
         margin-bottom: 2rem;
     }
+
+    .registration-number {
+        width: 50%;
+    }
 }
 
 @media screen and (max-width: 992px) {
     .radio-group {
         width: 50%;
     }
+
+    .create-car-title {
+        display: none;
+    }
+
+    .create-car-section-title {
+        margin-bottom: 1rem;
+    }
+
+    .registration-number {
+        width: 54%;
+    }
+
 }
 
 @media screen and (max-width: 768px) {
     .radio-group {
         width: 70%;
     }
+
+    .container-form-create-car {
+        width: 90%;
+    }
+
+    .registration-number {
+        width: 78%;
+    }
 }
 
 /* Creation car page Style End */
+
+
+/* Client Bookings start */
+
+#days {
+    width: 20rem;
+    height: 4rem;
+    border: 0;
+    padding-inline: 1rem;
+    border-radius: 5px;
+}
+
+/* Client Bookings end */

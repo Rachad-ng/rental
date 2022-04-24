@@ -30,14 +30,20 @@
   }
 
   if ($('#datepicker').length) {
-
     $('#datepicker').datepicker();
+  };
+
+  if ($('#datepicker1').length) {
+    $('#datepicker1').datepicker();
   };
 
   if ($('#datepicker2').length) {
     $('#datepicker2').datepicker();
   };
 
+  if ($('#datepicker3').length) {
+    $('#datepicker3').datepicker();
+  };
 
   if ($('#datepicker-inline').length) {
     $('#datepicker-inline').datepicker();

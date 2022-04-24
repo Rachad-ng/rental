@@ -1,6 +1,8 @@
 package com.negra.location.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,13 +13,16 @@ import java.time.LocalDate;
 import static com.negra.location.utility.ErrorMessage.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ListingDto implements Serializable {
 
     private Long id;
-    private ListingModelDto listingModelDto;
-    private ListingCategoryDto listingCategoryDto;
-    private ListingFuelDto listingFuelDto;
-    private ListingAgenceWithTownDto listingAgenceWithTownDto;
+
+    private ListingModelDto model;
+    private ListingCategoryDto category;
+    private ListingFuelDto fuel;
+    private ListingAgenceWithTownDto agent;
 
     @NotNull(message = ERROR_SEND_DATA)
     private boolean autoTransmission;
@@ -29,12 +34,4 @@ public class ListingDto implements Serializable {
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 0, message = ERROR_CAR_PRICE)
     private int pricePerDay;
-
-    private int circulationYear;
-    // Getters and setters
-
-    public void setDateCirculation(LocalDate dateCirculation) {
-        this.dateCirculation = dateCirculation;
-        circulationYear = dateCirculation.getYear();
-    }
 }

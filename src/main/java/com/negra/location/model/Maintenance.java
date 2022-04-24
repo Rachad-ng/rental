@@ -1,8 +1,6 @@
 package com.negra.location.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -30,16 +28,10 @@ public class Maintenance implements Serializable {
     @Past(message = ERROR_MAINTENANCE_DATE_INVALID)
     @Basic
     @Column(nullable = false)
-    private LocalDateTime date;
-
-    @NotNull(message = ERROR_SEND_DATA)
-    @NotBlank(message = ERROR_MAINTENANCE_DESCRIPTION_REQUIRED)
-    @Pattern(regexp = PATTERN_DESCRIPTION, message = ERROR_MAINTENANCE_DESCRIPTION_INVALID)
-    @Column(nullable = false)
-    private String description;
+    protected LocalDateTime date;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 0, message = ERROR_MAINTENANCE_AMOUNT_INVALID)
     @Column(nullable = false)
-    private int amount;
+    protected int amount;
 }

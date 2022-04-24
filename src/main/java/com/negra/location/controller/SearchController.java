@@ -6,6 +6,7 @@ import com.negra.location.model.Car;
 import com.negra.location.service.interfaces.ICarService;
 import com.negra.location.utility.PaginationUtility;
 import com.negra.location.utility.SessionUtility;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,17 +16,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
+@AllArgsConstructor
 @Controller
 public class SearchController {
 
     private static final String HOME = "index";
     private static final String SEARCH_RESULT_PAGE = "search-result";
 
-    @Autowired
     private ICarService carService;
-
 
     @GetMapping("/searchCar")
     public String searchCar(Model model, @RequestParam(name = "page", defaultValue = "0") int currentPage, @RequestParam(name = "size", defaultValue = "6") int size){
@@ -47,7 +48,7 @@ public class SearchController {
     }
 
     @PostMapping("/searchCar")
-    public String searchCar(HomeSearchCarDto homeSearchCarDto, BindingResult bindingResult, Model model) {
+    public String searchCar(@Valid HomeSearchCarDto homeSearchCarDto, BindingResult bindingResult, Model model) {
 
         String result;
 

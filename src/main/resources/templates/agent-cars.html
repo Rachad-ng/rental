@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+    <head>
+        <title>Voitures</title>
+    </head>
+    <body>
+
+        <section layout:fragment="content">
+
+        <!--Explore Car Start-->
+        <section class="explore-car pt-5" th:object="${agentCarDtos}">
+            <div class="explore-car__container text-center">
+
+                <!--Explore Cars Title Start -->
+                <div class="section-title text-center" th:if="${agentCarDtos}">
+                    <span class="section-title__tagline">Consulter la liste des véhicules</span>
+                    <h2 class="section-title__title">Vos véhicules</h2>
+                </div>
+                <!--Explore Cars Title End -->
+
+                <!--Explore Cars Content Start -->
+                <div class="row justify-content-center">
+                    <div th:each="agentCarDto, status : ${agentCarDtos}" class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" th:data-wow-delay="${(100 * status.count) + 'ms'}">
+
+                        <!--Explore Car Single Start-->
+                        <a th:href="@{${'/agent/car/' + agentCarDto.id}}">
+                            <div class="explore-car__single">
+                                <div class="explore-car__img">
+                                    <img th:src="${'/assets/images/resources/cars/minimized/' + agentCarDto.model.image + '-min.jpg'}" alt="">
+                                    <div class="explore-car__icon">
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="explore-car__content">
+                                    <h3 class="explore-car__title"><a th:href="@{${'/agent/car/' + agentCarDto.id}}" th:text="${agentCarDto.model.mark.libelle + ' ' + agentCarDto.model.libelle}"></a></h3>
+                                    <h5 class="explore-car__sub-title" th:text="${agentCarDto.registrationNumber}"></h5>
+                         <!--           <p class="explore-car__price"><span th:text="${agentCarDto.pricePerDay + 'DH'}"> </span>/Jour</p>    -->
+                                </div>
+                            </div>
+                        </a>
+                        <!--Explore Car Single Start End-->
+
+                    </div>
+                </div>
+                <!--Explore Cars Content End -->
+
+                <!-- Car pagination start -->
+                <div class="listing__pagination-box" th:if="${agentCarDtos != null && totalCars > numberOfCarPerPage}">
+                    <ul class="listing__pagination list-unstyled">
+                        <li class="next" th:if="${currentPage > 0}">
+                            <a th:href="@{/agent/cars}" aria-label="Previous"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></a>
+                        </li>
+                        <li class="next" th:if="${currentPage > 0}">
+                            <a th:href="@{/agent/cars(page=${currentPage - 1})}" aria-label="Previous"><i class="fa fa-angle-left"></i></a>
+                        </li>
+                        <li class="count" th:each="i : ${#numbers.sequence( 1, totalPages)}" th:if="${(i > (currentPage - numberOfCarPerPage + 2)) && (i < currentPage + numberOfCarPerPage)}">
+                            <a th:style="${currentPage == (i-1)? 'background-color: #0aa5cd; color: white;' : ''}" th:text="${i}" th:href="@{/agent/cars(page=${i-1} , size=${numberOfCarPerPage})}"></a>
+                        </li>
+                        <li class="previous" th:if="${currentPage < (totalPages - 1)}">
+                            <a th:href="@{/agent/cars(page=${currentPage + 1})}" aria-label="Next"><i class="fa fa-angle-right"></i></a>
+                        </li>
+                        <li class="previous" th:if="${currentPage < (totalPages - 1)}">
+                            <a th:href="@{/agent/cars(page=${totalPages - 1})}" aria-label="Next"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Car pagination end -->
+
+            </div>
+        </section>
+        <!--Explore Car End-->
+
+        <!--Cars not found block info start -->
+        <section class="error-page" th:if="${carsNotFoundInfoMessage}">
+            <div class="container">
+                <div class="row shadow p-5">
+                    <div class="col-xl-12">
+                        <div class="error-page__inner">
+                            <h3 class="error-page__tagline">Vous n'avez aucune voiture pour le moment!</h3>
+                            <p class="error-page__text">Ajouter des voitures et gérer votre agence facilement</p>
+                            <a th:href="@{/agent/newCar}" class="thm-btn error-page__btn m-4">Nouvelle voiture</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Cars not found block info end -->
+
+    </section>
+
+    </body>
+
+</html>

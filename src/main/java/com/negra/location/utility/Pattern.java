@@ -27,5 +27,5 @@ public class Pattern {
 
     public static final String PATTERN_DURATION = "^[a-zA-Z]{3,10}$";
 
-    public static final String PATTERN_RESERVATION_STATE = "^[a-zA-Z ]{5,10}$";
+    public static final String PATTERN_RESERVATION_STATE = "^[a-zA-Z_]{5,10}$";
 }

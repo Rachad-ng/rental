@@ -30,7 +30,6 @@ public class AddressService implements IAddressService {
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA_STORING);
         }
-
     }
 
     @Override

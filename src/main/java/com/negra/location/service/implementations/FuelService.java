@@ -3,6 +3,7 @@ package com.negra.location.service.implementations;
 import com.negra.location.dto.FuelDto;
 import com.negra.location.exception.DataNotFoundException;
 import com.negra.location.exception.DataStoreException;
+import com.negra.location.mapper.FuelDtoMapper;
 import com.negra.location.model.Fuel;
 import com.negra.location.repository.FuelRepository;
 import com.negra.location.service.interfaces.IFuelService;
@@ -25,13 +26,15 @@ public class FuelService implements IFuelService {
 
     @Autowired
     private FuelRepository fuelRepository;
+    @Autowired
+    private FuelDtoMapper fuelDtoMapper;
 
     @Override
     public List<FuelDto> findAllDtos(){
         List<Fuel> fuels;
         try{
             fuels = fuelRepository.findAll().stream().sorted(Comparator.comparing(Fuel::getLibelle)).collect(Collectors.toList());
-            return MapperService.fuelsToFuelDtos(fuels, new ArrayList<>());
+            return fuelDtoMapper.fuelToFuelDto(fuels);
         }catch (Exception e){
             throw new DataStoreException(ERROR_DATA);
         }
@@ -40,7 +43,13 @@ public class FuelService implements IFuelService {
     @Override
     public Fuel findById(long idFuel) throws DataNotFoundException {
         Fuel fuel;
-        Optional<Fuel> optionalCarburant = fuelRepository.findById(idFuel);
+        Optional<Fuel> optionalCarburant;
+        try {
+            optionalCarburant = fuelRepository.findById(idFuel);
+        }catch (Exception e){
+            throw new DataNotFoundException(ERROR_FUEL_NOT_FOUND);
+        }
+
         if(optionalCarburant.isPresent())
             fuel = optionalCarburant.get();
         else

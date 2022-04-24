@@ -1,10 +1,10 @@
 package com.negra.location.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,15 +15,17 @@ import static com.negra.location.utility.Pattern.PATTERN_COLOR;
 import static com.negra.location.utility.Pattern.PATTERN_CAR_REGISTRATION_NUMBER;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CarCreationDto implements Serializable {
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CAR_PLACES_NUMBER)
-    private int numberPlaces;
+    private int numberOfPlaces;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CAR_DOORS_NUMBER)
-    private int numberDoors;
+    private int numberOfDoors;
 
     @NotNull(message = ERROR_SEND_DATA)
     private boolean airConditioning;

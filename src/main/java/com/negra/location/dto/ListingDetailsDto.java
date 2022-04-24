@@ -1,6 +1,8 @@
 package com.negra.location.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -13,17 +15,19 @@ import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.PATTERN_COLOR;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ListingDetailsDto implements Serializable {
 
     private Long id;
 
-    private ListingModelDto listingModelDto;
+    private ListingModelDto model;
 
-    private AgentDto agentDto;
+    private AgentDto agent;
 
-    private ListingCategoryDto listingCategoryDto;
+    private ListingCategoryDto category;
 
-    private ListingFuelDto listingFuelDto;
+    private ListingFuelDto fuel;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 1, message = ERROR_CAR_PLACES_NUMBER)
@@ -46,8 +50,6 @@ public class ListingDetailsDto implements Serializable {
     @NotNull(message = ERROR_SEND_DATA)
     @Past(message = ERROR_CAR_DATE_CIRCULATION)
     private LocalDate dateCirculation;
-
-    private int circulationYear;
 
     @NotNull(message = ERROR_SEND_DATA)
     @Min(value = 0, message = ERROR_CAR_PRICE)

@@ -57,4 +57,14 @@ public class VisitService implements IVisitService {
         visitRepository.save(visit);
     }
 
+    @Override
+    public int getCarNumberOfVisits(Long idCar) {
+        return visitRepository.getCarNumberOfVisists(idCar);
+    }
+
+    @Override
+    public LocalDateTime getCarLastVisitDate(Long idCar) {
+        return visitRepository.getCarLastVisistDate(idCar);
+    }
+
 }

@@ -173,7 +173,7 @@
                         <!-- listing filter end -->
 
                         <!-- listing box start -->
-                        <div class="listing__list-box">
+                        <div class="listing__list-box" th:if="${listingDtos}">
 
                             <!-- Listings content start -->
                             <div class="row" th:object="${listingDtos}">
@@ -183,19 +183,19 @@
                                     <a th:href="@{/listingsDetails(id = ${listingDto.id})}">
                                         <div class="listing__list-box-single">
                                             <div class="listing__list-box-img">
-                                                <img th:src="@{${'/assets/images/resources/cars/minimized/' + listingDto.listingModelDto.image + '-min.jpg'}}" th:alt="${'Rental car model' + listingDto.listingModelDto.libelle}">
+                                                <img th:src="@{${'/assets/images/resources/cars/minimized/' + listingDto.model.image + '-min.jpg'}}" th:alt="${'Rental car model' + listingDto.model.libelle}">
                                                 <div class="listing__list-box__icon">
                                                     <i class="far fa-heart"></i>
                                                 </div>
                                             </div>
                                             <div class="listing__list-box-content">
-                                                <h5 class="listing__list-box-sub-title" th:text="${listingDto.listingCategoryDto.libelle} + ' Car'"></h5>
-                                                <h3 class="listing__list-box-title" th:text="${listingDto.listingModelDto.listingMarkDto.libelle + ' ' + listingDto.listingModelDto.libelle}"></h3>
+                                                <h5 class="listing__list-box-sub-title" th:text="${listingDto.category.libelle} + ' Car'"></h5>
+                                                <h3 class="listing__list-box-title" th:text="${listingDto.model.mark.libelle + ' ' + listingDto.model.libelle}"></h3>
                                                 <p class="listing__list-box-price"><span th:text="${listingDto.pricePerDay + ' DH'}">$32 </span>/jour</p>
                                                 <ul class="list-unstyled listing__list-box-details">
-                                                    <li th:text="${listingDto.listingAgenceWithTownDto.rsAgence}"></li>
-                                                    <li th:text="${listingDto.listingAgenceWithTownDto.addressTownDto.town}"></li>
-                                                    <li th:text="${listingDto.circulationYear + ' ' + listingDto.listingFuelDto.libelle}"></li>
+                                                    <li th:text="${listingDto.agent.rsAgence}"></li>
+                                                    <li th:text="${listingDto.agent.address.town}"></li>
+                                                    <li th:text="${#temporals.year(listingDto.dateCirculation) + ' ' + listingDto.fuel.libelle}"></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -207,8 +207,11 @@
                             <!-- Listings content end -->
 
                             <!-- listing pagination start -->
-                            <div class="listing__pagination-box">
+                            <div class="listing__pagination-box" th:if="${listingDtos != null && numberOfListings > numberOfListingsPerPage}">
                                 <ul class="listing__pagination list-unstyled">
+                                    <li class="next" th:if="${currentPage > 0}">
+                                        <a th:href="@{/listings}" aria-label="Previous"><i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i></a>
+                                    </li>
                                     <li class="next" th:if="${currentPage > 0}">
                                         <a th:href="@{/listings(page=${previousPage})}" aria-label="Previous"><i class="fa fa-angle-left"></i></a>
                                     </li>
@@ -217,6 +220,9 @@
                                     </li>
                                     <li class="previous" th:if="${currentPage < (numberOfPages - 1)}">
                                         <a th:href="@{/listings(page=${nextPage})}" aria-label="Next"><i class="fa fa-angle-right"></i></a>
+                                    </li>
+                                    <li class="previous" th:if="${currentPage < (numberOfPages - 1)}">
+                                        <a th:href="@{/listings(page=${numberOfPages - 1})}" aria-label="Next"><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></a>
                                     </li>
                                 </ul>
                             </div>

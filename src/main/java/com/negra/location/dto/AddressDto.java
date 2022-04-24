@@ -1,7 +1,8 @@
 package com.negra.location.dto;
 
-import com.negra.location.model.Address;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -12,6 +13,8 @@ import static com.negra.location.utility.ErrorMessage.*;
 import static com.negra.location.utility.Pattern.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddressDto implements Serializable {
 
     @NotNull(message = ERROR_SEND_DATA)
@@ -33,16 +36,4 @@ public class AddressDto implements Serializable {
     @NotNull(message = ERROR_SEND_DATA)
     @Pattern(regexp = PATTERN_ADDRESS_COUNTRY, message = ERROR_ADDRESS_COUNTRY_INVALID)
     private String country;
-
-    public AddressDto(){
-
-    }
-
-    public AddressDto(Address address){
-        this.number = address.getNumber();
-        this.street = address.getStreet();
-        this.district = address.getDistrict();
-        this.town = address.getTown();
-        this.country = address.getCountry();
-    }
 }

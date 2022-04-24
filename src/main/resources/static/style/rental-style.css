@@ -1,0 +1,8 @@
+.f-item, .dropdown-toggle {
+    height: 4rem !important;
+    max-width: none !important;
+}
+
+li {
+    max-width: none !important;
+}

@@ -126,9 +126,9 @@
                             <a th:href="@{/listingsDetails(id = ${mostPopularCarAndModelWithImageDtos[0].id})}">
                                 <div class="featured-one__left wow fadeInLeft" data-wow-duration="1500ms">
                                     <div class="featured-one__left-img">
-                                        <img th:src="@{${'/assets/images/resources/cars/home/' + mostPopularCarAndModelWithImageDtos[0].modelWithImageDto.image + '.jpg'}}" th:alt="${'Rental car ' + mostPopularCarAndModelWithImageDtos[0].modelWithImageDto.libelle}">
+                                        <img th:src="@{${'/assets/images/resources/cars/home/' + mostPopularCarAndModelWithImageDtos[0].model.image + '.jpg'}}" th:alt="${'Rental car ' + mostPopularCarAndModelWithImageDtos[0].model.libelle}">
                                         <div class="featured-one__left-img-content">
-                                            <h2 class="featured-one__left-img-title"><a th:href="@{/listingsDetails(id = ${mostPopularCarAndModelWithImageDtos[0].id})}" th:text="${mostPopularCarAndModelWithImageDtos[0].modelWithImageDto.markDto.libelle + ' ' + mostPopularCarAndModelWithImageDtos[0].modelWithImageDto.libelle}"></a></h2>
+                                            <h2 class="featured-one__left-img-title"><a th:href="@{/listingsDetails(id = ${mostPopularCarAndModelWithImageDtos[0].id})}" th:text="${mostPopularCarAndModelWithImageDtos[0].model.mark.libelle + ' ' + mostPopularCarAndModelWithImageDtos[0].model.libelle}"></a></h2>
                                             <p class="featured-one__left-car-price"><span th:text="${mostPopularCarAndModelWithImageDtos[0].pricePerDay + 'DH'}"></span> /Jour</p>
                                         </div>
                                     </div>
@@ -141,10 +141,10 @@
                                     <!--Featured One Single-->
                                     <div class="featured-one__single wow fadeInUp" th:data-wow-delay="${(100 * (status.count - 1)) + 'ms'}">
                                         <div class="featured-one__img">
-                                            <img th:src="@{${'/assets/images/resources/cars/home/' + mostPopularCarAndModelWithImageDto.modelWithImageDto.image + '.jpg'}}" th:alt="${'Rental car ' + mostPopularCarAndModelWithImageDto.modelWithImageDto.libelle}">
+                                            <img th:src="@{${'/assets/images/resources/cars/home/' + mostPopularCarAndModelWithImageDto.model.image + '.jpg'}}" th:alt="${'Rental car ' + mostPopularCarAndModelWithImageDto.model.libelle}">
                                             <div class="featured-one__img-content">
                                                 <h3 class="featured-one__img-content-title">
-                                                    <a th:href="@{/listingsDetails(id = ${mostPopularCarAndModelWithImageDto.id})}" th:text="${mostPopularCarAndModelWithImageDto.modelWithImageDto.markDto.libelle + ' ' + mostPopularCarAndModelWithImageDto.modelWithImageDto.libelle}"></a>
+                                                    <a th:href="@{/listingsDetails(id = ${mostPopularCarAndModelWithImageDto.id})}" th:text="${mostPopularCarAndModelWithImageDto.model.mark.libelle + ' ' + mostPopularCarAndModelWithImageDto.model.libelle}"></a>
                                                 </h3>
                                                 <p class="featured-one__img-content-car-price"><span th:text="${mostPopularCarAndModelWithImageDto.pricePerDay + 'DH'}"></span> /Jour</p>
                                             </div>
@@ -161,35 +161,45 @@
             <!--Explore Car Start-->
             <section class="explore-car" th:object="${listingDtos}">
                 <div class="explore-car__container">
+
+                    <!--Explore Cars Title Start -->
                     <div class="section-title text-center">
                         <span class="section-title__tagline">Parcourir les offres chaudes</span>
                         <h2 class="section-title__title">Offres imbattables</h2>
                     </div>
+                    <!--Explore Cars Title End -->
+
+                    <!--Explore Cars Content Start -->
                     <div class="row">
                         <div th:each="hotListingDto, status : ${hotListingDtos}" class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" th:data-wow-delay="${(100 * status.count) + 'ms'}">
-                            <!--Explore Car Single-->
+
+                            <!--Explore Car Single Start -->
                             <a th:href="@{/listingsDetails(id = ${hotListingDto.id})}">
                                 <div class="explore-car__single">
                                     <div class="explore-car__img">
-                                        <img th:src="${'/assets/images/resources/cars/minimized/' + hotListingDto.listingModelDto.image + '-min.jpg'}" alt="">
+                                        <img th:src="${'/assets/images/resources/cars/minimized/' + hotListingDto.model.image + '-min.jpg'}" alt="">
                                         <div class="explore-car__icon">
                                             <i class="far fa-heart"></i>
                                         </div>
                                     </div>
                                     <div class="explore-car__content">
-                                        <h5 class="explore-car__sub-title" th:text="${hotListingDto.listingCategoryDto.libelle}"></h5>
-                                        <h3 class="explore-car__title"><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.listingModelDto.listingMarkDto.libelle + ' ' + hotListingDto.listingModelDto.libelle}"></a></h3>
+                                        <h5 class="explore-car__sub-title" th:text="${hotListingDto.category.libelle}"></h5>
+                                        <h3 class="explore-car__title"><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.model.mark.libelle + ' ' + hotListingDto.model.libelle}"></a></h3>
                                         <p class="explore-car__price"><span th:text="${hotListingDto.pricePerDay + 'DH'}"> </span>/Jour</p>
                                         <ul class="list-unstyled explore-car__details">
-                                            <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.listingAgenceWithTownDto.rsAgence}"></a></li>
-                                            <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.listingAgenceWithTownDto.addressTownDto.town}"></a></li>
-                                            <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.circulationYear + ' ' + hotListingDto.listingFuelDto.libelle}"></a></li>
+                                        <!--    <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.agent.rsAgence}"></a></li>   -->
+                                            <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${hotListingDto.agent.address.town}"></a></li>
+                                            <li><a th:href="@{/listingsDetails(id = ${hotListingDto.id})}" th:text="${#temporals.year(hotListingDto.dateCirculation) + ' ' + hotListingDto.fuel.libelle}"></a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </a>
+                            <!--Explore Car Single End -->
+
                         </div>
                     </div>
+                    <!--Explore Cars Content Start -->
+
                 </div>
             </section>
             <!--Explore Car End-->
